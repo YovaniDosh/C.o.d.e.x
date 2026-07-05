@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <main class="container">
+
+        <header>
+
+            <h1>TaskFlow Pro</h1>
+
+            <p>
+                Organiza tu día de manera sencilla.
+            </p>
+
+        </header>
+
+        <!-- Formulario -->
+        <section class="task-form">
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Escribe una nueva tarea">
+
+            <button id="addTaskButton">
+
+                Agregar
+
+            </button>
+
+        </section>
+
+        <!-- Buscador -->
+        <section class="search">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar tarea">
+
+        </section>
+
+        <!-- Filtros -->
+        <section class="filters">
+
+            <button class="filter active">
+
+                Todas
+
+            </button>
+
+            <button class="filter">
+
+                Pendientes
+
+            </button>
+
+            <button class="filter">
+
+                Completadas
+
+            </button>
+
+        </section>
+
+        <!-- Lista de tareas -->
+        <section>
+
+            <ul id="taskList">
+
+            </ul>
+
+        </section>
+
+        <!-- Información -->
+        <footer>
+
+            <p id="taskCounter">
+
+                0 tareas
+
+            </p>
+
+        </footer>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
