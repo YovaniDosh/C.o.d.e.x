@@ -18,6 +18,8 @@ const tasks = [];
 // ===============================
 
 addTaskButton.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", handleEnterKey);
+taskList.addEventListener("click", handleTaskActions);
 
 // ===============================
 // FUNCIONES
@@ -69,7 +71,9 @@ function renderTasks() {
 
         <li class="task-item">
 
-            <span class="${task.completed ? "completed" : ""}">
+            <span
+            class="${task.completed ? "completed" : ""}"
+            data-index="${index}">
 
             ${task.text}
 
@@ -77,16 +81,20 @@ function renderTasks() {
 
             <div>
 
-                <button onclick="toggleTask(${index})">
+                <button
+                    class="complete-button"
+                    data-index="${index}">
 
-                    ✔
+                    ${task.completed ? "↩" : "✔"}
 
                 </button>
 
-                <button onclick="deleteTask(${index})">
+                <button
+                    class="delete-button"
+                    data-index="${index}">
 
                     🗑
-               
+
                 </button>
 
             </div>
@@ -121,6 +129,16 @@ function toggleTask(index){
 
 }
 
+function handleEnterKey(event){
+
+    if(event.key === "Enter"){
+
+        addTask();
+
+    }
+
+}
+
 function loadTasks() {
 
     const storedTasks = localStorage.getItem("tasks");
@@ -144,6 +162,65 @@ function loadTasks() {
 function saveTasks() {
 
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
+}
+
+function handleTaskActions(event) {
+
+    const button = event.target;
+
+    const index = Number(button.dataset.index);
+
+    if (button.classList.contains("delete-button")) {
+
+        deleteTask(index);
+
+    }
+
+    if (button.classList.contains("complete-button")) {
+
+        toggleTask(index);
+
+    }
+
+}
+taskList.addEventListener("dblclick", editTask);
+
+function editTask(event){
+
+    if(event.target.tagName !== "SPAN"){
+
+        return;
+
+    }
+
+    const index = Number(event.target.dataset.index);
+
+    const newText = prompt(
+
+        "Editar tarea:",
+
+        tasks[index].text
+
+    );
+
+    if(newText === null){
+
+        return;
+
+    }
+
+    if(newText.trim()===""){
+
+        return;
+
+    }
+
+    tasks[index].text = newText.trim();
+
+    renderTasks();
+
+    saveTasks();
 
 }
 
