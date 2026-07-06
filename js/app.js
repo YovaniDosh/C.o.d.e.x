@@ -107,6 +107,8 @@ function deleteTask(index) {
 
     updateCounter();
 
+    saveTasks();
+
 }
 
 function toggleTask(index){
@@ -114,6 +116,34 @@ function toggleTask(index){
     tasks[index].completed = !tasks[index].completed;
 
     renderTasks();
+
+    saveTasks();
+
+}
+
+function loadTasks() {
+
+    const storedTasks = localStorage.getItem("tasks");
+
+    if (!storedTasks) {
+
+        return;
+
+    }
+
+    const parsedTasks = JSON.parse(storedTasks);
+
+    tasks.push(...parsedTasks);
+
+    renderTasks();
+
+    updateCounter();
+
+}
+
+function saveTasks() {
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 
 }
 
@@ -130,3 +160,5 @@ function clearInput(){
     taskInput.focus();
 
 }
+
+loadTasks();
