@@ -47,7 +47,15 @@ function addTask() {
 
 function createTask(text) {
 
-    tasks.push(text);
+    const task = {
+
+        text: text,
+
+        completed: false
+
+    };
+
+    tasks.push(task);
 
 }
 
@@ -55,15 +63,60 @@ function renderTasks() {
 
     taskList.innerHTML = "";
 
-    for (const task of tasks) {
+    tasks.forEach((task, index) => {
 
-        taskList.innerHTML+= `
-            <li>${task}</li>
+        taskList.innerHTML += `
+
+        <li class="task-item">
+
+            <span class="${task.completed ? "completed" : ""}">
+
+            ${task.text}
+
+            </span>
+
+            <div>
+
+                <button onclick="toggleTask(${index})">
+
+                    ✔
+
+                </button>
+
+                <button onclick="deleteTask(${index})">
+
+                    🗑
+               
+                </button>
+
+            </div>
+
+        </li>
+
         `;
 
-    }
+    });
 
 }
+
+function deleteTask(index) {
+
+    tasks.splice(index, 1);
+
+    renderTasks();
+
+    updateCounter();
+
+}
+
+function toggleTask(index){
+
+    tasks[index].completed = !tasks[index].completed;
+
+    renderTasks();
+
+}
+
 function updateCounter() {
     if (tasks.length === 1) {
         taskCounter.textContent = `${tasks.length} tarea`;
