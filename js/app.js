@@ -1,3 +1,5 @@
+// Punto de entrada de la aplicación
+
 // ===============================
 // REFERENCIAS DEL DOM
 // ===============================
@@ -237,5 +239,10 @@ function clearInput(){
     taskInput.focus();
 
 }
-
+function testDOMCreation() {
+    const li = document.createElement("li");
+    li.textContent = "Soy una tarea creada con createElement()";
+    taskList.appendChild(li);
+}
+// testDOMCreation();
 loadTasks();

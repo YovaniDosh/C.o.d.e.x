@@ -1,0 +1,1 @@
+// Funciones encargadas de actualizar la interfaz
