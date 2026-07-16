@@ -9,6 +9,8 @@ const addTaskButton = document.getElementById("addTaskButton");
 const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
 const searchInput = document.getElementById("searchInput");
+const filterButtons = document.querySelectorAll(".filter-button");
+let currentFilter = "all";
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -24,6 +26,10 @@ addTaskButton.addEventListener("click", addTask);
 taskInput.addEventListener("keydown", handleEnterKey);
 taskList.addEventListener("click", handleTaskActions);
 searchInput.addEventListener("input", renderTasks);
+
+filterButtons.forEach(button => {
+    button.addEventListener("click", changeFilter)
+})
 
 // ===============================
 // FUNCIONES
@@ -68,10 +74,41 @@ function createTask(text) {
 function renderTasks() {
 
     const searchText = searchInput.value.toLowerCase();
+    let filteredTasks = tasks.filter(task =>
+        task.text
+            .toLowerCase()  
+            .includes(searchText)
+    );
+    
+    if(currentFilter === "pending"){
+        filteredTasks = filteredTasks.filter(
+            task => !task.completed
+        )
+    }
+
+    if(currentFilter === "completed"){
+        filteredTasks = filteredTasks.filter(
+            task => task.completed
+        )
+    }
+
     const filteredTasks = tasks.filter(task => task.text.toLowerCase().includes(searchText)
     );
 
     taskList.innerHTML = "";
+
+    if(filteredTasks.length === 0){
+        taskList.innerHTML =
+         
+        `<p class="empty-message">
+
+            No se encontraron tareas.
+
+        </p>`;
+
+        return;
+
+    }
 
     filteredTasks.forEach((task, index) => {
 
@@ -249,6 +286,22 @@ function testDOMCreation() {
     const li = document.createElement("li");
     li.textContent = "Soy una tarea creada con createElement()";
     taskList.appendChild(li);
+}
+function changeFilter(event) {
+    currentFilter = event.target.dataset.filter;
+    updateActiveFilter();
+    renderTasks();
+}
+function updateActiveFilter() {
+    filterButtons.forEach(button=>{
+        button.classList.remove("active");
+    })
+
+    document
+        .querySelector(
+            `[data-filter="${currentFilter}"]`
+        )
+        .classList.add("active");
 }
 // testDOMCreation();
 loadTasks();
