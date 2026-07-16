@@ -8,6 +8,7 @@ const taskInput = document.getElementById("taskInput");
 const addTaskButton = document.getElementById("addTaskButton");
 const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
+const searchInput = document.getElementById("searchInput");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -22,6 +23,7 @@ const tasks = [];
 addTaskButton.addEventListener("click", addTask);
 taskInput.addEventListener("keydown", handleEnterKey);
 taskList.addEventListener("click", handleTaskActions);
+searchInput.addEventListener("input", renderTasks);
 
 // ===============================
 // FUNCIONES
@@ -65,9 +67,13 @@ function createTask(text) {
 
 function renderTasks() {
 
+    const searchText = searchInput.value.toLowerCase();
+    const filteredTasks = tasks.filter(task => task.text.toLowerCase().includes(searchText)
+    );
+
     taskList.innerHTML = "";
 
-    tasks.forEach((task, index) => {
+    filteredTasks.forEach((task, index) => {
 
         taskList.innerHTML += `
 
