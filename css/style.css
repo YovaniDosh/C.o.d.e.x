@@ -208,3 +208,40 @@ footer{
     opacity: 0.6;
     padding: 20px;
 }
+.task-form{
+    display:flex;
+    gap:10px;
+}
+
+#prioritySelect {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.priority
+{
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+.priority.high{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+.priority.medium{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
+.priority.low{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}

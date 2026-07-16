@@ -32,20 +32,37 @@
         </header>
 
         <!-- Formulario -->
-        <section class="task-form">
+        <div class="task-form">
 
-            <input
-                type="text"
-                id="taskInput"
-                placeholder="Escribe una nueva tarea">
+    <input
+        id="taskInput"
+        type="text"
+        placeholder="Nueva tarea..."
+    >
 
-            <button id="addTaskButton">
 
-                Añadir tarea
+    <select id="prioritySelect">
 
-            </button>
+        <option value="high">
+            Alta
+        </option>
 
-        </section>
+        <option value="medium" selected>
+            Media
+        </option>
+
+        <option value="low">
+            Baja
+        </option>
+
+    </select>
+
+
+    <button id="addTaskButton">
+        Agregar
+    </button>
+
+</div>
 
         <!-- Buscador -->
         <section class="search">

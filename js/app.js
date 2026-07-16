@@ -10,6 +10,7 @@ const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".filter-button");
+const prioritySelect = document.getElementById("prioritySelect");
 let currentFilter = "all";
 
 // ===============================
@@ -56,16 +57,18 @@ function addTask() {
     clearInput();
 
 }
-
-function createTask(text) {
+function createTask(text){
 
     const task = {
 
-        text: text,
+        text:text,
 
-        completed: false
+        completed:false,
+
+        priority:prioritySelect.value
 
     };
+
 
     tasks.push(task);
 
@@ -92,14 +95,13 @@ function renderTasks() {
         )
     }
 
-    const filteredTasks = tasks.filter(task => task.text.toLowerCase().includes(searchText)
-    );
+    ;
 
     taskList.innerHTML = "";
 
     if(filteredTasks.length === 0){
         taskList.innerHTML =
-         
+
         `<p class="empty-message">
 
             No se encontraron tareas.
@@ -121,7 +123,7 @@ function renderTasks() {
             data-index="${index}">
 
             ${task.text}
-
+            ${getPriorityText(task.priority)}
             </span>
 
             <div>
@@ -196,7 +198,20 @@ function loadTasks() {
 
     const parsedTasks = JSON.parse(storedTasks);
 
-    tasks.push(...parsedTasks);
+    parsedTasks.forEach(task=>{
+
+
+    if(!task.priority){
+
+        task.priority="medium";
+
+    }
+
+
+    tasks.push(task);
+
+
+});
 
     renderTasks();
 
@@ -302,6 +317,16 @@ function updateActiveFilter() {
             `[data-filter="${currentFilter}"]`
         )
         .classList.add("active");
+}
+function getPriorityText(priority){
+    const priorities = {
+        high:"Alta",
+
+        medium:"Media",
+
+        low:"Baja"
+    }
+    return priorities[priority];
 }
 // testDOMCreation();
 loadTasks();
