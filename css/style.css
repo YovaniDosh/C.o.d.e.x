@@ -1,73 +1,93 @@
-/* ===========================
+/* ==========================
    RESET
-=========================== */
+========================== */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* ===========================
+/* ==========================
    VARIABLES
-=========================== */
+========================== */
 
-:root {
+:root{
 
-    --primary: #2263e5;
-    --primary-hover: #133b89;
-    --background: #133b89;
-    --white: #FFFFFF;
-    --text: #1F2937;
-    --gray: #6B7280;
-    --border: #E5E7EB;
-    --shadow: 0 10px 15px rgb(22, 11, 11);
-    --radius: 15px;
+    --primary:#2563eb;
+    --primary-hover:#1d4ed8;
+
+    --background:#133b89;
+
+    --white:#ffffff;
+
+    --text:#1f2937;
+
+    --gray:#6b7280;
+
+    --border:#e5e7eb;
+
+    --shadow:0 10px 15px rgba(0,0,0,.25);
+
+    --radius:15px;
+
 }
 
-/* ===========================
+/* ==========================
    BODY
-=========================== */
+========================== */
 
-body {
+body{
 
-    font-family: Verdana, Tahoma, sans-serif, Helvetica, sans-serif;
-    background: var(--background);
-    color: var(--text);
-    min-height: 100vh;
+    font-family:Verdana,Tahoma,sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
+
+    min-height:100vh;
 
 }
 
-/* ===========================
+/* ==========================
    CONTENEDOR
-=========================== */
+========================== */
 
 .container{
 
     width:90%;
+
     max-width:700px;
+
     margin:50px auto;
+
     background:var(--white);
+
     padding:30px;
+
     border-radius:var(--radius);
+
     box-shadow:var(--shadow);
+
 }
 
-/* ===========================
+/* ==========================
    HEADER
-=========================== */
+========================== */
 
 header{
 
     text-align:center;
+
     margin-bottom:30px;
 
 }
 
 header h1{
 
-    font-size:2rem;
     margin-bottom:10px;
+
+    font-size:2rem;
 
 }
 
@@ -76,36 +96,73 @@ header p{
     color:var(--gray);
 
 }
-/* ===========================
-   FORMULARIOS
-=========================== */
+
+/* ==========================
+   FORMULARIO
+========================== */
 
 .task-form{
 
     display:flex;
+
     gap:10px;
+
     margin-bottom:20px;
 
-}
-input{
+    flex-wrap:wrap;
 
-    flex:1;
+}
+
+input,
+select{
+
     padding:12px;
+
     border:1px solid var(--border);
-    border-radius:var(--radius);
+
+    border-radius:10px;
+
     font-size:1rem;
 
 }
 
+#taskInput{
+
+    flex:1;
+
+}
+
+#prioritySelect{
+
+    min-width:120px;
+
+}
+
+#dateInput{
+
+    min-width:150px;
+
+}
+
+/* ==========================
+   BOTONES
+========================== */
+
 button{
 
-    background:var(--primary);
-    color:white;
     border:none;
-    padding:12px 18px;
-    border-radius:var(--radius);
+
     cursor:pointer;
-    transition:.3s;
+
+    border-radius:10px;
+
+    padding:12px 18px;
+
+    background:var(--primary);
+
+    color:white;
+
+    transition:.25s;
 
 }
 
@@ -115,31 +172,57 @@ button:hover{
 
 }
 
-.search{
+/* ==========================
+   BUSCADOR
+========================== */
+
+.search-container{
 
     margin-bottom:20px;
 
 }
+
+#searchInput{
+
+    width:100%;
+
+}
+
+/* ==========================
+   FILTROS
+========================== */
 
 .filters{
 
     display:flex;
+
     gap:10px;
+
     margin-bottom:25px;
 
 }
 
-#taskList{
+.filter-button{
 
-    list-style:none;
-    margin-bottom:20px;
+    flex:1;
 
 }
 
-footer{
+.filter-button.active{
 
-    text-align:center;
-    color:var(--gray);
+    background:var(--primary-hover);
+
+}
+
+/* ==========================
+   LISTA
+========================== */
+
+#taskList{
+
+    list-style:none;
+
+    margin-bottom:20px;
 
 }
 
@@ -151,23 +234,21 @@ footer{
 
     align-items:center;
 
+    gap:15px;
+
     padding:15px;
 
     border:1px solid var(--border);
 
     border-radius:10px;
 
-    margin-bottom:10px;
+    margin-bottom:12px;
 
 }
 
-.task-item div{
-
-    display:flex;
-
-    gap:10px;
-
-}
+/* ==========================
+   TAREA COMPLETADA
+========================== */
 
 .completed{
 
@@ -176,54 +257,37 @@ footer{
     opacity:.6;
 
 }
-.search-container {
-    margin-bottom: 20px;
-}
-#searchInput {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 16px;
-}
-.filters
-{
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-.filter-button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-.filter-button.active {
-    background-color: #2563eb;
-    color: white;
-}
-.empty-message {
-    text-align: center;
-    opacity: 0.6;
-    padding: 20px;
-}
-.task-form{
-    display:flex;
-    gap:10px;
+
+/* ==========================
+   TAREA VENCIDA
+========================== */
+
+.task-item.vencida{
+
+    border-left:6px solid crimson;
+
 }
 
-#prioritySelect {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+/* ==========================
+   PRIORIDADES
+========================== */
+
+.priority{
+
+    display:inline-block;
+
+    margin-left:8px;
+
+    padding:4px 10px;
+
+    border-radius:20px;
+
+    font-size:.75rem;
+
+    font-weight:bold;
+
 }
-.priority
-{
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-}
+
 .priority.high{
 
     background:#fee2e2;
@@ -231,6 +295,7 @@ footer{
     color:#b91c1c;
 
 }
+
 .priority.medium{
 
     background:#fef3c7;
@@ -238,6 +303,7 @@ footer{
     color:#92400e;
 
 }
+
 .priority.low{
 
     background:#dcfce7;
@@ -245,11 +311,66 @@ footer{
     color:#166534;
 
 }
-#dateInput {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+
+/* ==========================
+   FECHA
+========================== */
+
+.task-date{
+
+    margin-top:6px;
+
+    font-size:.85rem;
+
+    color:var(--gray);
+
 }
-.task.overdue {
-    border-left: 5px solid red;
+
+/* ==========================
+   BOTONES DE ACCIÓN
+========================== */
+
+.task-item div{
+
+    display:flex;
+
+    gap:8px;
+
+}
+
+.complete-button,
+.delete-button{
+
+    width:40px;
+
+    height:40px;
+
+    padding:0;
+
+}
+
+/* ==========================
+   MENSAJE VACÍO
+========================== */
+
+.empty-message{
+
+    text-align:center;
+
+    padding:25px;
+
+    color:var(--gray);
+
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+footer{
+
+    text-align:center;
+
+    color:var(--gray);
+
 }

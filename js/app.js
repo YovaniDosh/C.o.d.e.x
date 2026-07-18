@@ -1,37 +1,92 @@
 // Punto de entrada de la aplicación
 
+import { saveTasks, loadTasks } from "./storage.js";
+
+// ===============================
+// REFERENCIAS DEL DOM
+// ===============================
+
 // ===============================
 // REFERENCIAS DEL DOM
 // ===============================
 
 const taskInput = document.getElementById("taskInput");
-const addTaskButton = document.getElementById("addTaskButton");
-const taskList = document.getElementById("taskList");
-const taskCounter = document.getElementById("taskCounter");
-const searchInput = document.getElementById("searchInput");
-const filterButtons = document.querySelectorAll(".filter-button");
 const prioritySelect = document.getElementById("prioritySelect");
 const dateInput = document.getElementById("dateInput");
-let currentFilter = "all";
+const addTaskButton = document.getElementById("addTaskButton");
+const searchInput = document.getElementById("searchInput");
+const taskList = document.getElementById("taskList");
+const taskCounter = document.getElementById("taskCounter");
+const filterButtons = document.querySelectorAll(".filter-button");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
 // ===============================
 
-const tasks = [];
+let tasks = loadTasks();
+let currentFilter = "all";
 
 // ===============================
-// EVENTOS
+// INICIALIZACIÓN
 // ===============================
 
-addTaskButton.addEventListener("click", addTask);
-taskInput.addEventListener("keydown", handleEnterKey);
-taskList.addEventListener("click", handleTaskActions);
-searchInput.addEventListener("input", renderTasks);
+init();
 
-filterButtons.forEach(button => {
-    button.addEventListener("click", changeFilter)
-})
+function init() {
+
+    addTaskButton.addEventListener(
+        "click",
+        addTask
+    );
+
+    taskInput.addEventListener(
+        "keydown",
+        handleEnterKey
+    );
+
+    taskList.addEventListener(
+        "click",
+        handleTaskActions
+    );
+
+    taskList.addEventListener(
+        "dblclick",
+        editTask
+    );
+
+    searchInput.addEventListener(
+        "input",
+        renderTasks
+    );
+
+    filterButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            changeFilter
+        );
+
+    });
+
+    renderTasks();
+
+    updateCounter();
+
+}
+// ===============================
+// ACTUALIZAR INTERFAZ
+// ===============================
+
+function refreshUI() {
+
+    renderTasks();
+
+    updateCounter();
+
+    saveTasks(tasks);
+
+}
+
 
 // ===============================
 // FUNCIONES
@@ -41,7 +96,7 @@ function addTask() {
 
     const taskText = taskInput.value.trim();
 
-    if (taskText === "") {
+    if (!taskText) {
 
         alert("Debes escribir una tarea.");
 
@@ -51,93 +106,87 @@ function addTask() {
 
     createTask(taskText);
 
-    renderTasks();
-
-    updateCounter();
+    refreshUI();
 
     clearInput();
 
 }
-function createTask(text){
+function createTask(text) {
 
-    const task = {
+    tasks.push({
 
-        text:text,
+        id: crypto.randomUUID(),
 
-        completed:false,
+        text,
 
-        priority:prioritySelect.value,
+        completed: false,
 
-        createdAt:new Date().toISOString(),
+        priority: prioritySelect.value,
 
-        dueDate:dateInput.value
+        createdAt: new Date().toISOString(),
 
-    };
+        dueDate: dateInput.value
 
-
-    tasks.push(task);
+    });
 
 }
 
-function renderTasks() {
+function getFilteredTasks() {
 
-    const searchText = searchInput.value.toLowerCase();
-    let filteredTasks = tasks.filter(task =>
-        task.text
-            .toLowerCase()  
-            .includes(searchText)
-    );
-    
-    if(currentFilter === "pending"){
-        filteredTasks = filteredTasks.filter(
-            task => !task.completed
-        )
-    }
+    const searchText = searchInput.value
+        .trim()
+        .toLowerCase();
 
-    if(currentFilter === "completed"){
-        filteredTasks = filteredTasks.filter(
-            task => task.completed
-        )
-    }
+    return tasks.filter(task => {
 
-    ;
+        const matchesSearch =
+            task.text
+                .toLowerCase()
+                .includes(searchText);
 
-    taskList.innerHTML = "";
+        const matchesFilter =
 
-    if(filteredTasks.length === 0){
-        taskList.innerHTML =
+            currentFilter === "all"
 
-        `<p class="empty-message">
+            ||
 
-            No se encontraron tareas.
+            (currentFilter === "pending" && !task.completed)
 
-        </p>`;
+            ||
 
-        return;
+            (currentFilter === "completed" && task.completed);
 
-    }
+        return matchesSearch && matchesFilter;
 
-    filteredTasks.forEach((task, index) => {
+    });
 
-        const overdue =
-            task.dueDate && 
-            !task.completed &&
-            new Date(task.dueDate) < new Date();
+}
 
-        taskList.innerHTML += `
+function createTaskHTML(task, index) {
 
-        <li class="task-item ${overdue ? "vencida" : ""}">
+    return `
 
-            <span
-            class="${task.completed ? "completed" : ""}"
-            data-index="${index}">
+        <li class="task-item ${isOverdue(task) ? "vencida" : ""}">
 
-            ${task.text}
-            ${getPriorityText(task.priority)}
+            <span class="task-text ${task.completed ? "completed" : ""}" data-index="${index}"> 
 
-            <div class="task-date">
-            ${formatDate(task.dueDate)},
-            </div>
+                <span
+                class="${task.completed ? "completed" : ""}"
+                data-id="${task.id}">
+
+                ${task.text}
+
+                <span class="priority ${task.priority}">
+
+                    ${getPriorityText(task.priority)}
+
+                </span>
+
+                <div class="task-date">
+
+                    ${formatDate(task.dueDate)}
+
+                </div>
 
             </span>
 
@@ -145,7 +194,7 @@ function renderTasks() {
 
                 <button
                     class="complete-button"
-                    data-index="${index}">
+                    data-id="${task.id}">
 
                     ${task.completed ? "↩" : "✔"}
 
@@ -153,7 +202,7 @@ function renderTasks() {
 
                 <button
                     class="delete-button"
-                    data-index="${index}">
+                    data-id="${task.id}">
 
                     🗑
 
@@ -163,9 +212,43 @@ function renderTasks() {
 
         </li>
 
+    `;
+
+}
+
+function renderTasks() {
+
+    const filteredTasks = getFilteredTasks();
+
+    taskList.innerHTML = "";
+
+    if (!filteredTasks.length) {
+
+        taskList.innerHTML = `
+
+            <p class="empty-message">
+
+                No se encontraron tareas.
+
+            </p>
+
         `;
 
+        return;
+
+    }
+
+    filteredTasks.forEach((task, index) => {
+
+        taskList.innerHTML += createTaskHTML(task, index);
+
     });
+
+}
+
+function findTaskIndex(id) {
+
+    return tasks.findIndex(task => task.id === id);
 
 }
 
@@ -173,21 +256,17 @@ function deleteTask(index) {
 
     tasks.splice(index, 1);
 
-    renderTasks();
-
-    updateCounter();
-
-    saveTasks();
+    refreshUI();
 
 }
 
-function toggleTask(index){
+function toggleTask(index) {
 
-    tasks[index].completed = !tasks[index].completed;
+    tasks[index].completed =
 
-    renderTasks();
+        !tasks[index].completed;
 
-    saveTasks();
+    refreshUI();
 
 }
 
@@ -201,62 +280,19 @@ function handleEnterKey(event){
 
 }
 
-function loadTasks() {
-
-    const storedTasks = localStorage.getItem("tasks");
-
-    if (!storedTasks) {
-
-        return;
-
-    }
-
-    const parsedTasks = JSON.parse(storedTasks);
-
-    parsedTasks.forEach(task=>{
-
-
-    if(!task.priority){
-
-        task.priority="medium";
-
-    }
-
-
-    tasks.push(task);
-
-    if(!task.createdAt) {
-
-        task.createdAt = new Date().toISOString();
-
-    }
-    
-    if(!task.dueDate){
-
-        task.dueDate = "";
-
-    }
-
-
-});
-
-    renderTasks();
-
-    updateCounter();
-
-}
-
-function saveTasks() {
-
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-
-}
-
 function handleTaskActions(event) {
 
     const button = event.target;
 
-    const index = Number(button.dataset.index);
+    const id = button.dataset.id;
+
+    const index = findTaskIndex(id);
+
+    if (index === -1) {
+
+    return;
+
+}
 
     if (button.classList.contains("delete-button")) {
 
@@ -281,8 +317,16 @@ function editTask(event){
 
     }
 
-    const index = Number(event.target.dataset.index);
+    const id = event.target.dataset.id;
 
+    const index = findTaskIndex(id);
+
+    if (index === -1) {
+
+        return;
+
+    }
+    
     const newText = prompt(
 
         "Editar tarea:",
@@ -305,30 +349,30 @@ function editTask(event){
 
     tasks[index].text = newText.trim();
 
-    renderTasks();
-
-    saveTasks();
+    refreshUI();
 
 }
 
 function updateCounter() {
-    if (tasks.length === 1) {
-        taskCounter.textContent = `${tasks.length} tarea`;
-    } else {
-        taskCounter.textContent = `${tasks.length} tareas`;
-    }
+
+    taskCounter.textContent =
+
+        `${tasks.length} ${tasks.length === 1 ? "tarea" : "tareas"}`;
+
 }
-function clearInput(){
+
+function clearInput() {
 
     taskInput.value = "";
+
+    dateInput.value = "";
+
+    prioritySelect.value = "medium";
+
     taskInput.focus();
 
 }
-function testDOMCreation() {
-    const li = document.createElement("li");
-    li.textContent = "Soy una tarea creada con createElement()";
-    taskList.appendChild(li);
-}
+
 function changeFilter(event) {
     currentFilter = event.target.dataset.filter;
     updateActiveFilter();
@@ -355,20 +399,41 @@ function getPriorityText(priority){
     }
     return priorities[priority];
 }
-function formatDate(date){
-    if(!date){
+function formatDate(date) {
+
+    if (!date) {
+
         return "Sin fecha";
+
     }
-    const formatted = new Date(date);
-    return formatted.toLocaleDateString();
+
+    return new Date(date)
+        .toLocaleDateString(
+            "es-ES",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            }
+        );
+
 }
-function isOverdue(task){
-    if(!task.dueDate || task.completed){
+function isOverdue(task) {
+
+    if (!task.dueDate || task.completed) {
+
         return false;
+
     }
+
     const today = new Date();
-    const limitDate = new Date(task.dueDate);
-    return limitDate < today;
+
+    today.setHours(0, 0, 0, 0);
+
+    const dueDate = new Date(task.dueDate);
+
+    dueDate.setHours(0, 0, 0, 0);
+
+    return dueDate < today;
+
 }
-// testDOMCreation();
-loadTasks();
