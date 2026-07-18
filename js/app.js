@@ -11,6 +11,7 @@ const taskCounter = document.getElementById("taskCounter");
 const searchInput = document.getElementById("searchInput");
 const filterButtons = document.querySelectorAll(".filter-button");
 const prioritySelect = document.getElementById("prioritySelect");
+const dateInput = document.getElementById("dateInput");
 let currentFilter = "all";
 
 // ===============================
@@ -65,7 +66,11 @@ function createTask(text){
 
         completed:false,
 
-        priority:prioritySelect.value
+        priority:prioritySelect.value,
+
+        createdAt:new Date().toISOString(),
+
+        dueDate:dateInput.value
 
     };
 
@@ -114,9 +119,14 @@ function renderTasks() {
 
     filteredTasks.forEach((task, index) => {
 
+        const overdue =
+            task.dueDate && 
+            !task.completed &&
+            new Date(task.dueDate) < new Date();
+
         taskList.innerHTML += `
 
-        <li class="task-item">
+        <li class="task-item ${overdue ? "vencida" : ""}">
 
             <span
             class="${task.completed ? "completed" : ""}"
@@ -124,6 +134,11 @@ function renderTasks() {
 
             ${task.text}
             ${getPriorityText(task.priority)}
+
+            <div class="task-date">
+            ${formatDate(task.dueDate)},
+            </div>
+
             </span>
 
             <div>
@@ -209,6 +224,18 @@ function loadTasks() {
 
 
     tasks.push(task);
+
+    if(!task.createdAt) {
+
+        task.createdAt = new Date().toISOString();
+
+    }
+    
+    if(!task.dueDate){
+
+        task.dueDate = "";
+
+    }
 
 
 });
@@ -327,6 +354,21 @@ function getPriorityText(priority){
         low:"Baja"
     }
     return priorities[priority];
+}
+function formatDate(date){
+    if(!date){
+        return "Sin fecha";
+    }
+    const formatted = new Date(date);
+    return formatted.toLocaleDateString();
+}
+function isOverdue(task){
+    if(!task.dueDate || task.completed){
+        return false;
+    }
+    const today = new Date();
+    const limitDate = new Date(task.dueDate);
+    return limitDate < today;
 }
 // testDOMCreation();
 loadTasks();

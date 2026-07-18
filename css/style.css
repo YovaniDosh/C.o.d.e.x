@@ -16,7 +16,7 @@
 
     --primary: #2263e5;
     --primary-hover: #133b89;
-    --background: #2263e5;
+    --background: #133b89;
     --white: #FFFFFF;
     --text: #1F2937;
     --gray: #6B7280;
@@ -244,4 +244,12 @@ footer{
 
     color:#166534;
 
+}
+#dateInput {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.task.overdue {
+    border-left: 5px solid red;
 }
