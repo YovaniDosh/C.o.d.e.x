@@ -5,6 +5,9 @@ import { CONFIG,FILTERS, MESSAGES } from "./constants.js";
 import { renderTasks, updateCounter, updateActiveFilter } from "./ui.js";
 import { filterTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
+import { calculateStats } from "./stats.js";
+import { renderStats } from "./ui.js";
+
 // ===============================
 // REFERENCIAS DEL DOM
 // ===============================
@@ -21,6 +24,7 @@ const searchInput = document.getElementById("searchInput");
 const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
 const filterButtons = document.querySelectorAll(".filter-button");
+const statsContainer = document.getElementById("statsContainer");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -111,6 +115,11 @@ function refreshUI() {
         taskCounter,
         tasks.length
     );
+
+    renderStats(
+        statsContainer,
+        calculateStats(tasks)
+    )
 
     saveTasks(tasks);
 

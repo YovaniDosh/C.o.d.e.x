@@ -166,3 +166,17 @@ export function updateActiveFilter(filterButtons, currentFilter) {
         ?.classList.add("active");
 
 }
+export function renderStats(container, stats) {
+    
+    container.innerHTML = `
+        <p><strong>Total:</strong> ${stats.total}</p>
+
+        <p><strong>Pendientes:</strong> ${stats.pending}</p>
+
+        <p><strong>Completadas:</strong> ${stats.completed}</p>
+
+        <p><strong>Vencidas:</strong> ${stats.overdue}</p>
+
+        <p><strong>Alta prioridad:</strong> ${stats.highPriority}</p>
+    `;
+}

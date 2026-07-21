@@ -374,3 +374,14 @@ footer{
     color:var(--gray);
 
 }
+.stats{
+
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+}
+.stats p{
+    margin: 0px 0;
+}
