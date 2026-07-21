@@ -262,9 +262,9 @@ button:hover{
    TAREA VENCIDA
 ========================== */
 
-.task-item.vencida{
+.task.overdue {
 
-    border-left:6px solid crimson;
+    border-left:5px solid red;
 
 }
 

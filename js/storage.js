@@ -2,31 +2,28 @@
 // LOCAL STORAGE
 // ======================================
 
-const STORAGE_KEY = "taskflow-tasks";
+import { CONFIG, FILTERS } from "./constants.js";
 
-/**
- * Guarda las tareas en LocalStorage
- * @param {Array} tasks
- */
+
+
 export function saveTasks(tasks) {
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(tasks)
+    localStorage.setItem(CONFIG.STORAGE_KEY,JSON.stringify(tasks)
     );
 
 }
-
-/**
+ /**
  * Obtiene las tareas guardadas
  * @returns {Array}
  */
 export function loadTasks() {
 
-    const data = localStorage.getItem(STORAGE_KEY);
+    const data = localStorage.getItem(CONFIG.STORAGE_KEY);
 
     if (!data) {
+
         return [];
+
     }
 
     try {
@@ -34,12 +31,23 @@ export function loadTasks() {
         const tasks = JSON.parse(data);
 
         return tasks.map(task => ({
+
             id: task.id ?? crypto.randomUUID(),
-            completed: false,
-            priority: "medium",
-            createdAt: new Date().toISOString(),
-            dueDate: "",
-            ...task
+
+            text: task.text ?? "",
+
+            completed: task.completed ?? false,
+
+            priority: task.priority ?? "medium",
+
+            createdAt:
+                task.createdAt ??
+                new Date().toISOString(),
+
+            dueDate:
+                task.dueDate ??
+                ""
+
         }));
 
     } catch (error) {
