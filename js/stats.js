@@ -1,22 +1,47 @@
-export function calculateStats(tasks){
-    return {
+import { isOverdue } from "./ui.js";
 
-        total: tasks.length,
+export function calculateStats(tasks) {
 
-        pending: tasks.filter(task => !task.completed).length,
+    return tasks.reduce(
 
-        completed: tasks.filter(task => task.completed).length,
+        (stats, task) => {
 
-        overdue: tasks.filter(
-            task =>
-                task.dueDate &&
-                !task.completed &&
-                new Date(task.dueDate) < new Date()
-        ).length,
+            stats.total++;
 
-        highPriority: tasks.filter(
-            task => task.priority === "high"
-        ).length
+            if (task.completed) {
 
-    };
+                stats.completed++;
+
+            } else {
+
+                stats.pending++;
+
+            }
+
+            if (isOverdue(task)) {
+
+                stats.overdue++;
+
+            }
+
+            if (task.priority === "high") {
+
+                stats.highPriority++;
+
+            }
+
+            return stats;
+
+        },
+
+        {
+            total: 0,
+            pending: 0,
+            completed: 0,
+            overdue: 0,
+            highPriority: 0
+        }
+
+    );
+
 }
