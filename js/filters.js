@@ -160,6 +160,28 @@ export function sortByDate(tasks) {
 
 }
 
+export function sortTasks(tasks, sortOption)
+{
+    switch(sortOption)
+    {
+        case "name":
+            
+            return sortByName(tasks);
+        
+        case "priority":
+
+            return sortByPriority(tasks);
+
+        case "date":
+
+            return sortByDate(tasks);
+
+        default:
+
+            return [...tasks];
+    }
+}
+
 
 // ==============================================
 // FUTURAS FUNCIONES

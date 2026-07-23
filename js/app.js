@@ -3,7 +3,7 @@
 import { saveTasks, loadTasks } from "./storage.js";
 import { CONFIG,FILTERS, MESSAGES } from "./constants.js";
 import { renderTasks, updateCounter, updateActiveFilter,renderStats } from "./ui.js";
-import { filterTasks } from "./filters.js";
+import { filterTasks, sortTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
 import { calculateStats } from "./stats.js";
 import { seedTasks } from "./seed.js";
@@ -23,6 +23,7 @@ const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
 const filterButtons = document.querySelectorAll(".filter-button");
 const statsContainer = document.getElementById("statsContainer");
+const sortSelect = document.getElementById("sortSelect");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -30,6 +31,7 @@ const statsContainer = document.getElementById("statsContainer");
 
 let tasks = loadTasks();
 let currentFilter = FILTERS.ALL;
+let currentSort = "default";
 
 // ===============================
 // INICIALIZACIÓN
@@ -73,6 +75,11 @@ function init() {
 
     });
 
+    sortSelect.addEventListener(
+        "change",
+        changeSort
+    );
+
     refreshUI();
 
 }
@@ -82,13 +89,20 @@ function init() {
 
 function refreshUI() {
 
+    const filteredTasks = filterTasks(
+        tasks,
+        searchInput.value,
+        currentFilter
+    );
+
+    const sortedTasks = sortTasks(
+        filteredTasks,
+        currentSort
+    );
+
     renderTasks(
-        taskList, 
-        filterTasks(
-            tasks, 
-            searchInput.value, 
-            currentFilter
-        )
+        taskList,
+        sortedTasks
     );
 
     updateCounter(
@@ -264,4 +278,10 @@ function changeFilter(event){
 
     refreshUI();
 
+}
+
+function changeSort(event)
+{
+    currentSort = event.target.value;
+    refreshUI();
 }

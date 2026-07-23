@@ -432,3 +432,57 @@ footer{
     font-size:2rem;
 
 }
+
+/* ==========================
+   ORDENAMIENTO
+========================== */
+
+.sort-container{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-end;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+}
+
+.sort-container label{
+
+    font-size:.9rem;
+
+    color:var(--gray);
+
+}
+
+#sortSelect{
+
+    min-width:160px;
+
+}
+
+/* ==========================
+     RESPONSIVE
+========================== */
+
+@media (max-width:600px){
+
+    .sort-container{
+
+        align-items:stretch;
+
+        flex-direction:column;
+
+    }
+
+    #sortSelect{
+
+        width:100%;
+
+    }
+
+}
