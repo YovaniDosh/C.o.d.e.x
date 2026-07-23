@@ -167,16 +167,60 @@ export function updateActiveFilter(filterButtons, currentFilter) {
 
 }
 export function renderStats(container, stats) {
-    
+
+    const cards = [
+
+        {
+            label: "Total",
+            value: stats.total
+        },
+
+        {
+            label: "Pendientes",
+            value: stats.pending
+        },
+
+        {
+            label: "Completadas",
+            value: stats.completed
+        },
+
+        {
+            label: "Vencidas",
+            value: stats.overdue
+        },
+
+        {
+            label: "Alta prioridad",
+            value: stats.highPriority
+        }
+
+    ];
+
+    const cardsHTML = cards
+
+        .map(card => `
+
+            <article class="stat-card">
+
+                <span>${card.label}</span>
+
+                <strong>${card.value}</strong>
+
+            </article>
+
+        `)
+
+        .join("");
+
     container.innerHTML = `
-        <p><strong>Total:</strong> ${stats.total}</p>
 
-        <p><strong>Pendientes:</strong> ${stats.pending}</p>
+        <div class="stats-grid">
 
-        <p><strong>Completadas:</strong> ${stats.completed}</p>
+            ${cardsHTML}
 
-        <p><strong>Vencidas:</strong> ${stats.overdue}</p>
+        </div>
 
-        <p><strong>Alta prioridad:</strong> ${stats.highPriority}</p>
     `;
+
 }

@@ -262,7 +262,7 @@ button:hover{
    TAREA VENCIDA
 ========================== */
 
-.task.overdue {
+.task-item.overdue {
 
     border-left:5px solid red;
 
@@ -382,6 +382,53 @@ footer{
     border-radius: 10px;
 
 }
-.stats p{
-    margin: 0px 0;
+.stats-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+
+    gap:15px;
+
+    margin-top:15px;
+
+}
+.stat-card{
+
+    background:var(--card-bg,#ffffff);
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    text-align:center;
+
+    transition:transform .2s ease, box-shadow .2s ease;
+
+}
+.stat-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 6px 16px rgba(0,0,0,.12);
+
+}
+
+.stat-card span{
+
+    display:block;
+
+    font-size:.9rem;
+
+    color:#666;
+
+    margin-bottom:8px;
+
+}
+.stat-card strong{
+
+    font-size:2rem;
+
 }

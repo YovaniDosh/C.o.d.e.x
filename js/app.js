@@ -2,15 +2,13 @@
 
 import { saveTasks, loadTasks } from "./storage.js";
 import { CONFIG,FILTERS, MESSAGES } from "./constants.js";
-import { renderTasks, updateCounter, updateActiveFilter } from "./ui.js";
+import { renderTasks, updateCounter, updateActiveFilter,renderStats } from "./ui.js";
 import { filterTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
 import { calculateStats } from "./stats.js";
-import { renderStats } from "./ui.js";
+import { seedTasks } from "./seed.js";
 
-// ===============================
-// REFERENCIAS DEL DOM
-// ===============================
+seedTasks();
 
 // ===============================
 // REFERENCIAS DEL DOM
@@ -75,25 +73,7 @@ function init() {
 
     });
 
-    renderTasks(
-
-        taskList,
-
-        filterTasks(
-            tasks,
-            searchInput.value,
-            currentFilter
-        )
-
-    );
-
-    updateCounter(
-
-        taskCounter,
-
-        tasks.length
-
-    );
+    refreshUI();
 
 }
 // ===============================
@@ -119,7 +99,7 @@ function refreshUI() {
     renderStats(
         statsContainer,
         calculateStats(tasks)
-    )
+    );
 
     saveTasks(tasks);
 
