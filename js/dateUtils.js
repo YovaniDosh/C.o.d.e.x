@@ -1,3 +1,23 @@
+import { MESSAGES } from "./constants.js";
+
+export function formatDate(date) {
+
+    if (!date) {
+        
+        return MESSAGES.NO_DATE;
+    }
+
+    return new Date(date).toLocaleDateString(
+        "es-ES",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
 export function isOverdue(task) {
 
     if (!task.dueDate || task.completed) {
