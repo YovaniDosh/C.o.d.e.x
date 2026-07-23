@@ -1,4 +1,4 @@
-import { isOverdue } from "./ui.js";
+import { isOverdue } from "./dateUtils.js";
 
 export function calculateStats(tasks) {
 
