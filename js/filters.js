@@ -6,17 +6,7 @@
 // FILTROS
 // ==============================================
 
-import { FILTERS } from "./constants.js";
-
-export const SORT_OPTIONS = {
-
-    NAME: "name",
-
-    PRIORITY: "priority",
-
-    DATE: "date"
-
-};
+import { FILTERS, SORT_OPTIONS } from "./constants.js";
 
 export function filterTasks(
     tasks,
@@ -160,26 +150,30 @@ export function sortByDate(tasks) {
 
 }
 
-export function sortTasks(tasks, sortOption)
-{
-    switch(sortOption)
-    {
-        case "name":
-            
+export function sortTasks(tasks, sortOption) {
+
+    switch (sortOption) {
+
+        case SORT_OPTIONS.NAME:
+
             return sortByName(tasks);
-        
-        case "priority":
+
+        case SORT_OPTIONS.PRIORITY:
 
             return sortByPriority(tasks);
 
-        case "date":
+        case SORT_OPTIONS.DATE:
 
             return sortByDate(tasks);
+
+        case SORT_OPTIONS.DEFAULT:
 
         default:
 
             return [...tasks];
+
     }
+
 }
 
 

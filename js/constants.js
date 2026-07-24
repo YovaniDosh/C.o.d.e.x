@@ -67,7 +67,9 @@ export const ICONS = {
 
 };
 
-export const SORT_OPTIONS = {
+export const SORT_OPTIONS = 
+{
+    DEFAULT: "default",
 
     NAME: "name",
 

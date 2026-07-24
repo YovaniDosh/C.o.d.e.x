@@ -1,7 +1,7 @@
 // Punto de entrada de la aplicación
 
 import { saveTasks, loadTasks } from "./storage.js";
-import { CONFIG,FILTERS, MESSAGES } from "./constants.js";
+import { CONFIG,FILTERS, MESSAGES,SORT_OPTIONS } from "./constants.js";
 import { renderTasks, updateCounter, updateActiveFilter,renderStats } from "./ui.js";
 import { filterTasks, sortTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
@@ -31,7 +31,7 @@ const sortSelect = document.getElementById("sortSelect");
 
 let tasks = loadTasks();
 let currentFilter = FILTERS.ALL;
-let currentSort = "default";
+let currentSort = SORT_OPTIONS.DEFAULT;
 
 // ===============================
 // INICIALIZACIÓN
