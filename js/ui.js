@@ -100,25 +100,32 @@ export function renderTasks(taskList, tasks) {
         .join("");
 
 }
+
 export function updateCounter(
     taskCounter,
     visibleTasks,
     totalTasks
 ) {
 
+    const taskWord =
+        totalTasks === 1
+            ? "tarea"
+            : "tareas";
+
     if (visibleTasks === totalTasks) {
 
         taskCounter.textContent =
-            `${totalTasks} ${totalTasks === 1 ? "tarea" : "tareas"}`;
+            `${totalTasks} ${taskWord}`;
 
         return;
 
     }
 
     taskCounter.textContent =
-        `Mostrando ${visibleTasks} de ${totalTasks} tareas`;
+        `Mostrando ${visibleTasks} de ${totalTasks} ${taskWord}`;
 
 }
+
 export function updateActiveFilter(filterButtons, currentFilter) {
 
     filterButtons.forEach(button =>
