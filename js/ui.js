@@ -100,11 +100,23 @@ export function renderTasks(taskList, tasks) {
         .join("");
 
 }
-export function updateCounter(taskCounter, totalTasks) {
+export function updateCounter(
+    taskCounter,
+    visibleTasks,
+    totalTasks
+) {
+
+    if (visibleTasks === totalTasks) {
+
+        taskCounter.textContent =
+            `${totalTasks} ${totalTasks === 1 ? "tarea" : "tareas"}`;
+
+        return;
+
+    }
 
     taskCounter.textContent =
-
-        `${totalTasks} ${totalTasks === 1 ? "tarea" : "tareas"}`;
+        `Mostrando ${visibleTasks} de ${totalTasks} tareas`;
 
 }
 export function updateActiveFilter(filterButtons, currentFilter) {

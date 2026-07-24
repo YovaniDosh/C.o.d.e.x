@@ -107,6 +107,7 @@ function refreshUI() {
 
     updateCounter(
         taskCounter,
+        sortedTasks.length,
         tasks.length
     );
 
