@@ -8,23 +8,29 @@
 
 import { FILTERS, SORT_OPTIONS } from "./constants.js";
 
+function normalizeText(text)
+{
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
 export function filterTasks(
     tasks,
     searchText,
     currentFilter
 ) {
 
-    const text = searchText
-        .trim()
-        .toLowerCase();
+    const normalizedSearch =
+        normalizeText(searchText.trim());
 
     return tasks.filter(task => {
 
         const matchesSearch =
 
-            task.text
-                .toLowerCase()
-                .includes(text);
+            normalizeText(task.text)
+                .includes(normalizedSearch);
 
         const isPending =
             !task.completed;
