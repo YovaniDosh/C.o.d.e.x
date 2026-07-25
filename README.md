@@ -46,6 +46,8 @@ Actualmente el proyecto incluye:
 * ✅ Contador dinámico
 * ✅ Tema claro y oscuro persistente
 * ✅ Arquitectura modular
+* ✅ Confirmación visual antes de eliminar tareas.
+* ✅ Modal accesible y compatible con teclado
 
 ---
 

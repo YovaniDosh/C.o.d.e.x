@@ -51,8 +51,8 @@
 ![dark-mode](/docs/screenshots/darkKmode.png)
 ![dark-mode](/docs/screenshots/darkKmode2.png)
 
-# <h2 style="text-align: center">11-EDIT-MODAL</h2>
-![edit-modal](/docs/screenshots/priorida.png)
+# <h2 style="text-align: center">11-DELETE-MODAL</h2>
+![modal](/docs/screenshots/delete-modal.png)
 
 # <h2 style="text-align: center">12-RESPONSIVE-MOBILE</h2>
 ![responsive-mobile](/docs/screenshots/rioridad.png)

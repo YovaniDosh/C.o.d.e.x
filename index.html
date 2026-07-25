@@ -200,6 +200,52 @@
 
     </main>
 
+    <div
+        id="deleteModal"
+        class="modal"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-overlay"
+            data-close-modal
+        ></div>
+
+        <div
+            class="modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteModalTitle"
+        >
+            <h2 id="deleteModalTitle">
+                Eliminar tarea
+            </h2>
+
+            <p id="deleteModalMessage">
+                ¿Deseas eliminar esta tarea?
+            </p>
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelDeleteButton"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    id="confirmDeleteButton"
+                    type="button"
+                    class="danger-button"
+                >
+                    Eliminar
+                </button>
+
+            </div>
+        </div>
+    </div>
+
     <script
         type="module"
         src="js/app.js">

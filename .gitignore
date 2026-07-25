@@ -1,4 +1,16 @@
-.DS_Store
-Thumbs.db
+# Variables de entorno
+.env
+.env.*
+
+# Dependencias futuras
 node_modules/
-.vscode/settings.json
+
+# Archivos de compilación futuros
+dist/
+build/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp

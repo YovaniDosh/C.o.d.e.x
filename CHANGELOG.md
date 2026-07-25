@@ -4,6 +4,20 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.5.0] - 2026-07-24
+
+### Added
+
+- Modal personalizado para confirmar la eliminación de tareas.
+- Cierre del modal mediante botón, tecla Escape y clic en el fondo.
+- Bloqueo del desplazamiento mientras el modal está abierto.
+- Gestión del foco para mejorar la accesibilidad.
+
+### Changed
+
+- La eliminación de tareas ya no ocurre inmediatamente.
+- Se separó la preparación de la eliminación de su confirmación.
+
 ## [0.4.0] - 2026-07-24
 
 ### Added

@@ -26,6 +26,10 @@ const filterButtons = document.querySelectorAll(".filter-button");
 const statsContainer = document.getElementById("statsContainer");
 const themeToggle = document.getElementById("themeToggle");
 const sortSelect = document.getElementById("sortSelect");
+const deleteModal = document.getElementById("deleteModal");
+const deleteModalMessage = document.getElementById("deleteModalMessage");
+const cancelDeleteButton = document.getElementById("cancelDeleteButton");
+const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -35,6 +39,8 @@ let tasks = loadTasks();
 let currentFilter = FILTERS.ALL;
 let currentSort = SORT_OPTIONS.DEFAULT;
 let currentTheme = loadTheme();
+let taskIdToDelete = null;
+let deleteTriggerButton = null;
 // ===============================
 // INICIALIZACIÓN
 // ===============================
@@ -87,6 +93,26 @@ function init() {
         handleThemeToggle
     );
 
+    cancelDeleteButton.addEventListener(
+        "click",
+        closeDeleteModal
+    );
+
+    confirmDeleteButton.addEventListener(
+        "click",
+        confirmDeleteTask
+    );
+
+    deleteModal.addEventListener(
+        "click",
+        handleDeleteModalClick
+    );
+
+    document.addEventListener(
+        "keydown",
+        handleModalEscape
+    );
+
     applyTheme(currentTheme, themeToggle);
 
     refreshUI();
@@ -125,7 +151,6 @@ function refreshUI() {
         calculateStats(tasks)
     );
 }
-
 
 // ===============================
 // FUNCIONES
@@ -205,9 +230,10 @@ function handleTaskActions(event) {
         )
     ) {
 
-        deleteTask(tasks, id);
-
-        persistAndRefresh();
+        handleDeleteTask(
+            id,
+            button
+        );
 
         return;
 
@@ -225,6 +251,135 @@ function handleTaskActions(event) {
 
     }
 
+}
+
+function handleDeleteTask(
+    id,
+    triggerButton
+)
+{
+    const index = findTaskIndex(tasks, id);
+
+    if(index === -1)
+    {
+        return;
+    }
+
+    taskIdToDelete = id;
+
+    deleteTriggerButton =
+        triggerButton;
+
+    deleteModalMessage.textContent =
+        `¿Deseas eliminar la tarea "${tasks[index].text}"?`;
+
+    openDeleteModal();
+}
+
+function openDeleteModal() {
+
+    deleteModal.classList.add(
+        "open"
+    );
+
+    deleteModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+    confirmDeleteButton.focus();
+
+}
+
+function closeDeleteModal(
+    restoreFocus = true
+) {
+
+    deleteModal.classList.remove(
+        "open"
+    );
+
+    deleteModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+    if (
+        restoreFocus
+        &&
+        deleteTriggerButton
+    ) {
+
+        deleteTriggerButton.focus();
+
+    }
+
+    taskIdToDelete = null;
+
+    deleteTriggerButton = null;
+
+}
+
+function confirmDeleteTask() {
+
+    if (!taskIdToDelete) {
+
+        return;
+
+    }
+
+    const idToDelete =
+        taskIdToDelete;
+
+    confirmDeleteButton.disabled =
+        true;
+
+    deleteTask(
+        tasks,
+        idToDelete
+    );
+
+    closeDeleteModal();
+
+    persistAndRefresh();
+
+    confirmDeleteButton.disabled =
+        false;
+    
+    taskInput.focus();
+
+}
+
+function handleDeleteModalClick(event)
+{
+    if(
+        event.target.hasAttribute(
+            "data-close-modal"
+        )
+    ){
+        closeDeleteModal();
+    }
+}
+
+function handleModalEscape(event)
+{
+    if(
+        event.key === "Escape"
+        &&
+        deleteModal.classList.contains(
+            "open"
+        )
+    ){
+        closeDeleteModal();
+    }
 }
 
 function editTask(event) {
