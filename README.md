@@ -124,7 +124,7 @@ El proyecto sigue una arquitectura modular.
 Clona el repositorio.
 
 ```bash
-git clone https://github.com/TU-USUARIO/taskflow-pro.git
+git clone https://github.com/YovaniDosh/TaskFlow-Pro.git
 ```
 
 Entra al proyecto.
@@ -158,10 +158,10 @@ docs/screenshots/
 * LocalStorage
 * Estadísticas
 * Búsqueda avanzada
+* Dark Mode
 
 ## En desarrollo
 
-* 🌙 Dark Mode
 * 🔔 Toast Notifications
 * 🪟 Modal de edición
 * 📤 Exportar tareas
