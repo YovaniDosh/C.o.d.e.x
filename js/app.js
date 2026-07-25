@@ -5,6 +5,7 @@ import { CONFIG,FILTERS, MESSAGES,SORT_OPTIONS } from "./constants.js";
 import { renderTasks, updateCounter, updateActiveFilter,renderStats } from "./ui.js";
 import { filterTasks, sortTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
+import { applyTheme, loadTheme, saveTheme, toggleTheme} from "./theme.js";
 import { calculateStats } from "./stats.js";
 import { seedTasks } from "./seed.js";
 
@@ -23,6 +24,7 @@ const taskList = document.getElementById("taskList");
 const taskCounter = document.getElementById("taskCounter");
 const filterButtons = document.querySelectorAll(".filter-button");
 const statsContainer = document.getElementById("statsContainer");
+const themeToggle = document.getElementById("themeToggle");
 const sortSelect = document.getElementById("sortSelect");
 
 // ===============================
@@ -32,7 +34,7 @@ const sortSelect = document.getElementById("sortSelect");
 let tasks = loadTasks();
 let currentFilter = FILTERS.ALL;
 let currentSort = SORT_OPTIONS.DEFAULT;
-
+let currentTheme = loadTheme();
 // ===============================
 // INICIALIZACIÓN
 // ===============================
@@ -80,6 +82,13 @@ function init() {
         changeSort
     );
 
+    themeToggle.addEventListener(
+        "click",
+        handleThemeToggle
+    );
+
+    applyTheme(currentTheme, themeToggle);
+
     refreshUI();
 
 }
@@ -115,9 +124,6 @@ function refreshUI() {
         statsContainer,
         calculateStats(tasks)
     );
-
-    saveTasks(tasks);
-
 }
 
 
@@ -150,7 +156,7 @@ function handleAddTask() {
 
     addTask(tasks, task);
 
-    refreshUI();
+    persistAndRefresh();
 
     clearInput();
 
@@ -170,90 +176,111 @@ function handleEnterKey(event){
 
 function handleTaskActions(event) {
 
-    const button = event.target;
+    const button =
+        event.target.closest(
+            "button[data-id]"
+        );
 
-    const id = button.dataset.id;
+    if (!button) {
 
-    const index = findTaskIndex(tasks, id);
-
-    if (index === -1) {
-
-    return;
-
-}
-
-    if (button.classList.contains("delete-button")) {
-
-        deleteTask(
-
-        tasks,
-
-        id
-
-    );
-
-    refreshUI();
+        return;
 
     }
 
-    if (button.classList.contains("complete-button")) {
+    const id =
+        button.dataset.id;
+
+    const index =
+        findTaskIndex(tasks, id);
+
+    if (index === -1) {
+
+        return;
+
+    }
+
+    if (
+        button.classList.contains(
+            "delete-button"
+        )
+    ) {
+
+        deleteTask(tasks, id);
+
+        persistAndRefresh();
+
+        return;
+
+    }
+
+    if (
+        button.classList.contains(
+            "complete-button"
+        )
+    ) {
 
         toggleTask(tasks, id);
-        refreshUI();
+
+        persistAndRefresh();
 
     }
 
 }
 
+function editTask(event) {
 
-function editTask(event){
+    const taskText =
+        event.target.closest(
+            ".task-text[data-id]"
+        );
 
-    if(event.target.tagName !== "SPAN"){
+    if (!taskText) {
 
         return;
 
     }
 
-    const id = event.target.dataset.id;
+    const id =
+        taskText.dataset.id;
 
-    const index = findTaskIndex(tasks, id);
+    const index =
+        findTaskIndex(tasks, id);
 
     if (index === -1) {
 
         return;
 
     }
-    
-    const newText = prompt(
 
-        "Editar tarea:",
+    const newText =
+        prompt(
+            "Editar tarea:",
+            tasks[index].text
+        );
 
-        tasks[index].text
-
-    );
-
-    if(newText === null){
+    if (newText === null) {
 
         return;
 
     }
 
-    if(newText.trim()===""){
+    const normalizedText =
+        newText.trim();
+
+    if (!normalizedText) {
 
         return;
 
     }
 
     updateTaskText(
-
-    tasks,
-
-    id,
-
-    newText.trim()
-
+        tasks,
+        id,
+        normalizedText
     );
-    refreshUI();
+
+    persistAndRefresh();
+
 }
 
 function clearInput() {
@@ -285,4 +312,26 @@ function changeSort(event)
 {
     currentSort = event.target.value;
     refreshUI();
+}
+
+function handleThemeToggle() {
+
+    currentTheme =
+        toggleTheme(currentTheme);
+
+    applyTheme(
+        currentTheme,
+        themeToggle
+    );
+
+    saveTheme(currentTheme);
+
+}
+
+function persistAndRefresh() {
+
+    saveTasks(tasks);
+
+    refreshUI();
+
 }

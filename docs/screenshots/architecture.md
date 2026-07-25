@@ -15,3 +15,54 @@
 | `13-responsive-tablet.png`  | Vista tablet.                                |
 | `14-responsive-desktop.png` | Vista escritorio.                            |
 | `15-final-version.png`      | Captura final del proyecto terminado.        |
+
+
+# <h2 style="text-align: center">01-PROJECT-START</h2>
+
+![project-start](/docs/screenshots/project-start.png);
+
+# <h2 style="text-align: center">02-EMPTY-UI</h2>
+![empty-ui](/docs/screenshots/empty-ui.png)
+
+# <h2 style="text-align: center">03-FIRST-TASK</h2>
+![first-task](/docs/screenshots/tarea1.png);
+![first-task](/docs/screenshots/tarea2.png)
+
+# <h2 style="text-align: center">04-SEARCH</h2>
+![SEARCH](/docs/screenshots/buscador.png)
+
+# <h2 style="text-align: center">05-FILTERS</h2>
+![filters](/docs/screenshots/filters.png)
+![filters](/docs/screenshots/filters2.png)
+
+# <h2 style="text-align: center">06-PRIORITIES</h2>
+![priorities](/docs/screenshots/prioridad.png)
+
+# <h2 style="text-align: center">07-DUE-DATES</h2>
+![due-dates](/docs/screenshots/dueDate.png)
+
+# <h2 style="text-align: center">08-DASHBOARD</h2>
+![dashboard](/docs/screenshots/dashboard.png)
+
+# <h2 style="text-align: center">09-SORTING</h2>
+![sorting](/docs/screenshots/sorting.png)
+
+# <h2 style="text-align: center">10-DARK-MODE</h2>
+![dark-mode](/docs/screenshots/darkKmode.png)
+![dark-mode](/docs/screenshots/darkKmode2.png)
+
+# <h2 style="text-align: center">11-EDIT-MODAL</h2>
+![edit-modal](/docs/screenshots/priorida.png)
+
+# <h2 style="text-align: center">12-RESPONSIVE-MOBILE</h2>
+![responsive-mobile](/docs/screenshots/rioridad.png)
+
+# <h2 style="text-align: center">13-RESPONSIVE-TABLET</h2>
+![responsive-tablet](/docs/screenshots/rioridad.png)
+
+# <h2 style="text-align: center">14-RESPONSIVE-DESKTOP</h2>
+![responsive-desktop](/docs/screenshots/pioridad.png)
+
+# <h2 style="text-align: center">15-FINAL-VERSION</h2>
+![final-version](/docs/screenshots/priordad.png)
+

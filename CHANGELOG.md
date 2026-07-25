@@ -4,6 +4,22 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.4.0] - 2026-07-24
+
+### Added
+
+- Tema oscuro persistente.
+- Botón para alternar entre tema claro y oscuro.
+- Módulo `theme.js` para administrar la preferencia visual.
+- Atributos de accesibilidad en el selector de tema.
+
+### Changed
+
+- Se separó la lógica del tema de `app.js`.
+- Se eliminó código duplicado relacionado con el Dark Mode.
+- Se mejoró la persistencia de tareas con `persistAndRefresh()`.
+- Se optimizó la delegación de eventos en los botones de tareas.
+
 ---
 
 ## [0.3.0-dev]

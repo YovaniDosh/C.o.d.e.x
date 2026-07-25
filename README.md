@@ -32,22 +32,19 @@ Actualmente el proyecto incluye:
 
 * ✅ Crear tareas
 * ✅ Editar tareas
-* ✅ Eliminar tareas
 * ✅ Completar y restaurar tareas
-* ✅ Persistencia mediante LocalStorage
+* ✅ Eliminar tareas
+* ✅ Prioridades
+* ✅ Fechas límite
+* ✅ Almacenamiento local con LocalStorage
 * ✅ Búsqueda en tiempo real
 * ✅ Búsqueda ignorando mayúsculas y acentos
 * ✅ Filtros por estado
-* ✅ Prioridades
-* ✅ Fechas límite
+* ✅ Ordenamiento por nombre, prioridad y fecha
+* ✅ Dashboard de estadísticas
 * ✅ Detección automática de tareas vencidas
 * ✅ Contador dinámico
-* ✅ Dashboard de estadísticas
-* ✅ Ordenamiento por:
-
-  * Nombre
-  * Prioridad
-  * Fecha
+* ✅ Tema claro y oscuro persistente
 * ✅ Arquitectura modular
 
 ---
@@ -80,6 +77,7 @@ TaskFlow-Pro/
 │   ├── stats.js
 │   ├── storage.js
 │   ├── tasks.js
+│   ├── theme.js
 │   └── ui.js
 │
 ├── docs/
@@ -113,6 +111,13 @@ El proyecto sigue una arquitectura modular.
 | seed.js      | Datos de prueba      |
 
 ---
+
+## Evolución del proyecto
+
+- `v0.1.0` — Estructura inicial.
+- `v0.2.0` — CRUD y persistencia.
+- `v0.3.0` — Dashboard, estadísticas y ordenamiento.
+- `v0.4.0` — Tema oscuro persistente y refactorización modular.
 
 # 🚀 Instalación
 

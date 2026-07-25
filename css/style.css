@@ -16,22 +16,29 @@
 
     --primary:#2563eb;
     --primary-hover:#1d4ed8;
-
     --background:#133b89;
-
-    --white:#ffffff;
-
+    --surface:#ffffff;
+    --surface-secondary:#f8fafc;
     --text:#1f2937;
-
     --gray:#6b7280;
-
     --border:#e5e7eb;
-
     --shadow:0 10px 15px rgba(0,0,0,.25);
-
     --radius:15px;
 
 }
+[data-theme="dark"]
+{
+    --primary-hover:#60a5fa;
+    --primary:#3b82f6;
+    --background:#0f172a;
+    --surface:#1e293b;
+    --surface-secondary:#334155;
+    --text:#f8fafc;
+    --gray:#cbd5e1;
+    --border:#475569;
+    --shadow:0 10px 25px rgba(0,0,0,.45);
+}
+
 
 /* ==========================
    BODY
@@ -61,7 +68,7 @@ body{
 
     margin:50px auto;
 
-    background:var(--white);
+    background:var(--surface);
 
     padding:30px;
 
@@ -114,16 +121,14 @@ header p{
 }
 
 input,
-select{
-
+select
+{
     padding:12px;
-
     border:1px solid var(--border);
-
     border-radius:10px;
-
     font-size:1rem;
-
+    background: var(--surface-secondary);
+    color: var(--text);
 }
 
 #taskInput{
@@ -393,20 +398,16 @@ footer{
     margin-top:15px;
 
 }
-.stat-card{
-
-    background:var(--card-bg,#ffffff);
-
-    border:1px solid #ddd;
-
+.stat-card
+{
+    background:var(--surface-secondary);
+    border:1px solid var(--border);
     border-radius:12px;
-
     padding:18px;
-
     text-align:center;
-
-    transition:transform .2s ease, box-shadow .2s ease;
-
+    transition:
+        transform .2s ease, 
+        box-shadow .2s ease;
 }
 .stat-card:hover{
 
@@ -422,15 +423,15 @@ footer{
 
     font-size:.9rem;
 
-    color:#666;
+    color: var(--gray);
 
     margin-bottom:8px;
 
 }
-.stat-card strong{
-
+.stat-card strong
+{
+    color: var(--text);
     font-size:2rem;
-
 }
 
 /* ==========================
@@ -485,4 +486,39 @@ footer{
 
     }
 
+}
+
+/* ==========================
+   SELECTOR DE TEMA
+========================== */
+
+.theme-toggle
+{
+    margin-top: 18px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface-secondary);
+    color: var(--text);
+    font-size: 1.2rem;
+}
+
+.theme-toggle:hover
+{
+    background: var(--border);
+}
+
+body,
+.container,
+input,
+select,
+.stat-card,
+.theme-toggle
+{
+    transition: 
+        background-color .25s ease,
+        color .25s ease,
+        border-color .25s ease;
 }

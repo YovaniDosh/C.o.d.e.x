@@ -91,6 +91,8 @@ export const THEME = {
 
     LIGHT: "light",
 
-    DARK: "dark"
+    DARK: "dark",
+
+    STORAGE_KEY: "taskflow-theme"
 
 };
