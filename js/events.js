@@ -1,1 +1,0 @@
-// Registro y manejo de eventos de la aplicación
