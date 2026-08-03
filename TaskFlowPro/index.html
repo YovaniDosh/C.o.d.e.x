@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TaskFlow Pro | Gestor de Tareas</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <main class="container">
+
+        <!-- ==========================
+             HEADER
+        =========================== -->
+
+        <header>
+
+            <h1>TaskFlow Pro</h1>
+
+            <p>
+                Organiza tu día de manera más sencilla.
+            </p>
+
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Activar tema oscuro" aria-pressed="false">
+                🌙
+            </button>
+
+        </header>
+
+        <!-- ==========================
+             FORMULARIO
+        =========================== -->
+
+        <section class="task-form">
+
+            <input
+                id="taskInput"
+                type="text"
+                placeholder="Nueva tarea..."
+            >
+
+            <select id="prioritySelect">
+
+                <option value="high">
+                    Alta
+                </option>
+
+                <option value="medium" selected>
+                    Media
+                </option>
+
+                <option value="low">
+                    Baja
+                </option>
+
+            </select>
+
+            <input
+                id="dateInput"
+                type="date"
+            >
+
+            <button id="addTaskButton">
+
+                Agregar
+
+            </button>
+
+        </section>
+
+        <!-- ==========================
+             BUSCADOR
+        =========================== -->
+
+        <section class="search-container">
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Buscar tareas..."
+            >
+
+        </section>
+
+        <!-- ==========================
+             FILTROS
+        =========================== -->
+
+        <section class="filters">
+
+            <button
+                class="filter-button active"
+                data-filter="all">
+
+                Todas
+
+            </button>
+
+            <button
+                class="filter-button"
+                data-filter="pending">
+
+                Pendientes
+
+            </button>
+
+            <button
+                class="filter-button"
+                data-filter="completed">
+
+                Completadas
+
+            </button>
+
+        </section>
+
+        <!-- ==========================
+                 ORDENAMIENTO
+        =========================== -->
+
+        <section class="sort-container">
+        
+            <label for="sortSelect">
+            
+                Ordenar por:
+            
+            </label>
+        
+            <select id="sortSelect">
+            
+                <option value="default">
+                
+                    Orden original
+                
+                </option>
+            
+                <option value="name">
+                
+                    Nombre
+                
+                </option>
+            
+                <option value="priority">
+                
+                    Prioridad
+                
+                </option>
+            
+                <option value="date">
+                
+                    Fecha límite
+                
+                </option>
+            
+            </select>
+        
+        </section>
+
+        <!-- ==========================
+             LISTA DE TAREAS
+        =========================== -->
+
+        <section>
+
+            <ul id="taskList">
+
+            </ul>
+
+        </section>
+
+        <!-- ==========================
+             CONTADOR
+        =========================== -->
+
+        <footer>
+
+            <p id="taskCounter">
+
+                0 tareas
+
+            </p>
+            <section class="stats">
+
+                <h3>📊 Estadísticas</h3>
+
+                <div id="statsContainer"></div>
+
+            </section>
+
+        </footer>
+
+    </main>
+
+    <div
+        id="deleteModal"
+        class="modal"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-overlay"
+            data-close-modal
+        ></div>
+
+        <div
+            class="modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="deleteModalTitle"
+        >
+            <h2 id="deleteModalTitle">
+                Eliminar tarea
+            </h2>
+
+            <p id="deleteModalMessage">
+                ¿Deseas eliminar esta tarea?
+            </p>
+
+            <div class="modal-actions">
+
+                <button
+                    id="cancelDeleteButton"
+                    type="button"
+                    class="secondary-button"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    id="confirmDeleteButton"
+                    type="button"
+                    class="danger-button"
+                >
+                    Eliminar
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <script
+        type="module"
+        src="js/app.js">
+    </script>
+
+</body>
+
+</html>
