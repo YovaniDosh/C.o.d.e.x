@@ -8,6 +8,7 @@ import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIn
 import { applyTheme, loadTheme, saveTheme, toggleTheme} from "./theme.js";
 import { calculateStats } from "./stats.js";
 import { seedTasks } from "./seed.js";
+import { showToast } from "./toast.js";
 
 seedTasks();
 
@@ -30,6 +31,7 @@ const deleteModal = document.getElementById("deleteModal");
 const deleteModalMessage = document.getElementById("deleteModalMessage");
 const cancelDeleteButton = document.getElementById("cancelDeleteButton");
 const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+const toastContainer = document.getElementById("toastContainer");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -163,7 +165,12 @@ function handleAddTask() {
 
     if (!taskText) {
 
-        alert(MESSAGES.EMPTY_TASK);
+        notify(
+            MESSAGES.EMPTY_TASK,
+            "error"
+        );
+
+        taskInput.focus();
 
         return;
 
@@ -182,6 +189,10 @@ function handleAddTask() {
     addTask(tasks, task);
 
     persistAndRefresh();
+
+    notify(
+        "Tarea creada correctamente."
+    );
 
     clearInput();
 
@@ -240,17 +251,37 @@ function handleTaskActions(event) {
     }
 
     if (
-        button.classList.contains(
-            "complete-button"
-        )
-    ) {
+    button.classList.contains(
+        "complete-button"
+    )
+) {
 
-        toggleTask(tasks, id);
+    handleToggleTask(id);
+    return;
+}
 
-        persistAndRefresh();
+}
 
+function handleToggleTask(id)
+{
+    const index = findTaskIndex(tasks, id);
+
+    if(index === -1)
+    {
+        return;
     }
+    const wasCompleted = tasks[index].completed;
+    const taskText = tasks[index].text;
 
+    toggleTask(tasks, id);
+
+    persistAndRefresh();
+
+    notify(
+        wasCompleted
+            ? `Tarea "${taskText}" restaurada.`
+            : `Tarea "${taskText}" completada.`
+    );
 }
 
 function handleDeleteTask(
@@ -339,6 +370,23 @@ function confirmDeleteTask() {
     const idToDelete =
         taskIdToDelete;
 
+    const index =
+        findTaskIndex(
+            tasks,
+            idToDelete
+        );
+
+    if (index === -1) {
+
+        closeDeleteModal(false);
+
+        return;
+
+    }
+
+    const deletedTaskText =
+        tasks[index].text;
+
     confirmDeleteButton.disabled =
         true;
 
@@ -347,13 +395,18 @@ function confirmDeleteTask() {
         idToDelete
     );
 
-    closeDeleteModal();
+    closeDeleteModal(false);
 
     persistAndRefresh();
 
     confirmDeleteButton.disabled =
         false;
-    
+
+    notify(
+        `Tarea "${deletedTaskText}" eliminada.`,
+        "info"
+    );
+
     taskInput.focus();
 
 }
@@ -424,17 +477,40 @@ function editTask(event) {
 
     if (!normalizedText) {
 
-        return;
+        notify(
+            MESSAGES.EMPTY_TASK,
+            "error"
+        );
 
-    }
+    return;
 
-    updateTaskText(
-        tasks,
-        id,
-        normalizedText
+}
+
+    const previousText =
+      tasks[index].text;
+
+if (normalizedText === previousText) {
+
+    notify(
+        "No se realizaron cambios.",
+        "info"
     );
 
-    persistAndRefresh();
+    return;
+
+}
+
+updateTaskText(
+    tasks,
+    id,
+    normalizedText
+);
+
+persistAndRefresh();
+
+notify(
+    `Tarea "${previousText}" actualizada correctamente.`
+);
 
 }
 
@@ -488,5 +564,17 @@ function persistAndRefresh() {
     saveTasks(tasks);
 
     refreshUI();
+}
+
+function notify(
+    message,
+    type = "success"
+) {
+
+    showToast(
+        toastContainer,
+        message,
+        type
+    );
 
 }

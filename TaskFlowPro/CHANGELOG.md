@@ -4,7 +4,25 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
-## [0.5.0] - 2026-07-24
+## [0.6.0]
+
+### Added
+
+- Sistema de notificaciones Toast para informar acciones sin interrumpir al usuario.
+- Notificaciones al crear, editar, completar, restaurar y eliminar tareas.
+- Notificaciones de error para campos vacíos.
+- Botón para cerrar manualmente cada notificación.
+- Barra visual de duración.
+- Soporte para reducción de movimiento.
+- Límite máximo de cuatro notificaciones activas.
+
+### Changed
+
+- Los mensajes de validación ya no utilizan `alert()`.
+- Se mejoró la respuesta visual de las principales acciones.
+- Se agregó limpieza automática de temporizadores.
+
+## [0.5.0]
 
 ### Added
 

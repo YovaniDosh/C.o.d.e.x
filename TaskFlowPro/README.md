@@ -48,6 +48,8 @@ Actualmente el proyecto incluye:
 * ✅ Arquitectura modular
 * ✅ Confirmación visual antes de eliminar tareas.
 * ✅ Modal accesible y compatible con teclado
+* ✅ Notificaciones Toast para confirmar acciones y mostrar errores.
+* ✅ Notificaciones accesibles con cierre manual y desaparición automática.
 
 ---
 
