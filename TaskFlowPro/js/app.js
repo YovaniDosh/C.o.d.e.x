@@ -32,6 +32,11 @@ const deleteModalMessage = document.getElementById("deleteModalMessage");
 const cancelDeleteButton = document.getElementById("cancelDeleteButton");
 const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 const toastContainer = document.getElementById("toastContainer");
+const editModal = document.getElementById("editModal");
+const editTaskForm = document.getElementById("editTaskForm");
+const editTaskInput = document.getElementById("editTaskInput");
+const cancelEditButton = document.getElementById("cancelEditButton");
+const saveEditButton = document.getElementById("saveEditButton");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -42,6 +47,8 @@ let currentFilter = FILTERS.ALL;
 let currentSort = SORT_OPTIONS.DEFAULT;
 let currentTheme = loadTheme();
 let taskIdToDelete = null;
+let taskIdToEdit = null;
+let editTriggerElement = null;
 let deleteTriggerButton = null;
 // ===============================
 // INICIALIZACIÓN
@@ -64,11 +71,6 @@ function init() {
     taskList.addEventListener(
         "click",
         handleTaskActions
-    );
-
-    taskList.addEventListener(
-        "dblclick",
-        editTask
     );
 
     searchInput.addEventListener(
@@ -113,6 +115,16 @@ function init() {
     document.addEventListener(
         "keydown",
         handleModalEscape
+    );
+
+    editTaskForm.addEventListener(
+        "submit",
+        handleEditSubmit
+    )
+
+    cancelEditButton.addEventListener(
+        "click",
+        () => closeEditModal()
     );
 
     applyTheme(currentTheme, themeToggle);
@@ -218,9 +230,7 @@ function handleTaskActions(event) {
         );
 
     if (!button) {
-
         return;
-
     }
 
     const id =
@@ -230,9 +240,32 @@ function handleTaskActions(event) {
         findTaskIndex(tasks, id);
 
     if (index === -1) {
+        return;
+    }
+
+    if (
+        button.classList.contains(
+            "complete-button"
+        )
+    ) {
+
+        handleToggleTask(id);
 
         return;
+    }
 
+    if (
+        button.classList.contains(
+            "edit-button"
+        )
+    ) {
+
+        openEditModal(
+            id,
+            button
+        );
+
+        return;
     }
 
     if (
@@ -245,20 +278,7 @@ function handleTaskActions(event) {
             id,
             button
         );
-
-        return;
-
     }
-
-    if (
-    button.classList.contains(
-        "complete-button"
-    )
-) {
-
-    handleToggleTask(id);
-    return;
-}
 
 }
 
@@ -435,82 +455,70 @@ function handleModalEscape(event)
     }
 }
 
-function editTask(event) {
+function closeEditModal(
+    restoreFocus = true
+) {
 
-    const taskText =
-        event.target.closest(
-            ".task-text[data-id]"
-        );
+    editModal.classList.remove(
+        "open"
+    );
 
-    if (!taskText) {
+    editModal.hidden = true;
 
-        return;
+    document.body.classList.remove(
+        "modal-open"
+    );
 
+    editTaskForm.reset();
+
+    taskIdToEdit = null;
+
+    if (
+        restoreFocus
+        &&
+        editTriggerElement?.isConnected
+    ) {
+        editTriggerElement.focus();
     }
 
-    const id =
-        taskText.dataset.id;
+    editTriggerElement = null;
+
+}
+
+function openEditModal(
+    id,
+    triggerElement
+) {
 
     const index =
         findTaskIndex(tasks, id);
 
     if (index === -1) {
-
         return;
-
     }
 
-    const newText =
-        prompt(
-            "Editar tarea:",
-            tasks[index].text
-        );
+    taskIdToEdit = id;
+    editTriggerElement = triggerElement;
 
-    if (newText === null) {
+    editTaskInput.value =
+        tasks[index].text;
 
-        return;
+    editModal.hidden = false;
 
-    }
-
-    const normalizedText =
-        newText.trim();
-
-    if (!normalizedText) {
-
-        notify(
-            MESSAGES.EMPTY_TASK,
-            "error"
-        );
-
-    return;
-
-}
-
-    const previousText =
-      tasks[index].text;
-
-if (normalizedText === previousText) {
-
-    notify(
-        "No se realizaron cambios.",
-        "info"
+    editModal.classList.add(
+        "open"
     );
 
-    return;
+    document.body.classList.add(
+        "modal-open"
+    );
 
-}
+    requestAnimationFrame(() => {
 
-updateTaskText(
-    tasks,
-    id,
-    normalizedText
-);
+        editTaskInput.focus();
+        editTaskInput.select();
 
-persistAndRefresh();
-
-notify(
-    `Tarea "${previousText}" actualizada correctamente.`
-);
+    });
 
 }
 
@@ -576,5 +584,92 @@ function notify(
         message,
         type
     );
+
+}
+
+function handleEditSubmit(event) {
+
+    event.preventDefault();
+
+    if (!taskIdToEdit) {
+
+        return;
+
+    }
+
+    const index =
+        findTaskIndex(
+            tasks,
+            taskIdToEdit
+        );
+
+    if (index === -1) {
+
+        closeEditModal(false);
+
+        notify(
+            "La tarea ya no está disponible.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const normalizedText =
+        editTaskInput.value.trim();
+
+    if (!normalizedText) {
+
+        notify(
+            MESSAGES.EMPTY_TASK,
+            "error"
+        );
+
+        editTaskInput.focus();
+
+        return;
+
+    }
+
+    const previousText =
+        tasks[index].text;
+
+    if (
+        normalizedText
+        ===
+        previousText
+    ) {
+
+        notify(
+            "No se realizaron cambios.",
+            "info"
+        );
+
+        editTaskInput.focus();
+
+        return;
+
+    }
+
+    saveEditButton.disabled = true;
+
+    updateTaskText(
+        tasks,
+        taskIdToEdit,
+        normalizedText
+    );
+
+    closeEditModal(false);
+
+    persistAndRefresh();
+
+    saveEditButton.disabled = false;
+
+    notify(
+        `Tarea "${previousText}" actualizada correctamente.`
+    );
+
+    taskInput.focus();
 
 }

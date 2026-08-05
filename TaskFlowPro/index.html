@@ -246,6 +246,74 @@
         </div>
     </div>
 
+    <div
+        id="editModal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="editModalTitle"
+        aria-describedby="editModalDescription"
+        hidden>
+
+        <div class="modal-content">
+
+            <h2
+                id="editModalTitle"
+                class="modal__title"
+            >
+                Editar tarea
+            </h2>
+
+            <p
+                id="editModalDescription"
+                class="modal__description"
+            >
+                Modifica el contenido de la tarea seleccionada.
+            </p>
+
+            <form id="editTaskForm">
+
+                <label
+                    for="editTaskInput"
+                    class="modal__label"
+                >
+                    Nombre de la tarea
+                </label>
+
+                <input
+                    id="editTaskInput"
+                    class="modal__input"
+                    type="text"
+                    maxlength="120"
+                    autocomplete="off"
+                    required
+                >
+
+                <div class="modal-actions">
+
+                    <button
+                        id="cancelEditButton"
+                        class="secondary-button"
+                        type="button"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        id="saveEditButton"
+                        class="primary-button"
+                        type="submit"
+                    >
+                        Guardar cambios
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
     <div id="toastContainer" aria-live="polite" aria-atomic="false" class="toast-container">
 
     </div>

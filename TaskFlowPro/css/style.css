@@ -555,6 +555,10 @@ select,
     display: flex;
 }
 
+.modal[hidden] {
+    display: none;
+}
+
 .modal-overlay 
 {
     position: absolute;
@@ -707,6 +711,10 @@ button:disabled {
         left: 12px;
         width: auto;
     }
+    .task-actions {
+    justify-content: flex-end;
+    width: 100%;
+    }
 
 }
 
@@ -750,4 +758,68 @@ button:disabled {
         transform: scaleX(0);
     }
 
+}
+
+/* ==========================
+   MODAL DE EDICIÓN
+========================== */
+
+.modal__label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.modal__input {
+    width: 100%;
+    min-height: 44px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    outline: none;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.modal__input:focus {
+    border-color: var(--primary);
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .18);
+}
+
+.modal__input::placeholder {
+    color: var(--text-secondary);
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.task-actions button {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.edit-button {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.edit-button:hover {
+    background: #1d4ed8;
+}
+
+.edit-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, .35);
+    outline-offset: 2px;
 }

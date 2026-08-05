@@ -4,6 +4,15 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.7.0]
+
+### Added
+
+- Se agregó un botón visible para editar cada tarea.
+- Se eliminó la dependencia del doble clic.
+- Se mejoró la compatibilidad con dispositivos táctiles.
+- Se añadieron etiquetas accesibles a las acciones.
+
 ## [0.6.0]
 
 ### Added

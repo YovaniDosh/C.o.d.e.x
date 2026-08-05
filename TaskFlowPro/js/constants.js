@@ -63,6 +63,8 @@ export const ICONS = {
 
     RESTORE: "↩",
 
+    EDIT: "✏️",
+
     DELETE: "🗑"
 
 };

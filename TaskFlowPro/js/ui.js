@@ -22,12 +22,11 @@ export function createTaskHTML(task) {
             <div class="task-content">
 
                 <span
-                
-                    class="${task.completed ? "completed" : ""}"
-                    data-id="${task.id}">
-
+                    class="task-text ${task.completed ? "completed" : ""}"
+                    data-id="${task.id}"
+                    tabindex="0">
+                    
                     ${task.text}
-
                 </span>
 
                 <span class="priority ${task.priority}">
@@ -44,29 +43,40 @@ export function createTaskHTML(task) {
 
             </div>
 
-            <div>
+           <div class="task-actions">
 
-                <button
+            <button
+                class="complete-button"
+                type="button"
+                data-id="${task.id}"
+                aria-label="${
+                    task.completed
+                        ? `Restaurar tarea: ${task.text}`
+                        : `Completar tarea: ${task.text}`
+                }"
+            >
+                ${task.completed ? ICONS.RESTORE : ICONS.COMPLETE}
+            </button>
 
-                    class="complete-button"
+            <button
+                class="edit-button"
+                type="button"
+                data-id="${task.id}"
+                aria-label="Editar tarea: ${task.text}"
+            >
+                ${ICONS.EDIT}
+            </button>
 
-                    data-id="${task.id}">
+            <button
+                class="delete-button"
+                type="button"
+                data-id="${task.id}"
+                aria-label="Eliminar tarea: ${task.text}"
+            >
+                ${ICONS.DELETE}
+            </button>
 
-                    ${task.completed ? ICONS.RESTORE : ICONS.COMPLETE}
-
-                </button>
-
-                <button
-
-                    class="delete-button"
-
-                    data-id="${task.id}">
-
-                    ${ICONS.DELETE}
-
-                </button>
-
-            </div>
+</div>
 
         </li>
 

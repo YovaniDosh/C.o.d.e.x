@@ -50,6 +50,8 @@ Actualmente el proyecto incluye:
 * ✅ Modal accesible y compatible con teclado
 * ✅ Notificaciones Toast para confirmar acciones y mostrar errores.
 * ✅ Notificaciones accesibles con cierre manual y desaparición automática.
+* ✅ Edición de tareas mediante un modal accesible.
+* ✅ Acciones compatibles con dispositivos táctiles.
 
 ---
 
@@ -122,6 +124,9 @@ El proyecto sigue una arquitectura modular.
 - `v0.2.0` — CRUD y persistencia.
 - `v0.3.0` — Dashboard, estadísticas y ordenamiento.
 - `v0.4.0` — Tema oscuro persistente y refactorización modular.
+- `v0.5.0` — Modal personalizado para confirmar la eliminación de tareas.
+- `v0.6.0` — Sistema de notificaciones Toast para informar acciones sin interrumpir al usuario.
+- `v0.7.0` - Se agregó un botón visible para editar cada tarea.
 
 # 🚀 Instalación
 
@@ -163,11 +168,11 @@ docs/screenshots/
 * Estadísticas
 * Búsqueda avanzada
 * Dark Mode
+* Toast Notifications
+* Modal de edición
 
 ## En desarrollo
 
-* 🔔 Toast Notifications
-* 🪟 Modal de edición
 * 📤 Exportar tareas
 * 📥 Importar tareas
 * ♿ Accesibilidad
