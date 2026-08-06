@@ -1,61 +1,94 @@
-// ======================================
-// LOCAL STORAGE
-// ======================================
+import { CONFIG, PRIORITIES } from "./constants.js";
 
-import { CONFIG, FILTERS } from "./constants.js";
+function normalizeTask(task) {
+    return {
+        id:
+            typeof task.id === "string"
+                ? task.id
+                : crypto.randomUUID(),
 
+        text:
+            typeof task.text === "string"
+                ? task.text.trim()
+                : "",
 
+        completed:
+            typeof task.completed === "boolean"
+                ? task.completed
+                : false,
+
+        priority:
+            Object.values(PRIORITIES).includes(task.priority)
+                ? task.priority
+                : CONFIG.DEFAULT_PRIORITY,
+
+        createdAt:
+            typeof task.createdAt === "string"
+                ? task.createdAt
+                : new Date().toISOString(),
+
+        dueDate:
+            typeof task.dueDate === "string"
+                ? task.dueDate
+                : ""
+    };
+}
 
 export function saveTasks(tasks) {
-
-    localStorage.setItem(CONFIG.STORAGE_KEY,JSON.stringify(tasks)
-    );
-
-}
- /**
- * Obtiene las tareas guardadas
- * @returns {Array}
- */
-export function loadTasks() {
-
-    const data = localStorage.getItem(CONFIG.STORAGE_KEY);
-
-    if (!data) {
-
-        return [];
-
+    if (!Array.isArray(tasks)) {
+        return false;
     }
 
     try {
+        localStorage.setItem(
+            CONFIG.STORAGE_KEY,
+            JSON.stringify(tasks)
+        );
 
-        const tasks = JSON.parse(data);
-
-        return tasks.map(task => ({
-
-            id: task.id ?? crypto.randomUUID(),
-
-            text: task.text ?? "",
-
-            completed: task.completed ?? false,
-
-            priority: task.priority ?? "medium",
-
-            createdAt:
-                task.createdAt ??
-                new Date().toISOString(),
-
-            dueDate:
-                task.dueDate ??
-                ""
-
-        }));
-
+        return true;
     } catch (error) {
+        console.error(
+            "Error al guardar las tareas:",
+            error
+        );
 
-        console.error("Error al cargar las tareas:", error);
+        return false;
+    }
+}
+
+export function loadTasks() {
+    try {
+        const storedTasks =
+            localStorage.getItem(
+                CONFIG.STORAGE_KEY
+            );
+
+        if (!storedTasks) {
+            return [];
+        }
+
+        const parsedTasks =
+            JSON.parse(storedTasks);
+
+        if (!Array.isArray(parsedTasks)) {
+            return [];
+        }
+
+        return parsedTasks
+            .filter(
+                task =>
+                    task
+                    &&
+                    typeof task === "object"
+            )
+            .map(normalizeTask)
+            .filter(task => task.text);
+    } catch (error) {
+        console.error(
+            "Error al cargar las tareas:",
+            error
+        );
 
         return [];
-
     }
-
 }

@@ -3,9 +3,18 @@ import { CONFIG } from "./constants.js";
 // CONFIGURACIÓN
 //==================================================
 
-const TASK_COUNT = 100;
+const SEED_CONFIG = {
+    TASK_COUNT: 100,
+    COMPLETED_PERCENTAGE: 30,
+    CREATED_DAYS_RANGE: 60,
+    DUE_DATE_PAST_DAYS: 20,
+    DUE_DATE_FUTURE_DAYS: 40
+};
 
-const COMPLETED_PERCENTAGE = 30;
+const PRIORITY_DISTRIBUTION = {
+    HIGH_LIMIT: 20,
+    MEDIUM_LIMIT: 85
+};
 
 
 const TASKS = [
@@ -347,74 +356,93 @@ const TASKS = [
     "Realizar chequeo médico",
 ];
 
-let availableTasks = [];
-
-function resetAvailableTasks() {
-
-    availableTasks = [...TASKS];
-
-}
 
 //==================================================
 // FUNCIONES AUXILIARES
 //==================================================
+let availableTasks = [];
 
-function getRandomTask() {
-
-    if (availableTasks.length === 0) {
-
-        resetAvailableTasks();
-
-    }
-
-    const randomIndex = Math.floor(
-
-        Math.random() * availableTasks.length
-
-    );
-
-    return availableTasks.splice(
-
-        randomIndex,
-
-        1
-
-    )[0];
-
+function resetAvailableTasks() {
+    availableTasks = [...TASKS];
 }
 
-function getRandomPriority()
-{
+function getRandomInteger(minimum, maximum) {
+    return Math.floor(
+        Math.random() * (maximum - minimum + 1)
+    ) + minimum;
+}
+
+function getRandomTask() {
+    if (!availableTasks.length) {
+        resetAvailableTasks();
+    }
+
+    const randomIndex =
+        getRandomInteger(
+            0,
+            availableTasks.length - 1
+        );
+
+    return availableTasks.splice(
+        randomIndex,
+        1
+    )[0];
+}
+
+function getRandomPriority() {
     const random = Math.random() * 100;
 
-    if(random < 20){ return "high";}
-    if(random < 85){ return "medium";}
+    if (
+        random
+        <
+        PRIORITY_DISTRIBUTION.HIGH_LIMIT
+    ) {
+        return "high";
+    }
+
+    if (
+        random
+        <
+        PRIORITY_DISTRIBUTION.MEDIUM_LIMIT
+    ) {
+        return "medium";
+    }
+
     return "low";
 }
 
-function getRandomCompleted()
-{
-    return Math.random() < COMPLETED_PERCENTAGE / 100;
+function getRandomCompleted() {
+    return (
+        Math.random() * 100
+        <
+        SEED_CONFIG.COMPLETED_PERCENTAGE
+    );
 }
 
-function getRandomCreatedAt()
-{
+function getRandomCreatedAt() {
     const date = new Date();
-    const daysAgo = Math.floor(
-        Math.random() * 60
-    );
+
+    const daysAgo =
+        getRandomInteger(
+            0,
+            SEED_CONFIG.CREATED_DAYS_RANGE
+        );
+
     date.setDate(
         date.getDate() - daysAgo
     );
+
     return date.toISOString();
 }
 
-function getRandomDueDate()
-{
+function getRandomDueDate() {
     const date = new Date();
-    const offset = Math.floor(
-        Math.random() * 61
-    ) - 20;
+
+    const offset =
+        getRandomInteger(
+            -SEED_CONFIG.DUE_DATE_PAST_DAYS,
+            SEED_CONFIG.DUE_DATE_FUTURE_DAYS
+        );
 
     date.setDate(
         date.getDate() + offset
@@ -453,36 +481,40 @@ function generateTask() {
 // FUNCIÓN PRINCIPAL
 //==================================================
 
-function seedTasks()
-{
-    if(localStorage.getItem(CONFIG.STORAGE_KEY))
-    {
-        return;
+export function seedTasks() {
+    const storedTasks =
+        localStorage.getItem(
+            CONFIG.STORAGE_KEY
+        );
+
+    if (storedTasks) {
+        return false;
     }
 
     resetAvailableTasks();
 
-    const tasks = [];
-
-    for(let index = 0; index < TASK_COUNT; index++)
-    {
-        tasks.push(
-            generateTask()
+    const tasks =
+        Array.from(
+            {
+                length:
+                    SEED_CONFIG.TASK_COUNT
+            },
+            generateTask
         );
+
+    try {
+        localStorage.setItem(
+            CONFIG.STORAGE_KEY,
+            JSON.stringify(tasks)
+        );
+
+        return true;
+    } catch (error) {
+        console.error(
+            "Error al generar las tareas de prueba:",
+            error
+        );
+
+        return false;
     }
-
-    localStorage.setItem(
-        CONFIG.STORAGE_KEY,
-        JSON.stringify(tasks)
-    );
 }
-
-//==================================================
-// EXPORT
-//==================================================
-
-export {
-
-    seedTasks
-
-};

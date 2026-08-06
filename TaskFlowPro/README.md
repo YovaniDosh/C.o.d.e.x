@@ -78,12 +78,14 @@ TaskFlow-Pro/
 │   ├── app.js
 │   ├── constants.js
 │   ├── dateUtils.js
+│   ├── events.js
 │   ├── filters.js
 │   ├── seed.js
 │   ├── stats.js
 │   ├── storage.js
 │   ├── tasks.js
 │   ├── theme.js
+│   ├── toast.js
 │   └── ui.js
 │
 ├── docs/
@@ -115,6 +117,7 @@ El proyecto sigue una arquitectura modular.
 | dateUtils.js | Utilidades de fechas |
 | constants.js | Configuración global |
 | seed.js      | Datos de prueba      |
+| toast.js     | Notificaciones temporales|
 
 ---
 

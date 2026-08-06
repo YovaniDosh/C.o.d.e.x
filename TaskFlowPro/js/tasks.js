@@ -1,85 +1,68 @@
-// ======================================
-// TASKS
-// Lógica de negocio de las tareas
-// ======================================
-
 import { CONFIG } from "./constants.js";
 
-export function createTask(text, priority, dueDate) {
-
+export function createTask(
+    text,
+    priority = CONFIG.DEFAULT_PRIORITY,
+    dueDate = ""
+) {
     return {
-
         id: crypto.randomUUID(),
-
-        text,
-
+        text: text.trim(),
         completed: false,
-
-        priority: priority ?? CONFIG.DEFAULT_PRIORITY,
-
+        priority,
         createdAt: new Date().toISOString(),
-
         dueDate
-
     };
-
 }
+
 export function addTask(tasks, task) {
-
     tasks.push(task);
-
 }
+
 export function deleteTask(tasks, id) {
+    const index = findTaskIndex(tasks, id);
 
-    const index = tasks.findIndex(
-
-        task => task.id === id
-
-    );
-
-    if (index !== -1) {
-
-        tasks.splice(index, 1);
-
+    if (index === -1) {
+        return false;
     }
 
+    tasks.splice(index, 1);
+
+    return true;
 }
+
 export function toggleTask(tasks, id) {
+    const task =
+        tasks.find(task => task.id === id);
 
-    const task = tasks.find(
-
-        task => task.id === id
-
-    );
-
-    if (task) {
-
-        task.completed = !task.completed;
-
+    if (!task) {
+        return false;
     }
 
+    task.completed = !task.completed;
+
+    return true;
 }
-export function updateTaskText(tasks, id, newText) {
 
-    const task = tasks.find(
+export function updateTaskText(
+    tasks,
+    id,
+    newText
+) {
+    const task =
+        tasks.find(task => task.id === id);
 
-        task => task.id === id
-
-    );
-
-    if (task) {
-
-        task.text = newText;
-
+    if (!task) {
+        return false;
     }
 
+    task.text = newText.trim();
+
+    return true;
 }
+
 export function findTaskIndex(tasks, id) {
-
     return tasks.findIndex(
-
         task => task.id === id
-
     );
-
 }

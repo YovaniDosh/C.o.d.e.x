@@ -1,15 +1,16 @@
-// ==============================================
-// Funciones para filtrar y ordenar tareas.
-// ==============================================
+import {
+    FILTERS,
+    PRIORITIES,
+    SORT_OPTIONS
+} from "./constants.js";
 
-// ==============================================
-// FILTROS
-// ==============================================
+const PRIORITY_ORDER = {
+    [PRIORITIES.HIGH]: 1,
+    [PRIORITIES.MEDIUM]: 2,
+    [PRIORITIES.LOW]: 3
+};
 
-import { FILTERS, SORT_OPTIONS } from "./constants.js";
-
-function normalizeText(text)
-{
+function normalizeText(text = "") {
     return text
         .toLowerCase()
         .normalize("NFD")
@@ -21,182 +22,77 @@ export function filterTasks(
     searchText,
     currentFilter
 ) {
-
     const normalizedSearch =
         normalizeText(searchText.trim());
 
     return tasks.filter(task => {
-
         const matchesSearch =
-
             normalizeText(task.text)
                 .includes(normalizedSearch);
 
-        const isPending =
-            !task.completed;
-
-        const isCompleted =
-            task.completed;
-
         const matchesFilter =
-
             currentFilter === FILTERS.ALL
-
             ||
-
             (
                 currentFilter === FILTERS.PENDING
-
                 &&
-
-                isPending
-
+                !task.completed
             )
-
             ||
-
             (
                 currentFilter === FILTERS.COMPLETED
-
                 &&
-
-                isCompleted
-
+                task.completed
             );
 
-        return (
-
-            matchesSearch
-
-            &&
-
-            matchesFilter
-
-        );
-
+        return matchesSearch && matchesFilter;
     });
-
 }
 
-// ==============================================
-// ORDENACIONES
-// ==============================================
-
-export function sortByName(tasks) {
-
-    return [...tasks].sort(
-
-        (a, b) =>
-
-        a.text.localeCompare(
-
-            b.text,
-
-            "es"
-
-        )
-
+function sortByName(firstTask, secondTask) {
+    return firstTask.text.localeCompare(
+        secondTask.text,
+        "es",
+        { sensitivity: "base" }
     );
-
 }
 
-const PRIORITY_ORDER = {
-
-    high: 3,
-
-    medium: 2,
-
-    low: 1
-
-};
-
-export function sortByPriority(tasks) {
-
-    return [...tasks].sort(
-
-        (a, b) =>
-
-        PRIORITY_ORDER[b.priority]
-
+function sortByPriority(firstTask, secondTask) {
+    return (
+        PRIORITY_ORDER[firstTask.priority]
         -
-
-        PRIORITY_ORDER[a.priority]
-
+        PRIORITY_ORDER[secondTask.priority]
     );
-
 }
 
-export function sortByDate(tasks) {
+function sortByDate(firstTask, secondTask) {
+    if (!firstTask.dueDate) {
+        return 1;
+    }
 
-    return [...tasks].sort(
+    if (!secondTask.dueDate) {
+        return -1;
+    }
 
-        (a, b) => {
-
-            if (!a.dueDate)
-
-                return 1;
-
-            if (!b.dueDate)
-
-                return -1;
-
-            return (
-
-                new Date(a.dueDate)
-
-                -
-
-                new Date(b.dueDate)
-
-            );
-
-        }
-
+    return firstTask.dueDate.localeCompare(
+        secondTask.dueDate
     );
-
 }
 
 export function sortTasks(tasks, sortOption) {
+    const sortedTasks = [...tasks];
 
     switch (sortOption) {
-
         case SORT_OPTIONS.NAME:
-
-            return sortByName(tasks);
+            return sortedTasks.sort(sortByName);
 
         case SORT_OPTIONS.PRIORITY:
-
-            return sortByPriority(tasks);
+            return sortedTasks.sort(sortByPriority);
 
         case SORT_OPTIONS.DATE:
-
-            return sortByDate(tasks);
-
-        case SORT_OPTIONS.DEFAULT:
+            return sortedTasks.sort(sortByDate);
 
         default:
-
-            return [...tasks];
-
+            return sortedTasks;
     }
-
 }
-
-
-// ==============================================
-// FUTURAS FUNCIONES
-// ==============================================
-
-// filterByCategory()
-
-// filterByTag()
-
-// filterByFavorite()
-
-// filterByDateRange()
-
-// sortByCreatedDate()
-
-// sortAlphabeticallyDesc()
-
-// sortByCustom()

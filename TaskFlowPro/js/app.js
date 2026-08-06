@@ -9,6 +9,7 @@ import { applyTheme, loadTheme, saveTheme, toggleTheme} from "./theme.js";
 import { calculateStats } from "./stats.js";
 import { seedTasks } from "./seed.js";
 import { showToast } from "./toast.js";
+import { registerEvents } from "./events.js";
 
 seedTasks();
 
@@ -57,80 +58,49 @@ let deleteTriggerButton = null;
 init();
 
 function init() {
-
-    addTaskButton.addEventListener(
-        "click",
-        handleAddTask
+    registerEvents(
+        {
+            addTaskButton,
+            taskInput,
+            taskList,
+            searchInput,
+            filterButtons,
+            sortSelect,
+            themeToggle,
+            cancelDeleteButton,
+            confirmDeleteButton,
+            deleteModal,
+            editTaskForm,
+            cancelEditButton
+        },
+        {
+            handleAddTask,
+            handleEnterKey,
+            handleTaskActions,
+            refreshUI,
+            changeFilter,
+            changeSort,
+            handleThemeToggle,
+            closeDeleteModal,
+            confirmDeleteTask,
+            handleDeleteModalClick,
+            handleModalEscape,
+            handleEditSubmit,
+            closeEditModal
+        }
     );
 
-    taskInput.addEventListener(
-        "keydown",
-        handleEnterKey
+    applyTheme(
+        currentTheme,
+        themeToggle
     );
 
-    taskList.addEventListener(
-        "click",
-        handleTaskActions
+    updateActiveFilter(
+        filterButtons,
+        currentFilter
     );
-
-    searchInput.addEventListener(
-        "input",
-        refreshUI
-    );
-
-    filterButtons.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            changeFilter
-        );
-
-    });
-
-    sortSelect.addEventListener(
-        "change",
-        changeSort
-    );
-
-    themeToggle.addEventListener(
-        "click",
-        handleThemeToggle
-    );
-
-    cancelDeleteButton.addEventListener(
-        "click",
-        closeDeleteModal
-    );
-
-    confirmDeleteButton.addEventListener(
-        "click",
-        confirmDeleteTask
-    );
-
-    deleteModal.addEventListener(
-        "click",
-        handleDeleteModalClick
-    );
-
-    document.addEventListener(
-        "keydown",
-        handleModalEscape
-    );
-
-    editTaskForm.addEventListener(
-        "submit",
-        handleEditSubmit
-    )
-
-    cancelEditButton.addEventListener(
-        "click",
-        () => closeEditModal()
-    );
-
-    applyTheme(currentTheme, themeToggle);
 
     refreshUI();
-
 }
 // ===============================
 // ACTUALIZAR INTERFAZ
@@ -442,16 +412,27 @@ function handleDeleteModalClick(event)
     }
 }
 
-function handleModalEscape(event)
-{
-    if(
-        event.key === "Escape"
-        &&
+function handleModalEscape(event) {
+    if (event.key !== "Escape") {
+        return;
+    }
+
+    if (
         deleteModal.classList.contains(
             "open"
         )
-    ){
+    ) {
         closeDeleteModal();
+
+        return;
+    }
+
+    if (
+        editModal.classList.contains(
+            "open"
+        )
+    ) {
+        closeEditModal();
     }
 }
 
@@ -608,7 +589,7 @@ function handleEditSubmit(event) {
         closeEditModal(false);
 
         notify(
-            "La tarea ya no está disponible.",
+            MESSAGES.TASK_UNAVAILABLE,
             "error"
         );
 
@@ -642,7 +623,7 @@ function handleEditSubmit(event) {
     ) {
 
         notify(
-            "No se realizaron cambios.",
+            MESSAGES.NO_CHANGES,
             "info"
         );
 

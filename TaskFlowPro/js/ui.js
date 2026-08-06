@@ -1,114 +1,151 @@
-// ======================================
-// Funciones relacionadas con la interfaz
-// ======================================
+import {
+    ICONS,
+    MESSAGES,
+    PRIORITY_LABELS
+} from "./constants.js";
 
-import { MESSAGES, PRIORITY_LABELS, ICONS } from "./constants.js";
-import { formatDate, isOverdue } from "./dateUtils.js";
+import {
+    formatDate,
+    isOverdue
+} from "./dateUtils.js";
+
+function escapeHTML(value = "") {
+    const characters = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+    };
+
+    return String(value).replace(
+        /[&<>"']/g,
+        character => characters[character]
+    );
+}
 
 export function getPriorityText(priority) {
-
     return (
-        PRIORITY_LABELS[priority] ??
+        PRIORITY_LABELS[priority]
+        ??
         PRIORITY_LABELS.medium
     );
-
 }
+
 export function createTaskHTML(task) {
+    const safeId =
+        escapeHTML(task.id);
+
+    const safeText =
+        escapeHTML(task.text);
+
+    const safePriority =
+        escapeHTML(task.priority);
+
+    const priorityText =
+        escapeHTML(
+            getPriorityText(task.priority)
+        );
+
+    const dueDate =
+        escapeHTML(
+            formatDate(task.dueDate)
+        );
+
+    const completedClass =
+        task.completed
+            ? "completed"
+            : "";
+
+    const overdueClass =
+        isOverdue(task)
+            ? "overdue"
+            : "";
+
+    const completeLabel =
+        task.completed
+            ? `Restaurar tarea: ${safeText}`
+            : `Completar tarea: ${safeText}`;
+
+    const completeIcon =
+        task.completed
+            ? ICONS.RESTORE
+            : ICONS.COMPLETE;
 
     return `
-
-        <li class="task-item ${isOverdue(task) ? "overdue" : ""}">
-
+        <li class="task-item ${overdueClass}">
             <div class="task-content">
-
                 <span
-                    class="task-text ${task.completed ? "completed" : ""}"
-                    data-id="${task.id}"
-                    tabindex="0">
-                    
-                    ${task.text}
+                    class="task-text ${completedClass}"
+                    data-id="${safeId}"
+                    tabindex="0"
+                >
+                    ${safeText}
                 </span>
 
-                <span class="priority ${task.priority}">
-
-                    ${getPriorityText(task.priority)}
-
+                <span class="priority ${safePriority}">
+                    ${priorityText}
                 </span>
 
                 <div class="task-date">
-
-                    ${formatDate(task.dueDate)}
-
+                    ${dueDate}
                 </div>
-
             </div>
 
-           <div class="task-actions">
+            <div class="task-actions">
+                <button
+                    class="complete-button"
+                    type="button"
+                    data-id="${safeId}"
+                    aria-label="${completeLabel}"
+                >
+                    ${completeIcon}
+                </button>
 
-            <button
-                class="complete-button"
-                type="button"
-                data-id="${task.id}"
-                aria-label="${
-                    task.completed
-                        ? `Restaurar tarea: ${task.text}`
-                        : `Completar tarea: ${task.text}`
-                }"
-            >
-                ${task.completed ? ICONS.RESTORE : ICONS.COMPLETE}
-            </button>
+                <button
+                    class="edit-button"
+                    type="button"
+                    data-id="${safeId}"
+                    aria-label="Editar tarea: ${safeText}"
+                >
+                    ${ICONS.EDIT}
+                </button>
 
-            <button
-                class="edit-button"
-                type="button"
-                data-id="${task.id}"
-                aria-label="Editar tarea: ${task.text}"
-            >
-                ${ICONS.EDIT}
-            </button>
-
-            <button
-                class="delete-button"
-                type="button"
-                data-id="${task.id}"
-                aria-label="Eliminar tarea: ${task.text}"
-            >
-                ${ICONS.DELETE}
-            </button>
-
-</div>
-
+                <button
+                    class="delete-button"
+                    type="button"
+                    data-id="${safeId}"
+                    aria-label="Eliminar tarea: ${safeText}"
+                >
+                    ${ICONS.DELETE}
+                </button>
+            </div>
         </li>
-
     `;
-
 }
-export function renderTasks(taskList, tasks) {
 
-    taskList.innerHTML = "";
+export function renderTasks(
+    taskList,
+    tasks
+) {
+    if (!taskList) {
+        return;
+    }
 
     if (!tasks.length) {
-
         taskList.innerHTML = `
-
-            <p class="empty-message">
-
+            <li class="empty-message">
                 ${MESSAGES.NO_TASKS}
-
-            </p>
-
+            </li>
         `;
 
         return;
-
     }
 
-    taskList.innerHTML = tasks
-
-        .map(task => createTaskHTML(task))
-
-        .join("");
-
+    taskList.innerHTML =
+        tasks
+            .map(createTaskHTML)
+            .join("");
 }
 
 export function updateCounter(
@@ -116,100 +153,84 @@ export function updateCounter(
     visibleTasks,
     totalTasks
 ) {
+    if (!taskCounter) {
+        return;
+    }
 
     const taskWord =
         totalTasks === 1
             ? "tarea"
             : "tareas";
 
-    if (visibleTasks === totalTasks) {
+    taskCounter.textContent =
+        visibleTasks === totalTasks
+            ? `${totalTasks} ${taskWord}`
+            : `Mostrando ${visibleTasks} de ${totalTasks} ${taskWord}`;
+}
 
-        taskCounter.textContent =
-            `${totalTasks} ${taskWord}`;
+export function updateActiveFilter(
+    filterButtons,
+    currentFilter
+) {
+    filterButtons.forEach(button => {
+        const isActive =
+            button.dataset.filter
+            ===
+            currentFilter;
 
+        button.classList.toggle(
+            "active",
+            isActive
+        );
+
+        button.setAttribute(
+            "aria-pressed",
+            String(isActive)
+        );
+    });
+}
+
+export function renderStats(
+    container,
+    stats
+) {
+    if (!container) {
         return;
-
     }
 
-    taskCounter.textContent =
-        `Mostrando ${visibleTasks} de ${totalTasks} ${taskWord}`;
-
-}
-
-export function updateActiveFilter(filterButtons, currentFilter) {
-
-    filterButtons.forEach(button =>
-
-        button.classList.remove("active")
-
-    );
-
-    document
-
-        .querySelector(
-
-            `[data-filter="${currentFilter}"]`
-
-        )
-
-        ?.classList.add("active");
-
-}
-export function renderStats(container, stats) {
-
     const cards = [
-
         {
             label: "Total",
             value: stats.total
         },
-
         {
             label: "Pendientes",
             value: stats.pending
         },
-
         {
             label: "Completadas",
             value: stats.completed
         },
-
         {
             label: "Vencidas",
             value: stats.overdue
         },
-
         {
             label: "Alta prioridad",
             value: stats.highPriority
         }
-
     ];
 
-    const cardsHTML = cards
-
-        .map(card => `
-
-            <article class="stat-card">
-
-                <span>${card.label}</span>
-
-                <strong>${card.value}</strong>
-
-            </article>
-
-        `)
-
-        .join("");
-
     container.innerHTML = `
-
         <div class="stats-grid">
-
-            ${cardsHTML}
-
+            ${cards
+                .map(card => `
+                    <article class="stat-card">
+                        <span>${card.label}</span>
+                        <strong>${card.value}</strong>
+                    </article>
+                `)
+                .join("")}
         </div>
-
     `;
-
 }

@@ -1,28 +1,12 @@
 import { THEME } from "./constants.js";
 
-/**
- * Comprueba si un tema es válido.
- *
- * @param {string | null} theme
- * @returns {boolean}
- */
 function isValidTheme(theme) {
-
-    return (
-        theme === THEME.LIGHT
-        ||
-        theme === THEME.DARK
-    );
-
+    return Object.values(THEME)
+        .filter(value => value !== THEME.STORAGE_KEY)
+        .includes(theme);
 }
 
-/**
- * Obtiene el tema guardado.
- *
- * @returns {string}
- */
 export function loadTheme() {
-
     const savedTheme =
         localStorage.getItem(
             THEME.STORAGE_KEY
@@ -31,50 +15,48 @@ export function loadTheme() {
     return isValidTheme(savedTheme)
         ? savedTheme
         : THEME.LIGHT;
-
 }
 
-/**
- * Guarda la preferencia del tema.
- *
- * @param {string} theme
- */
 export function saveTheme(theme) {
-
     if (!isValidTheme(theme)) {
-
-        return;
-
+        return false;
     }
 
-    localStorage.setItem(
-        THEME.STORAGE_KEY,
-        theme
-    );
+    try {
+        localStorage.setItem(
+            THEME.STORAGE_KEY,
+            theme
+        );
 
+        return true;
+    } catch (error) {
+        console.error(
+            "Error al guardar el tema:",
+            error
+        );
+
+        return false;
+    }
 }
 
-/**
- * Aplica el tema a la interfaz.
- *
- * @param {string} theme
- * @param {HTMLButtonElement} themeToggle
- */
 export function applyTheme(
     theme,
     themeToggle
 ) {
-
     const safeTheme =
         isValidTheme(theme)
             ? theme
             : THEME.LIGHT;
 
+    const isDark =
+        safeTheme === THEME.DARK;
+
     document.documentElement.dataset.theme =
         safeTheme;
 
-    const isDark =
-        safeTheme === THEME.DARK;
+    if (!themeToggle) {
+        return;
+    }
 
     themeToggle.textContent =
         isDark ? "☀️" : "🌙";
@@ -90,19 +72,10 @@ export function applyTheme(
         "aria-pressed",
         String(isDark)
     );
-
 }
 
-/**
- * Devuelve el tema contrario.
- *
- * @param {string} currentTheme
- * @returns {string}
- */
 export function toggleTheme(currentTheme) {
-
     return currentTheme === THEME.DARK
         ? THEME.LIGHT
         : THEME.DARK;
-
 }

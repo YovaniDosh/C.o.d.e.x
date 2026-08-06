@@ -1,45 +1,109 @@
 const TOAST_DURATION = 3000;
+const REMOVE_DELAY = 300;
+const MAX_VISIBLE_TOASTS = 4;
 
-const TOAST_TYPES = [
+const TOAST_TYPES = new Set([
     "success",
     "error",
     "info"
-];
+]);
 
-const MAX_VISIBLE_TOASTS = 4;
+const toastTimers = new WeakMap();
 
-const toastTimers =
-    new WeakMap();
+function getSafeType(type) {
+    return TOAST_TYPES.has(type)
+        ? type
+        : "info";
+}
 
-/**
- * Muestra una notificación temporal.
- *
- * @param {HTMLElement} container
- * @param {string} message
- * @param {"success" | "error" | "info"} type
- */
+function removeToast(toast) {
+    if (
+        !toast
+        ||
+        !toast.isConnected
+        ||
+        toast.classList.contains(
+            "toast--removing"
+        )
+    ) {
+        return;
+    }
+
+    const timeoutId =
+        toastTimers.get(toast);
+
+    if (timeoutId) {
+        clearTimeout(timeoutId);
+        toastTimers.delete(toast);
+    }
+
+    toast.classList.add(
+        "toast--removing"
+    );
+
+    toast.classList.remove(
+        "toast--visible"
+    );
+
+    const removeElement = () => {
+        if (toast.isConnected) {
+            toast.remove();
+        }
+    };
+
+    toast.addEventListener(
+        "transitionend",
+        removeElement,
+        { once: true }
+    );
+
+    setTimeout(
+        removeElement,
+        REMOVE_DELAY
+    );
+}
+
+function limitVisibleToasts(container) {
+    const visibleToasts = [
+        ...container.querySelectorAll(
+            ".toast:not(.toast--removing)"
+        )
+    ];
+
+    const excess =
+        visibleToasts.length
+        -
+        MAX_VISIBLE_TOASTS;
+
+    if (excess <= 0) {
+        return;
+    }
+
+    visibleToasts
+        .slice(0, excess)
+        .forEach(removeToast);
+}
+
 export function showToast(
     container,
     message,
     type = "success"
 ) {
+    const cleanMessage =
+        typeof message === "string"
+            ? message.trim()
+            : "";
 
     if (
         !container
         ||
-        typeof message !== "string"
-        ||
-        !message.trim()
+        !cleanMessage
     ) {
-
         return;
-
     }
 
     const safeType =
-        TOAST_TYPES.includes(type)
-            ? type
-            : "info";
+        getSafeType(type);
 
     const toast =
         document.createElement("div");
@@ -67,7 +131,7 @@ export function showToast(
         "toast__message";
 
     messageElement.textContent =
-        message.trim();
+        cleanMessage;
 
     closeButton.className =
         "toast__close";
@@ -99,13 +163,10 @@ export function showToast(
 
     container.append(toast);
 
-    requestAnimationFrame(() => {
-
-        toast.classList.add(
-            "toast--visible"
-        );
-
-    });
+    closeButton.addEventListener(
+        "click",
+        () => removeToast(toast)
+    );
 
     const timeoutId =
         setTimeout(
@@ -118,94 +179,11 @@ export function showToast(
         timeoutId
     );
 
-    closeButton.addEventListener(
-        "click",
-        () => removeToast(toast)
-    );
+    requestAnimationFrame(() => {
+        toast.classList.add(
+            "toast--visible"
+        );
+    });
 
     limitVisibleToasts(container);
-
-}
-
-/**
- * Mantiene un máximo de notificaciones visibles.
- *
- * @param {HTMLElement} container
- */
-function limitVisibleToasts(container) {
-
-    const visibleToasts =
-        container.querySelectorAll(
-            ".toast:not(.toast--removing)"
-        );
-
-    if (
-        visibleToasts.length
-        <=
-        MAX_VISIBLE_TOASTS
-    ) {
-
-        return;
-
-    }
-
-    removeToast(
-        visibleToasts[0]
-    );
-
-}
-
-/**
- * Retira una notificación y limpia su temporizador.
- *
- * @param {HTMLElement} toast
- */
-function removeToast(toast) {
-
-    if (!toast.isConnected) {
-
-        return;
-
-    }
-
-    const timeoutId =
-        toastTimers.get(toast);
-
-    if (timeoutId) {
-
-        clearTimeout(timeoutId);
-
-        toastTimers.delete(toast);
-
-    }
-
-    toast.classList.add(
-        "toast--removing"
-    );
-
-    toast.classList.remove(
-        "toast--visible"
-    );
-
-    const removeElement = () => {
-
-        if (toast.isConnected) {
-
-            toast.remove();
-
-        }
-
-    };
-
-    toast.addEventListener(
-        "transitionend",
-        removeElement,
-        { once: true }
-    );
-
-    setTimeout(
-        removeElement,
-        300
-    );
-
 }
