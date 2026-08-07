@@ -10,6 +10,7 @@ export function registerEvents(
         filterButtons,
         sortSelect,
         themeToggle,
+        exportTasksButton,
         cancelDeleteButton,
         confirmDeleteButton,
         deleteModal,
@@ -26,6 +27,7 @@ export function registerEvents(
         changeFilter,
         changeSort,
         handleThemeToggle,
+        handleExportTasks,
         closeDeleteModal,
         confirmDeleteTask,
         handleDeleteModalClick,
@@ -65,6 +67,11 @@ export function registerEvents(
     sortSelect.addEventListener(
         "change",
         changeSort
+    );
+
+    exportTasksButton.addEventListener(
+        "click",
+        handleExportTasks
     );
 
     themeToggle.addEventListener(

@@ -2,7 +2,7 @@
 
 > Un gestor de tareas moderno desarrollado con **HTML, CSS y JavaScript (ES Modules)**, construido siguiendo buenas prácticas de desarrollo Frontend, arquitectura modular y control de versiones con Git.
 
-![Version](https://img.shields.io/badge/version-0.9.0-blue)
+![Version](https://img.shields.io/badge/version-0.10.0-blue)
 ![Status](https://img.shields.io/badge/status-En%20desarrollo-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -55,6 +55,8 @@ Actualmente el proyecto incluye:
 * ✅ Soporte para reducción de movimiento
 * ✅ Buscador optimizado mediante debounce
 * ✅ Renderizado separado de tareas y estadísticas
+* ✅ Exportación de tareas en formato JSON
+* ✅ Respaldo de tareas con metadatos de exportación
 
 ---
 
@@ -83,6 +85,7 @@ TaskFlow-Pro/
 │   ├── dateUtils.js
 │   ├── debounce.js
 │   ├── events.js
+│   ├── export.js
 │   ├── filters.js
 │   ├── seed.js
 │   ├── stats.js
@@ -123,6 +126,7 @@ El proyecto sigue una arquitectura modular.
 | seed.js      | Datos de prueba      |
 | toast.js     | Notificaciones temporales|
 | events.js     | Registro centralizado de eventos |
+| export.js | Generación y descarga de respaldos en formato JSON |
 | theme.js      | Gestión del tema visual |
 
 ---
@@ -138,6 +142,7 @@ El proyecto sigue una arquitectura modular.
 - `v0.7.0` - Se agregó un botón visible para editar cada tarea.
 - `v0.8.0` — Responsive mobile-first, modales accesibles y control completo del foco.
 - `v0.9.0` — Optimización del buscador mediante debounce y renderizado selectivo de la interfaz.
+- `v0.10.0` — Exportación de tareas y generación de respaldos en formato JSON.
 
 # 🚀 Instalación
 
@@ -184,10 +189,10 @@ docs/screenshots/
 * Accesibilidad de los modales
 * Responsive mobile-first
 * Optimización
+* Exportación de tareas en formato JSON
 
 ## En desarrollo
 
-* 📤 Exportar tareas
 * 📥 Importar tareas
 
 ---

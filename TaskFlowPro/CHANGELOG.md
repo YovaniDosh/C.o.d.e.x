@@ -4,6 +4,16 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.10.0] - 2026-08-07
+
+### Added
+
+- Módulo `export.js` para generar respaldos de las tareas.
+- Botón accesible para exportar todas las tareas.
+- Descarga de tareas en formato JSON.
+- Metadatos de exportación con nombre de la aplicación, fecha y cantidad de tareas.
+- Notificación Toast con el resultado de la exportación.
+
 ## [0.9.0]
 
 ### Added

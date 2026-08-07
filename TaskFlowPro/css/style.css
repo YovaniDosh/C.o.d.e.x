@@ -195,6 +195,21 @@ select:focus-visible {
 }
 
 /* ==========================
+   GESTIÓN DE DATOS
+========================== */
+
+.data-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.data-actions button {
+    width: 100%;
+}
+
+/* ==========================
    LISTA
 ========================== */
 
@@ -631,6 +646,11 @@ button:disabled
     .modal-actions button {
         width: auto;
     }
+
+    .data-actions {
+        grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+}
 
 }
 

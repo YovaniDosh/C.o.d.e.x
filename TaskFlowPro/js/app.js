@@ -11,6 +11,7 @@ import { seedTasks } from "./seed.js";
 import { showToast } from "./toast.js";
 import { registerEvents } from "./events.js";
 import { debounce } from "./debounce.js";
+import { exportTasks } from "./export.js";
 
 seedTasks();
 
@@ -39,6 +40,7 @@ const editTaskForm = document.getElementById("editTaskForm");
 const editTaskInput = document.getElementById("editTaskInput");
 const cancelEditButton = document.getElementById("cancelEditButton");
 const saveEditButton = document.getElementById("saveEditButton");
+const exportTasksButton = document.getElementById("exportTasksButton");
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -75,6 +77,7 @@ function init() {
             filterButtons,
             sortSelect,
             themeToggle,
+            exportTasksButton,
             cancelDeleteButton,
             confirmDeleteButton,
             deleteModal,
@@ -90,6 +93,7 @@ function init() {
             changeFilter,
             changeSort,
             handleThemeToggle,
+            handleExportTasks,
             closeDeleteModal,
             confirmDeleteTask,
             handleDeleteModalClick,
@@ -766,4 +770,22 @@ function handleEditSubmit(event) {
 
     taskInput.focus();
 
+}
+
+function handleExportTasks() {
+    const exported =
+        exportTasks(tasks);
+
+    if (!exported) {
+        notify(
+            "No fue posible exportar las tareas.",
+            "error"
+        );
+
+        return;
+    }
+
+    notify(
+        `${tasks.length} tareas exportadas correctamente.`
+    );
 }
