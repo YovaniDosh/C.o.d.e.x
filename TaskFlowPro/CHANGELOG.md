@@ -4,7 +4,24 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
-## [0.10.0] - 2026-08-07
+## [0.11.0]
+
+### Added
+
+- Módulo `import.js` para leer y validar respaldos JSON.
+- Botón accesible para seleccionar archivos de importación.
+- Modal de confirmación antes de reemplazar las tareas actuales.
+- Importación de listas vacías y respaldos con una o varias tareas.
+- Validación de la estructura general del respaldo.
+- Validación de identificadores, texto, estado, prioridad y fechas.
+- Detección de identificadores duplicados.
+- Notificaciones Toast para informar errores y resultados.
+
+### Changed
+
+- El control centralizado de modales ahora incluye el modal de importación.
+
+## [0.10.0]
 
 ### Added
 

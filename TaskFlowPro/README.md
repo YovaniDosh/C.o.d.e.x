@@ -57,6 +57,10 @@ Actualmente el proyecto incluye:
 * ✅ Renderizado separado de tareas y estadísticas
 * ✅ Exportación de tareas en formato JSON
 * ✅ Respaldo de tareas con metadatos de exportación
+- ✅ Importación de tareas desde respaldos JSON
+- ✅ Validación de estructura y contenido durante la importación
+- ✅ Detección de tareas e identificadores inválidos
+- ✅ Confirmación antes de reemplazar las tareas actuales
 
 ---
 
@@ -86,6 +90,7 @@ TaskFlow-Pro/
 │   ├── debounce.js
 │   ├── events.js
 │   ├── export.js
+│   ├── import.js
 │   ├── filters.js
 │   ├── seed.js
 │   ├── stats.js
@@ -127,6 +132,7 @@ El proyecto sigue una arquitectura modular.
 | toast.js     | Notificaciones temporales|
 | events.js     | Registro centralizado de eventos |
 | export.js | Generación y descarga de respaldos en formato JSON |
+| import.js    | Lectura y validación de respaldos JSON             |
 | theme.js      | Gestión del tema visual |
 
 ---
@@ -143,6 +149,7 @@ El proyecto sigue una arquitectura modular.
 - `v0.8.0` — Responsive mobile-first, modales accesibles y control completo del foco.
 - `v0.9.0` — Optimización del buscador mediante debounce y renderizado selectivo de la interfaz.
 - `v0.10.0` — Exportación de tareas y generación de respaldos en formato JSON.
+- `v0.11.0` — Importación y validación de respaldos en formato JSON.
 
 # 🚀 Instalación
 
@@ -190,10 +197,7 @@ docs/screenshots/
 * Responsive mobile-first
 * Optimización
 * Exportación de tareas en formato JSON
-
-## En desarrollo
-
-* 📥 Importar tareas
+* Importación de tareas desde respaldos JSON
 
 ---
 

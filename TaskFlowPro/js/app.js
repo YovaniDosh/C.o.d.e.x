@@ -12,6 +12,7 @@ import { showToast } from "./toast.js";
 import { registerEvents } from "./events.js";
 import { debounce } from "./debounce.js";
 import { exportTasks } from "./export.js";
+import { readTasksFile } from "./import.js";
 
 seedTasks();
 
@@ -19,28 +20,35 @@ seedTasks();
 // REFERENCIAS DEL DOM
 // ===============================
 
-const taskInput = document.getElementById("taskInput");
-const prioritySelect = document.getElementById("prioritySelect");
-const dateInput = document.getElementById("dateInput");
-const addTaskButton = document.getElementById("addTaskButton");
-const searchInput = document.getElementById("searchInput");
-const taskList = document.getElementById("taskList");
-const taskCounter = document.getElementById("taskCounter");
-const filterButtons = document.querySelectorAll(".filter-button");
-const statsContainer = document.getElementById("statsContainer");
-const themeToggle = document.getElementById("themeToggle");
-const sortSelect = document.getElementById("sortSelect");
-const deleteModal = document.getElementById("deleteModal");
-const deleteModalMessage = document.getElementById("deleteModalMessage");
-const cancelDeleteButton = document.getElementById("cancelDeleteButton");
-const confirmDeleteButton = document.getElementById("confirmDeleteButton");
-const toastContainer = document.getElementById("toastContainer");
-const editModal = document.getElementById("editModal");
-const editTaskForm = document.getElementById("editTaskForm");
-const editTaskInput = document.getElementById("editTaskInput");
-const cancelEditButton = document.getElementById("cancelEditButton");
-const saveEditButton = document.getElementById("saveEditButton");
-const exportTasksButton = document.getElementById("exportTasksButton");
+const filterButtons =             document.querySelectorAll(".filter-button");
+const taskInput =                 document.getElementById("taskInput");
+const prioritySelect =            document.getElementById("prioritySelect");
+const dateInput =                 document.getElementById("dateInput");
+const addTaskButton =             document.getElementById("addTaskButton");
+const searchInput =               document.getElementById("searchInput");
+const taskList =                  document.getElementById("taskList");
+const taskCounter =               document.getElementById("taskCounter");
+const statsContainer =            document.getElementById("statsContainer");
+const themeToggle =               document.getElementById("themeToggle");
+const sortSelect =                document.getElementById("sortSelect");
+const deleteModal =               document.getElementById("deleteModal");
+const deleteModalMessage =        document.getElementById("deleteModalMessage");
+const cancelDeleteButton =        document.getElementById("cancelDeleteButton");
+const confirmDeleteButton =       document.getElementById("confirmDeleteButton");
+const toastContainer =            document.getElementById("toastContainer");
+const editModal =                 document.getElementById("editModal");
+const editTaskForm =              document.getElementById("editTaskForm");
+const editTaskInput =             document.getElementById("editTaskInput");
+const cancelEditButton =          document.getElementById("cancelEditButton");
+const saveEditButton =            document.getElementById("saveEditButton");
+const exportTasksButton =         document.getElementById("exportTasksButton");
+const importTasksInput =          document.getElementById("importTasksInput");
+const importTasksButton =         document.getElementById("importTasksButton");
+const importModal =               document.getElementById("importModal");
+const importModalDescription =    document.getElementById("importModalDescription");
+const cancelImportButton =        document.getElementById("cancelImportButton");
+const confirmImportButton =       document.getElementById("confirmImportButton");
+
 
 // ===============================
 // ESTADO DE LA APLICACIÓN
@@ -54,6 +62,8 @@ let taskIdToDelete = null;
 let taskIdToEdit = null;
 let editTriggerElement = null;
 let deleteTriggerButton = null;
+let pendingImportedTasks = null;
+let importTriggerElement = null;
 
 const handleSearchInput =
     debounce(
@@ -78,6 +88,11 @@ function init() {
             sortSelect,
             themeToggle,
             exportTasksButton,
+            importTasksInput,
+            importTasksButton,
+            importModal,
+            cancelImportButton,
+            confirmImportButton,
             cancelDeleteButton,
             confirmDeleteButton,
             deleteModal,
@@ -94,6 +109,11 @@ function init() {
             changeSort,
             handleThemeToggle,
             handleExportTasks,
+            openImportFilePicker,
+            handleImportFile,
+            confirmImportTasks,
+            closeImportModal,
+            handleImportModalClick,
             closeDeleteModal,
             confirmDeleteTask,
             handleDeleteModalClick,
@@ -217,8 +237,14 @@ function getOpenModal()
         return editModal;
     }
     
-    return null;
-}
+    if (
+    importModal.classList.contains("open"))
+    {
+        return importModal;
+    }
+
+        return null;
+    }
 
 function trapModalFocus(
     event,
@@ -527,11 +553,13 @@ function handleModalKeydown(event) {
     if (event.key === "Escape") {
         event.preventDefault();
 
-        if (openModal === deleteModal) {
-            closeDeleteModal();
-        } else {
-            closeEditModal();
-        }
+    if (openModal === deleteModal) {
+        closeDeleteModal();
+    } else if (openModal === editModal) {
+        closeEditModal();
+    } else {
+        closeImportModal();
+    }
 
         return;
     }
@@ -788,4 +816,142 @@ function handleExportTasks() {
     notify(
         `${tasks.length} tareas exportadas correctamente.`
     );
+}
+
+function openImportFilePicker() {
+    importTasksInput.value = "";
+    importTasksInput.click();
+}
+
+async function handleImportFile(event) {
+    const [file] =
+        event.target.files;
+
+    if (!file) {
+        return;
+    }
+
+    try {
+        pendingImportedTasks =
+            await readTasksFile(file);
+
+        importTriggerElement =
+            importTasksButton;
+
+        importModalDescription.textContent =
+            pendingImportedTasks.length === 1
+                ? "Se encontró 1 tarea. La importación reemplazará las tareas actuales."
+                : `Se encontraron ${pendingImportedTasks.length} tareas. La importación reemplazará las tareas actuales.`;
+
+        openImportModal();
+    } catch (error) {
+        pendingImportedTasks = null;
+
+        notify(
+            error.message
+                || "No fue posible importar el archivo.",
+            "error"
+        );
+    } finally {
+        importTasksInput.value = "";
+    }
+}
+
+function openImportModal() {
+    importModal.hidden = false;
+
+    importModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    importModal.classList.add(
+        "open"
+    );
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+    confirmImportButton.focus();
+}
+
+function closeImportModal(
+    restoreFocus = true
+) {
+    importModal.classList.remove(
+        "open"
+    );
+
+    importModal.hidden = true;
+
+    importModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+    if (
+        restoreFocus
+        && importTriggerElement?.isConnected
+    ) {
+        importTriggerElement.focus();
+    }
+
+    pendingImportedTasks = null;
+    importTriggerElement = null;
+}
+
+function confirmImportTasks() {
+    if (!pendingImportedTasks) {
+        return;
+    }
+
+    const importedTasks =
+        pendingImportedTasks;
+
+    confirmImportButton.disabled = true;
+
+    const saved =
+        saveTasks(importedTasks);
+
+    if (!saved) {
+        confirmImportButton.disabled = false;
+
+        notify(
+            "No fue posible guardar las tareas importadas.",
+            "error"
+        );
+
+        return;
+    }
+
+    tasks = importedTasks;
+
+    closeImportModal(false);
+
+    confirmImportButton.disabled = false;
+
+    refreshUI();
+
+    notify(
+        tasks.length === 1
+            ? "1 tarea importada correctamente."
+            : `${tasks.length} tareas importadas correctamente.`
+    );
+
+    taskInput.focus();
+}
+
+function handleImportModalClick(event) {
+    if (
+        event.target.hasAttribute(
+            "data-close-import-modal"
+        )
+    ) {
+        closeImportModal();
+    }
 }

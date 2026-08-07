@@ -2,7 +2,7 @@
 
 export const APP = {
     NAME: "TaskFlow Pro",
-    VERSION: "0.10.0-dev"
+    VERSION: "0.11.0"
 };
 
 export const FILTERS = {

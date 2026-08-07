@@ -219,6 +219,13 @@
             >
                 Exportar tareas
             </button>
+
+            <input type="file" id="importTasksInput" accept=".json,application/json" class="sr-only">
+
+            <button class="secondary-button" type="button" id="importTasksButton">
+                Importar tareas
+            </button>
+
         </section>
 
         <!-- ==========================
@@ -373,6 +380,43 @@
             </form>
 
         </div>
+    </div>
+
+    <div id="importModal" class="modal" aria-hidden="true" hidden>
+    
+        <div
+            class="modal-overlay"
+            data-close-import-modal
+            aria-hidden="true">
+        </div>
+
+        <div
+            class="modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="importModalTitle"
+            aria-describedby="importModalDescription">
+
+        <h2 id="importModalTitle">
+            Importar tareas
+        </h2>
+
+        <p id="importModalDescription">
+            La importación reemplazará las tareas actuales.
+        </p>
+
+        <div class="modal-actions">
+
+            <button id="cancelImportButton" class="secondary-button" type="button">
+                Cancelar
+            </button>
+
+            <button id="confirmImportButton" class="danger-button" type="button">
+                Reemplazar tareas
+            </button>
+
+        </div>
+    </div>
     </div>
 
     <div id="toastContainer" aria-live="polite" aria-atomic="false" class="toast-container">

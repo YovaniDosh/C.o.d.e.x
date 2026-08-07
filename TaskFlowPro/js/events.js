@@ -11,6 +11,11 @@ export function registerEvents(
         sortSelect,
         themeToggle,
         exportTasksButton,
+        importTasksInput,
+        importTasksButton,
+        importModal,
+        cancelImportButton,
+        confirmImportButton,
         cancelDeleteButton,
         confirmDeleteButton,
         deleteModal,
@@ -18,7 +23,6 @@ export function registerEvents(
         cancelEditButton,
         editModal
     } = elements;
-
     const {
         handleAddTask,
         handleEnterKey,
@@ -28,6 +32,11 @@ export function registerEvents(
         changeSort,
         handleThemeToggle,
         handleExportTasks,
+        openImportFilePicker,
+        handleImportFile,
+        confirmImportTasks,
+        closeImportModal,
+        handleImportModalClick,
         closeDeleteModal,
         confirmDeleteTask,
         handleDeleteModalClick,
@@ -72,6 +81,31 @@ export function registerEvents(
     exportTasksButton.addEventListener(
         "click",
         handleExportTasks
+    );
+
+    importTasksButton.addEventListener(
+        "click",
+        openImportFilePicker
+    );
+
+    importTasksInput.addEventListener(
+        "change",
+        handleImportFile
+    );
+
+    cancelImportButton.addEventListener(
+        "click",
+        () => closeImportModal()
+    );
+
+    confirmImportButton.addEventListener(
+        "click",
+        confirmImportTasks
+    );
+
+    importModal.addEventListener(
+        "click",
+        handleImportModalClick
     );
 
     themeToggle.addEventListener(
