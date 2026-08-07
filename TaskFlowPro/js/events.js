@@ -22,7 +22,7 @@ export function registerEvents(
         handleAddTask,
         handleEnterKey,
         handleTaskActions,
-        refreshUI,
+        handleSearchInput,
         changeFilter,
         changeSort,
         handleThemeToggle,
@@ -52,7 +52,7 @@ export function registerEvents(
 
     searchInput.addEventListener(
         "input",
-        refreshUI
+        handleSearchInput
     );
 
     filterButtons.forEach(button => {

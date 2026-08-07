@@ -10,6 +10,7 @@ import { calculateStats } from "./stats.js";
 import { seedTasks } from "./seed.js";
 import { showToast } from "./toast.js";
 import { registerEvents } from "./events.js";
+import { debounce } from "./debounce.js";
 
 seedTasks();
 
@@ -51,6 +52,13 @@ let taskIdToDelete = null;
 let taskIdToEdit = null;
 let editTriggerElement = null;
 let deleteTriggerButton = null;
+
+const handleSearchInput =
+    debounce(
+        refreshTaskView,
+        300
+    );
+
 // ===============================
 // INICIALIZACIÓN
 // ===============================
@@ -78,7 +86,7 @@ function init() {
             handleAddTask,
             handleEnterKey,
             handleTaskActions,
-            refreshUI,
+            handleSearchInput,
             changeFilter,
             changeSort,
             handleThemeToggle,
@@ -108,8 +116,7 @@ function init() {
 // ACTUALIZAR INTERFAZ
 // ===============================
 
-function refreshUI() {
-
+function refreshTaskView() {
     const filteredTasks = filterTasks(
         tasks,
         searchInput.value,
@@ -131,13 +138,19 @@ function refreshUI() {
         sortedTasks.length,
         tasks.length
     );
+}
 
+function refreshStats() {
     renderStats(
         statsContainer,
         calculateStats(tasks)
     );
 }
 
+function refreshUI() {
+    refreshTaskView();
+    refreshStats();
+}
 // ===============================
 // FUNCIONES
 // ===============================
@@ -540,7 +553,7 @@ function closeEditModal(
     editModal.setAttribute(
         "aria-hidden",
         "true"
-    )
+    );
 
     document.body.classList.remove(
         "modal-open"
@@ -618,21 +631,20 @@ function clearInput() {
 
 function changeFilter(event){
 
-    currentFilter = event.target.dataset.filter;
+    currentFilter = event.currentTarget.dataset.filter;
 
     updateActiveFilter(
         filterButtons,
         currentFilter
     );
 
-    refreshUI();
-
+    refreshTaskView();
 }
 
 function changeSort(event)
 {
     currentSort = event.target.value;
-    refreshUI();
+    refreshTaskView();
 }
 
 function handleThemeToggle() {

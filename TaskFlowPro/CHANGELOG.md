@@ -4,6 +4,21 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.9.0]
+
+### Added
+
+- Módulo `debounce.js` para limitar la frecuencia de ejecución del buscador.
+- Retardo de 300 ms en la búsqueda para evitar renderizados en cada pulsación.
+
+### Changed
+
+- Se separó el renderizado de tareas y estadísticas.
+- Las búsquedas, los filtros y el ordenamiento solo actualizan la lista y el contador.
+- Las estadísticas solo se recalculan cuando cambia el estado de las tareas.
+- Los filtros y el ordenamiento conservan una respuesta inmediata.
+- Se redujeron los cálculos y renderizados innecesarios.
+
 ## [0.8.0]
 
 ### Added

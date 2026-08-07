@@ -2,7 +2,7 @@
 
 > Un gestor de tareas moderno desarrollado con **HTML, CSS y JavaScript (ES Modules)**, construido siguiendo buenas prácticas de desarrollo Frontend, arquitectura modular y control de versiones con Git.
 
-![Version](https://img.shields.io/badge/version-0.8.0-blue)
+![Version](https://img.shields.io/badge/version-0.9.0-blue)
 ![Status](https://img.shields.io/badge/status-En%20desarrollo-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -48,15 +48,13 @@ Actualmente el proyecto incluye:
 * ✅ Arquitectura modular
 * ✅ Confirmación visual antes de eliminar tareas.
 * ✅ Modal accesible y compatible con teclado
-* ✅ Notificaciones Toast para confirmar acciones y mostrar errores.
-* ✅ Notificaciones accesibles con cierre manual y desaparición automática.
-* ✅ Edición de tareas mediante un modal accesible.
-* ✅ Acciones compatibles con dispositivos táctiles.
 * ✅ Diseño responsive mobile-first
 * ✅ Navegación accesible mediante teclado
 * ✅ Ciclo de foco dentro de los modales
 * ✅ Restauración del foco al cerrar los modales
 * ✅ Soporte para reducción de movimiento
+* ✅ Buscador optimizado mediante debounce
+* ✅ Renderizado separado de tareas y estadísticas
 
 ---
 
@@ -83,6 +81,7 @@ TaskFlow-Pro/
 │   ├── app.js
 │   ├── constants.js
 │   ├── dateUtils.js
+│   ├── debounce.js
 │   ├── events.js
 │   ├── filters.js
 │   ├── seed.js
@@ -125,7 +124,6 @@ El proyecto sigue una arquitectura modular.
 | toast.js     | Notificaciones temporales|
 | events.js     | Registro centralizado de eventos |
 | theme.js      | Gestión del tema visual |
-| toast.js      | Notificaciones temporales |
 
 ---
 
@@ -139,6 +137,7 @@ El proyecto sigue una arquitectura modular.
 - `v0.6.0` — Sistema de notificaciones Toast para informar acciones sin interrumpir al usuario.
 - `v0.7.0` - Se agregó un botón visible para editar cada tarea.
 - `v0.8.0` — Responsive mobile-first, modales accesibles y control completo del foco.
+- `v0.9.0` — Optimización del buscador mediante debounce y renderizado selectivo de la interfaz.
 
 # 🚀 Instalación
 
@@ -184,14 +183,12 @@ docs/screenshots/
 * Modal de edición
 * Accesibilidad de los modales
 * Responsive mobile-first
-* Optimización de áreas táctiles
-* Reducción de movimiento
+* Optimización
 
 ## En desarrollo
 
 * 📤 Exportar tareas
 * 📥 Importar tareas
-* ⚡ Optimización
 
 ---
 
