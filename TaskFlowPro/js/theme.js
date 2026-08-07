@@ -1,20 +1,29 @@
 import { THEME } from "./constants.js";
 
 function isValidTheme(theme) {
-    return Object.values(THEME)
-        .filter(value => value !== THEME.STORAGE_KEY)
-        .includes(theme);
+    return (
+        theme === THEME.LIGHT ||
+        theme === THEME.DARK
+    );
 }
 
 export function loadTheme() {
-    const savedTheme =
-        localStorage.getItem(
+    try {
+        const savedTheme = localStorage.getItem(
             THEME.STORAGE_KEY
         );
 
-    return isValidTheme(savedTheme)
-        ? savedTheme
-        : THEME.LIGHT;
+        return isValidTheme(savedTheme)
+            ? savedTheme
+            : THEME.LIGHT;
+    } catch (error) {
+        console.error(
+            "Error al cargar el tema:",
+            error
+        );
+
+        return THEME.LIGHT;
+    }
 }
 
 export function saveTheme(theme) {
@@ -39,17 +48,12 @@ export function saveTheme(theme) {
     }
 }
 
-export function applyTheme(
-    theme,
-    themeToggle
-) {
-    const safeTheme =
-        isValidTheme(theme)
-            ? theme
-            : THEME.LIGHT;
+export function applyTheme(theme, themeToggle) {
+    const safeTheme = isValidTheme(theme)
+        ? theme
+        : THEME.LIGHT;
 
-    const isDark =
-        safeTheme === THEME.DARK;
+    const isDark = safeTheme === THEME.DARK;
 
     document.documentElement.dataset.theme =
         safeTheme;

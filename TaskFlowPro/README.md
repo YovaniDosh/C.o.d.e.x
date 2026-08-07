@@ -92,7 +92,6 @@ TaskFlow-Pro/
 │   ├── export.js
 │   ├── import.js
 │   ├── filters.js
-│   ├── seed.js
 │   ├── stats.js
 │   ├── storage.js
 │   ├── tasks.js
@@ -128,7 +127,6 @@ El proyecto sigue una arquitectura modular.
 | stats.js     | Dashboard            |
 | dateUtils.js | Utilidades de fechas |
 | constants.js | Configuración global |
-| seed.js      | Datos de prueba      |
 | toast.js     | Notificaciones temporales|
 | events.js     | Registro centralizado de eventos |
 | export.js | Generación y descarga de respaldos en formato JSON |

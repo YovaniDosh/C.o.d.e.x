@@ -64,5 +64,5 @@
 ![responsive-desktop](/docs/screenshots/pc-screen.png)
 
 # <h2 style="text-align: center">15-FINAL-VERSION</h2>
-![final-version](/docs/screenshots/priordad.png)
+![final-version](/docs/screenshots/finish.png)
 

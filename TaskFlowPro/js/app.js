@@ -7,14 +7,11 @@ import { filterTasks, sortTasks } from "./filters.js";
 import { createTask, addTask, deleteTask, toggleTask, updateTaskText, findTaskIndex } from "./tasks.js";
 import { applyTheme, loadTheme, saveTheme, toggleTheme} from "./theme.js";
 import { calculateStats } from "./stats.js";
-import { seedTasks } from "./seed.js";
 import { showToast } from "./toast.js";
 import { registerEvents } from "./events.js";
 import { debounce } from "./debounce.js";
 import { exportTasks } from "./export.js";
 import { readTasksFile } from "./import.js";
-
-seedTasks();
 
 // ===============================
 // REFERENCIAS DEL DOM
