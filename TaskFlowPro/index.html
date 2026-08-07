@@ -40,141 +40,173 @@
              FORMULARIO
         =========================== -->
 
-        <section class="task-form">
+        <section class="task-form" aria-labelledby="taskFormTitle">
+            <h2
+                id="taskFormTitle"
+                class="sr-only">
+                Crear nueva tarea
+            </h2>
+
+            <label
+                for="taskInput"
+                class="sr-only">
+                Nombre de la tarea
+            </label>
 
             <input
                 id="taskInput"
                 type="text"
                 placeholder="Nueva tarea..."
-            >
+                maxlength="120"
+                autocomplete="off">
+
+            <label
+                for="prioritySelect"
+                class="sr-only">
+                Prioridad
+            </label>
 
             <select id="prioritySelect">
-
                 <option value="high">
                     Alta
                 </option>
 
-                <option value="medium" selected>
+                <option
+                    value="medium"
+                    selected>
                     Media
                 </option>
 
                 <option value="low">
                     Baja
                 </option>
-
             </select>
+
+            <label
+                for="dateInput"
+                class="sr-only">
+                Fecha límite
+            </label>
 
             <input
                 id="dateInput"
-                type="date"
-            >
+                type="date">
 
-            <button id="addTaskButton">
-
+            <button
+                id="addTaskButton"
+                type="button">
                 Agregar
-
             </button>
-
         </section>
 
         <!-- ==========================
              BUSCADOR
         =========================== -->
 
-        <section class="search-container">
+        <section
+            class="search-container"
+            aria-labelledby="searchTitle">
+            <h2
+                id="searchTitle"
+                class="sr-only">
+                Buscar tareas
+            </h2>
+
+            <label
+                for="searchInput"
+                class="sr-only">
+                Buscar por nombre
+            </label>
 
             <input
                 id="searchInput"
-                type="text"
+                type="search"
                 placeholder="Buscar tareas..."
-            >
-
+                autocomplete="off">
         </section>
 
         <!-- ==========================
              FILTROS
         =========================== -->
 
-        <section class="filters">
+        <section
+            class="filters"
+            aria-labelledby="filtersTitle">
+            <h2
+                id="filtersTitle"
+                class="sr-only">
+                Filtrar tareas
+            </h2>
 
             <button
                 class="filter-button active"
-                data-filter="all">
-
+                type="button"
+                data-filter="all"
+                aria-pressed="true">
                 Todas
-
             </button>
 
             <button
                 class="filter-button"
-                data-filter="pending">
-
+                type="button"
+                data-filter="pending"
+                aria-pressed="false">
                 Pendientes
-
             </button>
 
             <button
                 class="filter-button"
-                data-filter="completed">
-
+                type="button"
+                data-filter="completed"
+                aria-pressed="false">
                 Completadas
-
             </button>
-
         </section>
 
         <!-- ==========================
                  ORDENAMIENTO
         =========================== -->
 
-        <section class="sort-container">
-        
-            <label for="sortSelect">
-            
-                Ordenar por:
-            
-            </label>
-        
-            <select id="sortSelect">
-            
-                <option value="default">
-                
-                    Orden original
-                
-                </option>
-            
-                <option value="name">
-                
-                    Nombre
-                
-                </option>
-            
-                <option value="priority">
-                
-                    Prioridad
-                
-                </option>
-            
-                <option value="date">
-                
-                    Fecha límite
-                
-                </option>
-            
-            </select>
-        
+        <section class="sort-container" aria-labelledby="sortTitle">
+        <h2
+            id="sortTitle"
+            class="sr-only">
+            Ordenar tareas
+        </h2>
+
+        <label for="sortSelect">
+            Ordenar por:
+        </label>
+
+        <select id="sortSelect">
+            <option value="default">
+                Orden original
+            </option>
+
+            <option value="name">
+                Nombre
+            </option>
+
+            <option value="priority">
+                Prioridad
+            </option>
+
+            <option value="date">
+                Fecha límite
+            </option>
+        </select>
         </section>
 
         <!-- ==========================
              LISTA DE TAREAS
         =========================== -->
 
-        <section>
+        <section aria-labelledby="taskListTitle">
+            <h2 id="taskListTitle" class="sr-only">
+                Lista de tareas
+            </h2>
 
-            <ul id="taskList">
-
-            </ul>
-
+            <ul id="taskList" aria-live="polite" aria-relevant="additions removals"></ul>
         </section>
 
         <!-- ==========================
@@ -188,12 +220,13 @@
                 0 tareas
 
             </p>
-            <section class="stats">
+            <section class="stats" aria-labelledby="statsTitle">
 
-                <h3>📊 Estadísticas</h3>
+                <h2 id="statsTitle">
+                    📊 Estadísticas
+                </h2>
 
                 <div id="statsContainer"></div>
-
             </section>
 
         </footer>
@@ -207,7 +240,8 @@
     >
         <div
             class="modal-overlay"
-            data-close-modal
+            data-close-edit-modal
+            aria-hidden="true"
         ></div>
 
         <div
@@ -249,13 +283,16 @@
     <div
         id="editModal"
         class="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="editModalTitle"
-        aria-describedby="editModalDescription"
+        aria-hidden="true"
         hidden>
 
-        <div class="modal-content">
+        <div
+            class="modal-overlay"
+            data-close-edit-modal
+            aria-hidden="true">
+       </div>
+
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="editModalTitle" aria-describedby="editModalDescription">
 
             <h2
                 id="editModalTitle"

@@ -4,6 +4,27 @@ Todos los cambios importantes de este proyecto serán documentados aquí.
 
 El formato sigue la filosofía de **Keep a Changelog**.
 
+## [0.8.0]
+
+### Added
+
+- Diseño responsive desarrollado con enfoque mobile-first.
+- Ciclo de foco dentro de los modales de edición y eliminación.
+- Restauración del foco al elemento que abrió cada modal.
+- Soporte mejorado para navegación con teclado.
+- Adaptaciones para usuarios que prefieren movimiento reducido.
+- Módulo `events.js` para centralizar el registro de eventos.
+
+### Changed
+
+- Se reorganizaron el formulario, los filtros y el ordenamiento para dispositivos móviles.
+- Las tarjetas de tareas ahora utilizan CSS Grid.
+- Las estadísticas cambian progresivamente de una a tres columnas.
+- Los controles de los modales se adaptan al ancho disponible.
+- Se centralizó el control de la tecla Escape y Tab para ambos modales.
+- Se mejoró el comportamiento de nombres de tareas extensos.
+- Se eliminaron reglas CSS duplicadas o incompatibles con Grid.
+
 ## [0.7.0]
 
 ### Added

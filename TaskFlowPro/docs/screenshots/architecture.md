@@ -55,13 +55,13 @@
 ![modal](/docs/screenshots/delete-modal.png)
 
 # <h2 style="text-align: center">12-RESPONSIVE-MOBILE</h2>
-![responsive-mobile](/docs/screenshots/rioridad.png)
+![responsive-mobile](/docs/screenshots/scren-mobile.png)
 
 # <h2 style="text-align: center">13-RESPONSIVE-TABLET</h2>
-![responsive-tablet](/docs/screenshots/rioridad.png)
+![responsive-tablet](/docs/screenshots/tablet.png)
 
 # <h2 style="text-align: center">14-RESPONSIVE-DESKTOP</h2>
-![responsive-desktop](/docs/screenshots/pioridad.png)
+![responsive-desktop](/docs/screenshots/pc-screen.png)
 
 # <h2 style="text-align: center">15-FINAL-VERSION</h2>
 ![final-version](/docs/screenshots/priordad.png)

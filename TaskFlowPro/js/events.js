@@ -14,7 +14,8 @@ export function registerEvents(
         confirmDeleteButton,
         deleteModal,
         editTaskForm,
-        cancelEditButton
+        cancelEditButton,
+        editModal
     } = elements;
 
     const {
@@ -28,7 +29,8 @@ export function registerEvents(
         closeDeleteModal,
         confirmDeleteTask,
         handleDeleteModalClick,
-        handleModalEscape,
+        handleEditModalClick,
+        handleModalKeydown,
         handleEditSubmit,
         closeEditModal
     } = handlers;
@@ -85,6 +87,11 @@ export function registerEvents(
         handleDeleteModalClick
     );
 
+    editModal.addEventListener(
+        "click",
+        handleEditModalClick
+    );
+
     editTaskForm.addEventListener(
         "submit",
         handleEditSubmit
@@ -97,6 +104,6 @@ export function registerEvents(
 
     document.addEventListener(
         "keydown",
-        handleModalEscape
+        handleModalKeydown
     );
 }

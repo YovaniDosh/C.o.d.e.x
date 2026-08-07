@@ -71,7 +71,8 @@ function init() {
             confirmDeleteButton,
             deleteModal,
             editTaskForm,
-            cancelEditButton
+            cancelEditButton,
+            editModal
         },
         {
             handleAddTask,
@@ -84,7 +85,8 @@ function init() {
             closeDeleteModal,
             confirmDeleteTask,
             handleDeleteModalClick,
-            handleModalEscape,
+            handleEditModalClick,
+            handleModalKeydown,
             handleEditSubmit,
             closeEditModal
         }
@@ -177,6 +179,84 @@ function handleAddTask() {
     );
 
     clearInput();
+
+}
+
+function getOpenModal()
+{
+    if(
+        deleteModal.classList.contains(
+            "open"
+        )
+    ) {
+        return deleteModal;
+    }
+
+    if(
+        editModal.classList.contains(
+            "open"
+        )
+    ) {
+        return editModal;
+    }
+    
+    return null;
+}
+
+function trapModalFocus(
+    event,
+    modal
+)
+{
+    const focusableElements = modal.querySelectorAll(
+        [
+            "button:not([disabled])",
+            "input:not([disabled])",
+            "select:not([disabled])",
+            "textarea:not([disabled])",
+            "a[href]",
+            "[tabindex]:not([tabindex='-1'])"
+        ].join(",")
+    );
+
+    if(!focusableElements.length)
+    {
+        return;
+    }
+
+    const firstElement =
+        focusableElements[0];
+
+    const lastElement =
+        focusableElements[
+            focusableElements.length - 1
+        ];
+
+    if (
+        event.shiftKey
+        &&
+        document.activeElement
+        ===
+        firstElement
+    ) {
+        event.preventDefault();
+
+        lastElement.focus();
+
+        return;
+    }
+
+    if (
+        !event.shiftKey
+        &&
+        document.activeElement
+        ===
+        lastElement
+    ) {
+        event.preventDefault();
+
+        firstElement.focus();
+    }
 
 }
 
@@ -336,17 +416,13 @@ function closeDeleteModal(
     if (
         restoreFocus
         &&
-        deleteTriggerButton
+        deleteTriggerButton?.isConnected
     ) {
-
         deleteTriggerButton.focus();
-
     }
 
     taskIdToDelete = null;
-
     deleteTriggerButton = null;
-
 }
 
 function confirmDeleteTask() {
@@ -412,27 +488,42 @@ function handleDeleteModalClick(event)
     }
 }
 
-function handleModalEscape(event) {
-    if (event.key !== "Escape") {
-        return;
-    }
-
-    if (
-        deleteModal.classList.contains(
-            "open"
-        )
-    ) {
-        closeDeleteModal();
-
-        return;
-    }
-
-    if (
-        editModal.classList.contains(
-            "open"
+function handleEditModalClick(event)
+{
+    if(
+        event.target.hasAttribute(
+            "data-close-edit-modal"
         )
     ) {
         closeEditModal();
+    }
+}
+
+function handleModalKeydown(event) {
+    const openModal =
+        getOpenModal();
+
+    if (!openModal) {
+        return;
+    }
+
+    if (event.key === "Escape") {
+        event.preventDefault();
+
+        if (openModal === deleteModal) {
+            closeDeleteModal();
+        } else {
+            closeEditModal();
+        }
+
+        return;
+    }
+
+    if (event.key === "Tab") {
+        trapModalFocus(
+            event,
+            openModal
+        );
     }
 }
 
@@ -445,6 +536,11 @@ function closeEditModal(
     );
 
     editModal.hidden = true;
+
+    editModal.setAttribute(
+        "aria-hidden",
+        "true"
+    )
 
     document.body.classList.remove(
         "modal-open"
@@ -485,6 +581,11 @@ function openEditModal(
         tasks[index].text;
 
     editModal.hidden = false;
+
+    editModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
     editModal.classList.add(
         "open"
