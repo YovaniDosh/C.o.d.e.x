@@ -8,10 +8,12 @@ const siteHeader = document.querySelector(".site-header");
 const navigationToggle = document.querySelector("#navigationToggle");
 const mainNavigation = document.querySelector("#mainNavigation");
 const navigationLabel = navigationToggle?.querySelector(".sr-only");
-const navigationLinks = mainNavigation?.querySelectorAll("a") ??[];
+const navigationLinks = mainNavigation?.querySelectorAll("a") ?? [];
+const observedSections = [...document.querySelectorAll("#proyectos, #sobre-mi, #contacto")];
 const projectsGrid = document.querySelector("#projectsGrid");
 const currentYear = document.querySelector("#currentYear");
 const desktopMediaQuery = window.matchMedia("(min-width: 48rem)");
+const reducedMotionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 /* ========================================
    UTILIDADES DEL DOM
@@ -352,6 +354,179 @@ function updateCurrentYear() {
     }
 }
 
+function updateActiveNavigation(
+    sectionId
+) {
+    navigationLinks.forEach((link) => {
+        const isActive =
+            link.getAttribute("href") ===
+            `#${sectionId}`;
+
+        if (isActive) {
+            link.setAttribute(
+                "aria-current",
+                "page"
+            );
+
+            return;
+        }
+
+        link.removeAttribute(
+            "aria-current"
+        );
+    });
+}
+
+function initializeSectionObserver() {
+    if (
+        !observedSections.length ||
+        !("IntersectionObserver" in window)
+    ) {
+        return;
+    }
+
+    const observer =
+        new IntersectionObserver(
+            (entries) => {
+                const visibleEntry =
+            entries
+                .filter(
+                    (entry) =>
+                        entry.isIntersecting
+                )
+                .sort(
+                    (firstEntry, secondEntry) =>
+                        secondEntry.intersectionRatio -
+                        firstEntry.intersectionRatio
+                )[0];
+
+                if (!visibleEntry) {
+                    return;
+                }
+
+                updateActiveNavigation(
+                    visibleEntry.target.id
+                );
+            },
+            {
+            rootMargin:
+                "-30% 0px -55% 0px",
+
+            threshold: [
+                0,
+                0.25,
+                0.5
+            ]
+        }
+        );
+
+    observedSections.forEach((section) => {
+        observer.observe(section);
+    });
+}
+
+function initializeRevealAnimations() {
+
+    if (
+        reducedMotionMediaQuery.matches ||
+        !("IntersectionObserver" in window)
+    ) {
+        return;
+    }
+
+    const revealElements = [
+        ...document.querySelectorAll(
+            [
+                ".projects-section__left",
+                ".projects-section__right",
+                ".project-card",
+                ".about-section__content",
+                ".site-footer__heading",
+                ".site-footer__bottom"
+            ].join(", ")
+        )
+    ];
+
+    if (!revealElements.length) {
+        return;
+    }
+
+    document.documentElement.classList.add(
+        "reveal-enabled"
+    );
+    let projectCardIndex = 0;
+
+    revealElements.forEach((element) => {
+        element.classList.add(
+            "reveal"
+        );
+
+        if (
+            element.classList.contains(
+                "projects-section__left"
+            )
+        ) {
+            element.classList.add(
+                "reveal--left"
+            );
+        }
+
+        if (
+            element.classList.contains(
+                "projects-section__right"
+            )
+        ) {
+            element.classList.add(
+                "reveal--right"
+            );
+        }
+
+        if (
+            element.classList.contains(
+                "project-card"
+            )
+        ) {
+            const delay =
+                (projectCardIndex % 2) * 90;
+
+            element.style.setProperty(
+                "--reveal-delay",
+                `${delay}ms`
+            );
+
+            projectCardIndex += 1;
+        }
+    });
+
+    const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.classList.add(
+                        "is-visible"
+                    );
+
+                    observer.unobserve(
+                        entry.target
+                    );
+                });
+            },
+            {
+                rootMargin:
+                    "0px 0px -10% 0px",
+
+                threshold: 0.08
+            }
+        );
+
+    revealElements.forEach((element) => {
+        observer.observe(element);
+    });
+}
+
 /* ========================================
    EVENTOS
 ======================================== */
@@ -401,3 +576,5 @@ desktopMediaQuery.addEventListener(
 renderProjects(projects);
 updateCurrentYear();
 updateHeaderState();
+initializeSectionObserver();
+initializeRevealAnimations();

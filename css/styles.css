@@ -11,7 +11,7 @@
   --color-cyan: #64f5d2;
   --color-magenta: #f150c8;
   color-scheme: dark;
-  --font-family: Arial, Helvetica, sans-serif;
+  --font-primary: Arial, Helvetica, sans-serif;
   --font-monospace:
       "Courier New",
       Courier,
@@ -105,15 +105,6 @@ textarea {
   height: 0;
   overflow: hidden;
   pointer-events: none;
-}
-
-.svg-filters:not(:root) {
-  overflow: hidden;
-}
-
-.glitch-text {
-  display: inline-block;
-  filter: url("#glitch-filter");
 }
 
 :focus-visible {
@@ -249,6 +240,9 @@ textarea {
   color: var(--color-cyan);
   background-color: #15151e;
 }
+.main-navigation__list a[aria-current=page] {
+  color: var(--color-cyan);
+}
 .main-navigation__contact {
   color: var(--color-cyan);
 }
@@ -319,16 +313,17 @@ textarea {
 .about-section__title,
 .site-footer__title {
   font-family: var(--font-primary);
-  font-weight: 700;
   font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+  font-weight: 700;
   line-height: 0.92;
   letter-spacing: -0.055em;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 
 .glitch-text {
   display: block;
+  color: inherit;
   font-family: inherit;
   font-size: 1em;
   font-weight: inherit;
@@ -337,10 +332,6 @@ textarea {
   filter: url("#glitch-filter");
 }
 
-/*
- * Textos secundarios de los títulos.
- * Conservan la fuente, pero son ligeramente menores.
- */
 .hero__title-accent,
 .projects-section__title-accent,
 .about-section__title-accent,
@@ -352,14 +343,14 @@ textarea {
   letter-spacing: inherit;
 }
 
-/*
- * Los tres primeros subtítulos forman
- * una línea independiente.
- */
 .hero__title-accent,
 .projects-section__title-accent,
 .about-section__title-accent {
   display: block;
+}
+
+.hero__title-accent {
+  color: var(--color-cyan);
 }
 
 .about-section__title-accent {
@@ -373,6 +364,32 @@ textarea {
 }
 .site-footer__title .glitch-text {
   display: inline-block;
+}
+
+.site-footer__title-accent {
+  color: var(--color-cyan);
+}
+
+/* ========================================
+   ANIMACIONES DE ENTRADA
+======================================== */
+.reveal-enabled .reveal {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal-enabled .reveal--left {
+  transform: translateX(-1.75rem);
+}
+.reveal-enabled .reveal--right {
+  transform: translateX(1.75rem);
+}
+.reveal-enabled .reveal.is-visible {
+  opacity: 1;
+  transform: translate(0);
+  will-change: auto;
 }
 
 /* ========================================
@@ -411,13 +428,6 @@ textarea {
 .hero__title {
   max-width: 62rem;
   margin-block: 1.5rem;
-  line-height: 0.92;
-  letter-spacing: -0.065em;
-}
-.hero__title-accent {
-  display: block;
-  color: var(--color-cyan);
-  font-weight: 400;
 }
 .hero__description {
   max-width: 38rem;
@@ -542,8 +552,6 @@ textarea {
 .projects-section__title {
   max-width: 100%;
   margin: 1.25rem 0 0;
-  line-height: 0.9;
-  letter-spacing: -0.06em;
 }
 .projects-section__cyan {
   color: var(--color-cyan);
@@ -777,14 +785,6 @@ textarea {
 }
 .about-section__title {
   margin-block: 1rem 0;
-  line-height: 1;
-  letter-spacing: -0.055em;
-}
-.about-section__title span {
-  display: block;
-}
-.about-section__title .about-section__title-accent {
-  color: var(--color-magenta);
 }
 .about-section__description {
   max-width: 38rem;
@@ -846,15 +846,6 @@ textarea {
 }
 .site-footer__title {
   margin: 1rem 0 0;
-  font-size: clamp(3.25rem, 13vw, 5rem);
-  line-height: 0.85;
-  letter-spacing: -0.07em;
-}
-.site-footer__cta {
-  color: var(--color-text);
-}
-.site-footer__title-accent {
-  color: var(--color-cyan);
 }
 .site-footer__links {
   display: flex;
@@ -952,6 +943,18 @@ textarea {
   .main-navigation__list a:hover {
     background-color: transparent;
   }
+  .main-navigation__list a[aria-current=page] {
+    position: relative;
+  }
+  .main-navigation__list a[aria-current=page]::after {
+    content: "";
+    position: absolute;
+    right: 0.625rem;
+    bottom: 0.125rem;
+    left: 0.625rem;
+    height: 0.125rem;
+    background-color: var(--color-cyan);
+  }
   .main-navigation__contact {
     padding-inline: 1rem;
     border: 1px solid var(--color-cyan);
@@ -989,24 +992,20 @@ textarea {
   }
   .projects-section__right {
     grid-column: 2;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto;
     width: 100%;
     max-width: 27rem;
     align-self: center;
   }
   .projects-section__animation {
     width: 100%;
-    height: 100%;
   }
   .projects-section__animation img {
     width: 100%;
     height: 100%;
-    /*
-     * Formato largo y horizontal,
-     * similar a la referencia.
-     */
     aspect-ratio: 21/4;
     object-fit: cover;
+    object-position: center;
   }
   .projects-section__introduction {
     display: flex;
@@ -1113,11 +1112,15 @@ textarea {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-  .projects-section__animation img {
-    animation: none;
-  }
   .glitch-text {
     filter: none;
+  }
+  .reveal-enabled .reveal,
+  .reveal-enabled .reveal--left,
+  .reveal-enabled .reveal--right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 

@@ -23,7 +23,7 @@ $display-accent-size: 0.72em;
     --color-cyan:       #64f5d2;
     --color-magenta:    #f150c8;
     color-scheme: dark;
-    --font-family: Arial, Helvetica, sans-serif;
+    --font-primary: Arial, Helvetica, sans-serif;
     --font-monospace:
         "Courier New",
         Courier,
@@ -128,16 +128,6 @@ textarea
     height: 0;
     overflow: hidden;
     pointer-events: none;
-}
-
-.svg-filters:not(:root) {
-    overflow: hidden;
-}
-
-.glitch-text {
-    display: inline-block;
-
-    filter: url("#glitch-filter");
 }
 
 :focus-visible {
@@ -286,75 +276,57 @@ textarea
     position: absolute;
     top: calc(100% + 0.75rem);
     right: 0;
-
     width: min(
         calc(100vw - 2rem),
         22rem
     );
-
     visibility: hidden;
     opacity: 0;
-
     transform: translateY(-0.75rem);
-
     transition:
         visibility 0.2s ease,
         opacity 0.2s ease,
         transform 0.2s ease;
-
     &--open {
         visibility: visible;
         opacity: 1;
-
         transform: translateY(0);
     }
 
     &__list {
         display: grid;
         gap: 1px;
-
         padding: 1px;
-
-        border: 1px solid
-            var(--color-border);
-
-        background-color:
-            var(--color-border);
-
-        box-shadow:
-            0 1.5rem 3rem
-            rgba(0, 0, 0, 0.4);
-
-        li {
-            background-color:
-                var(--color-surface);
+        border: 1px solid var(--color-border);
+        background-color: var(--color-border);
+        box-shadow:0 1.5rem 3rem rgba(0, 0, 0, 0.4);
+        li 
+        {
+            background-color: var(--color-surface);
+        }
+        a 
+        {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 3.5rem;
+        padding: 1rem 1.25rem;
+        font-family: var(--font-monospace);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition:color 0.2s ease, background-color 0.2s ease;
+        &:hover 
+        {
+            color: var(--color-cyan);
+            background-color: #15151e;
         }
 
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            width: 100%;
-            min-height: 3.5rem;
-            padding: 1rem 1.25rem;
-
-            font-family:
-                var(--font-monospace);
-
-            font-size: 0.6875rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-
-            transition:
-                color 0.2s ease,
-                background-color 0.2s ease;
-
-            &:hover {
-                color: var(--color-cyan);
-                background-color: #15151e;
-            }
+        &[aria-current="page"] {
+            color: var(--color-cyan);
+        }
         }
     }
 
@@ -448,28 +420,30 @@ textarea
 .about-section__title,
 .site-footer__title {
     font-family: var(--font-primary);
-    font-weight: 700;
     font-size: $display-title-size;
+    font-weight: 700;
+
     line-height: 0.92;
     letter-spacing: -0.055em;
-    overflow-wrap: anywhere;
+
+    overflow-wrap: break-word;
     text-wrap: balance;
 }
 
 .glitch-text {
     display: block;
+
+    color: inherit;
+
     font-family: inherit;
     font-size: 1em;
     font-weight: inherit;
     line-height: inherit;
     letter-spacing: inherit;
+
     filter: url("#glitch-filter");
 }
 
-/*
- * Textos secundarios de los títulos.
- * Conservan la fuente, pero son ligeramente menores.
- */
 .hero__title-accent,
 .projects-section__title-accent,
 .about-section__title-accent,
@@ -481,17 +455,15 @@ textarea
     letter-spacing: inherit;
 }
 
-/*
- * Los tres primeros subtítulos forman
- * una línea independiente.
- */
 .hero__title-accent,
 .projects-section__title-accent,
 .about-section__title-accent {
     display: block;
 }
 
-
+.hero__title-accent {
+    color: var(--color-cyan);
+}
 
 .about-section__title-accent {
     color: var(--color-magenta);
@@ -504,6 +476,51 @@ textarea
 
     .glitch-text {
         display: inline-block;
+    }
+}
+
+.site-footer__title-accent {
+    color: var(--color-cyan);
+}
+
+/* ========================================
+   ANIMACIONES DE ENTRADA
+======================================== */
+
+.reveal-enabled {
+    .reveal {
+        opacity: 0;
+
+        transform:
+            translateY(1.75rem);
+
+        transition:
+            opacity 0.65s ease,
+            transform 0.65s ease;
+
+        transition-delay:
+            var(--reveal-delay, 0ms);
+
+        will-change:
+            opacity,
+            transform;
+    }
+
+    .reveal--left {
+        transform:
+            translateX(-1.75rem);
+    }
+
+    .reveal--right {
+        transform:
+            translateX(1.75rem);
+    }
+
+    .reveal.is-visible {
+        opacity: 1;
+        transform: translate(0);
+
+        will-change: auto;
     }
 }
 
@@ -578,16 +595,7 @@ textarea
     &__title {
         max-width: 62rem;
         margin-block: 1.5rem;
-        line-height: 0.92;
-        letter-spacing: -0.065em;
     }
-    &__title-accent {
-            display: block;
-
-            color: var(--color-cyan);
-            font-weight: 400;
-    }
-
     &__description {
         max-width: 38rem;
         margin: 0;
@@ -772,21 +780,18 @@ textarea
         width: 100%;
     }
 
-       &__title {
+    &__title {
         max-width: 100%;
         margin: 1.25rem 0 0;
-        line-height: 0.9;
-      
-        letter-spacing: -0.06em;
+    }
 
-        }
-        &__cyan{
-            color: var(--color-cyan);
-        }
-        &__pink{
-            color: var(--color-magenta);
-        }
+    &__cyan {
+        color: var(--color-cyan);
+    }
 
+    &__pink {
+        color: var(--color-magenta);
+    }
          &__right {
         display: grid;
         gap: 1rem;
@@ -1122,16 +1127,6 @@ textarea
 
     &__title {
         margin-block: 1rem 0;
-        line-height: 1;
-        letter-spacing: -0.055em;
-
-        span {
-            display: block;
-        }
-        .about-section__title-accent
-        {
-            color: var(--color-magenta);
-        }
     }
 
     &__description {
@@ -1222,26 +1217,9 @@ textarea
         display: grid;
         gap: 3rem;
     }
-
+    
     &__title {
-        margin: 1rem 0 0;
-
-        font-size: clamp(
-            3.25rem,
-            13vw,
-            5rem
-        );
-
-        line-height: 0.85;
-        letter-spacing: -0.07em;
-    }
-    &__cta
-    {
-        color: var(--color-text);
-    }
-    &__title-accent
-    {
-        color: var(--color-cyan);
+    margin: 1rem 0 0;
     }
 
     &__links {
@@ -1387,6 +1365,23 @@ textarea
                 background-color: transparent;
             }
         }
+        a[aria-current="page"] {
+            position: relative;
+
+            &::after {
+                content: "";
+
+                position: absolute;
+                right: 0.625rem;
+                bottom: 0.125rem;
+                left: 0.625rem;
+
+                height: 0.125rem;
+
+                background-color:
+                    var(--color-cyan);
+            }
+        }
     }
 
     &__contact {
@@ -1450,7 +1445,8 @@ textarea
         grid-column: 2;
 
         grid-template-rows:
-            repeat(2, minmax(0, 1fr));
+            auto
+            auto;
 
         width: 100%;
         max-width: 27rem;
@@ -1460,19 +1456,12 @@ textarea
 
     &__animation {
         width: 100%;
-        height: 100%;
-
         img {
             width: 100%;
             height: 100%;
-
-            /*
-             * Formato largo y horizontal,
-             * similar a la referencia.
-             */
             aspect-ratio: 21 / 4;
-
             object-fit: cover;
+            object-position: center;
         }
     }
 
@@ -1635,16 +1624,21 @@ textarea
     *::before,
     *::after {
         scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
+        transition-duration:
+            0.01ms !important;
     }
-    .projects-section__animation
-    {
-        img{
-            animation:none;
-        }
-    }
-    .glitch-text
-    {
+
+    .glitch-text {
         filter: none;
+    }
+
+    .reveal-enabled {
+        .reveal,
+        .reveal--left,
+        .reveal--right {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
     }
 }
