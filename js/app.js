@@ -1,7 +1,11 @@
 import { projects } from "./projects.js";
 
-const projectsGrid = document.querySelector("#projectsGrid");
-const currentYear = document.querySelector("#currentYear");
+const siteHeader =       document.querySelector(".site-header");
+const navigationToggle = document.querySelector("#navigationToggle");
+const mainNavigation =   document.querySelector("#mainNavigation");
+const projectsGrid =     document.querySelector("#projectsGrid");
+const currentYear =      document.querySelector("#currentYear");
+const navigationLinks = mainNavigation ? mainNavigation.querySelectorAll("a"): [];
 
 function createElement( tagName, className, textContent) {
     const element = document.createElement(tagName);
@@ -242,5 +246,126 @@ function updateCurrentYear() {
         new Date().getFullYear();
 }
 
+function isNavigationOpen()
+{
+    return (
+        navigationToggle?.getAttribute(
+            "aria-expanded"
+        ) === "true"
+    );
+}
+
+function openNavigation()
+{
+    if(
+        !navigationToggle ||
+        !mainNavigation
+    )
+    {
+        return
+    }
+
+    navigationToggle.setAttribute(
+        "aria-expanded",
+        "true"
+    )
+
+    navigationToggle
+        .querySelector(".sr-only")
+        .textContent = "Cerrar menú de navegación";
+
+    mainNavigation.classList.add(
+        "main-navigation--open"
+    );
+}
+
+function closeNavigation(){
+    if(
+        !navigationToggle ||
+        !mainNavigation
+    ){
+        return;
+    }
+
+    navigationToggle.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    navigationToggle
+        .querySelector(".sr-only")
+        .textContent = "Abrir menú de navegación"
+}
+
+function toggleNavigation(){
+    if(isNavigationOpen())
+    {closeNavigation();
+        return;
+    }
+
+    openNavigation();
+}
+
+function updateHeaderState()
+{
+    if(!siteHeader)
+    {
+        return;
+    }
+
+    siteHeader.classList.toggle(
+        "site-header--scrolled",
+        window.scrollY > 20
+    );
+}
+
+navigationToggle?.addEventListener(
+    "click",
+    toggleNavigation
+);
+
+navigationToggle?.addEventListener(
+    "click",
+    toggleNavigation
+);
+
+navigationLinks.forEach((link) => {
+    link.addEventListener(
+        "click",
+        closeNavigation
+    );
+});
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+        if (
+            event.key === "Escape" &&
+            isNavigationOpen()
+        ) {
+            closeNavigation();
+            navigationToggle?.focus();
+        }
+    }
+);
+
+window.addEventListener(
+    "scroll",
+    updateHeaderState,
+    {
+        passive: true
+    }
+);
+
+window
+    .matchMedia(
+        `(min-width: 48rem)`
+    )
+    .addEventListener(
+        "change",
+        closeNavigation
+    );
+
 renderProjects(projects);
 updateCurrentYear();
+updateHeaderState();

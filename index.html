@@ -21,133 +21,132 @@
     <a class="skip-link" href="#main-content">
         Saltar al contenido principal
     </a>
-         <svg viewBox="0 0 1000 440" role="img" aria-labelledby="title description">
-      <title id="title">Texto con efecto glitch</title>
-      <desc id="description">
-        Texto blanco con separación roja y verde y distorsiones horizontales animadas.
-      </desc>
-
-      <defs>
-        <filter
-          id="glitch-filter"
-          x="-10%"
-          y="-20%"
-          width="120%"
-          height="140%"
-          color-interpolation-filters="sRGB"
-        >
-          <!-- Ruido comprimido verticalmente para formar cortes horizontales. -->
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.008 0.16"
-            numOctaves="1"
-            seed="2"
-            result="noise"
-          >
-            <animate
-              attributeName="seed"
-              dur="800ms"
-              values="2;9;4;13;2"
-              calcMode="discrete"
-              repeatCount="indefinite"
-            />
-          </feTurbulence>
-
-          <!-- Distorsión horizontal principal. -->
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="noise"
-            scale="0"
-            xChannelSelector="R"
-            yChannelSelector="G"
-            result="distorted"
-          >
-            <animate
-              attributeName="scale"
-              dur="2.4s"
-              values="0;0;28;0;7;0;20;0;0"
-              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
-              repeatCount="indefinite"
-            />
-          </feDisplacementMap>
-
-          <!-- Copia roja desplazada a la derecha. -->
-          <feFlood flood-color="#ff1744" result="red-color" />
-          <feComposite
-            in="red-color"
-            in2="distorted"
-            operator="in"
-            result="red-shape"
-          />
-          <feOffset in="red-shape" dx="4" result="red-channel">
-            <animate
-              attributeName="dx"
-              dur="2.4s"
-              values="2;2;9;2;5;2;-4;2;2"
-              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
-              repeatCount="indefinite"
-            />
-          </feOffset>
-
-          <!-- Copia verde desplazada a la izquierda. -->
-          <feFlood flood-color="#53ff8a" result="green-color" />
-          <feComposite
-            in="green-color"
-            in2="distorted"
-            operator="in"
-            result="green-shape"
-          />
-          <feOffset in="green-shape" dx="-4" result="green-channel">
-            <animate
-              attributeName="dx"
-              dur="2.4s"
-              values="-2;-2;-9;-2;-5;-2;4;-2;-2"
-              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
-              repeatCount="indefinite"
-            />
-          </feOffset>
-
-          <!-- El original queda arriba para conservar la legibilidad. -->
-          <feMerge>
-            <feMergeNode in="red-channel" />
-            <feMergeNode in="green-channel" />
-            <feMergeNode in="distorted" />
-          </feMerge>
-        </filter>
-      </defs>
-    </svg>
+        <svg viewBox="0 0 1000 440" role="img" aria-labelledby="title description">
+            <title id="title">Texto con efecto glitch</title>
+                <desc id="description">
+            Texto blanco con separación roja y verde y distorsiones horizontales animadas.
+                </desc>
+                <defs>
+                    <filter
+                    id="glitch-filter"
+                    x="-10%"
+                    y="-20%"
+                    width="120%"
+                    height="140%"
+                    color-interpolation-filters="sRGB"
+                    >
+                    <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.008 0.16"
+                        numOctaves="1"
+                        seed="2"
+                        result="noise"
+                    >
+                        <animate
+                        attributeName="seed"
+                        dur="800ms"
+                        values="2;9;4;13;2"
+                        calcMode="discrete"
+                        repeatCount="indefinite"
+                        />
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="noise"
+                        scale="0"
+                        xChannelSelector="R"
+                        yChannelSelector="G"
+                        result="distorted"
+                    >
+                    <animate
+                    attributeName="scale"
+                    dur="2.4s"
+                    values="0;0;28;0;7;0;20;0;0"
+                    keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+                    repeatCount="indefinite"
+                    />
+                    </feDisplacementMap>
+                    <feFlood flood-color="#ff1744" result="red-color" />
+                    <feComposite
+                        in="red-color"
+                        in2="distorted"
+                        operator="in"
+                        result="red-shape"
+                    />
+                    <feOffset in="red-shape" dx="4" result="red-channel">
+                        <animate
+                        attributeName="dx"
+                        dur="2.4s"
+                        values="2;2;9;2;5;2;-4;2;2"
+                        keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+                        repeatCount="indefinite"
+                        />
+                    </feOffset>
+                    <feFlood flood-color="#53ff8a" result="green-color" />
+                    <feComposite
+                        in="green-color"
+                        in2="distorted"
+                        operator="in"
+                        result="green-shape"
+                    />
+                    <feOffset in="green-shape" dx="-4" result="green-channel">
+                        <animate
+                        attributeName="dx"
+                        dur="2.4s"
+                        values="-2;-2;-9;-2;-5;-2;4;-2;-2"
+                        keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+                        repeatCount="indefinite"
+                        />
+                    </feOffset>
+                    <feMerge>
+                        <feMergeNode in="red-channel" />
+                        <feMergeNode in="green-channel" />
+                        <feMergeNode in="distorted" />
+                    </feMerge>
+                    </filter>
+            </defs>
+        </svg>
     <header class="site-header">
 
         <div class="site-header__container">
             
             <a class="site-logo" href="#inicio" aria-label="Ir al inicio">
-                JV<span aria-hidden="true">/</span>
+                JXT<span aria-hidden="true">/</span>
             </a>
 
-            <nav class="main-navigation" aria-label="Navegación principal">
-                
-                <ul class="main-navigation__list">
-                    
-                    <li>
-                        <a href="#proyectos">
-                            Proyectos
-                        </a>
-                    </li>
+            <button class="navigation-toggle" id="navigationToggle" type="button" aria-expanded="false" aria-controls="mainNavigation">
 
-                    <li>
-                        <a href="#sobre-mi">
-                            Sobre mí
-                        </a>
-                    </li>
+            <span class="sr-only">
+                Abrir menú de navegación
+            </span>
 
-                    <li>
-                        <a class="main-navigation__contact" href="#contacto">
-                            Contacto
-                        </a>
-                    </li>
-                
-                </ul>
-            
+            <span class="navigation-toggle__icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+            </span>
+            </button>
+
+            <nav class="main-navigation" id="mainNavigation" aria-label="Navegación principal">
+            <ul class="main-navigation__list">
+                <li>
+                    <a href="#proyectos">
+                        Proyectos
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#sobre-mi">
+                        Sobre mí
+                    </a>
+                </li>
+
+                <li>
+                    <a class="main-navigation__contact" href="#contacto">
+                        Contacto
+                    </a>
+                </li>
+            </ul>
             </nav>
         </div>
     </header>
@@ -245,7 +244,7 @@
                 </span>
 
                 <span class="projects-section__title-accent">
-                    Acabados y en Desarrollo
+                    <span class="projects-section__cyan">/Acabados</span> y en <span class="projects-section__pink">/Desarrollo</span>
                 </span>
             </h2>
         </div>
@@ -345,7 +344,7 @@
             </p>
 
         <h2 class="site-footer__title" id="contact-title">
-            <span class="glitch-text">
+            <span class="glitch-text site-footer__cta">
                 Hablemos
             </span><span class="site-footer__title-accent">.</span>
         </h2>

@@ -69,3 +69,12 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Filtro SVG glitch reutilizable para los títulos principales.
 - Separación visual entre títulos filtrados y textos destacados.
 - Capas cromáticas cian y magenta coherentes con la identidad cyberpunk.
+
+## [0.8.0]
+### Added
+
+- Menú de navegación accesible para dispositivos móviles.
+- Estado visual del botón mediante `aria-expanded`.
+- Cierre del menú mediante enlaces y tecla Escape.
+- Header fijo con cambio visual durante el desplazamiento.
+- Navegación horizontal restaurada en tablet y escritorio.
