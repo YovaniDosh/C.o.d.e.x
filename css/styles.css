@@ -10,12 +10,8 @@
   --color-text-muted: #9c9aa8;
   --color-cyan: #64f5d2;
   --color-magenta: #f150c8;
-  --color-scheme: dark;
+  color-scheme: dark;
   --font-family: Arial, Helvetica, sans-serif;
-  --font-primary:
-      Arial,
-      Helvetica,
-      sans-serif;
   --font-monospace:
       "Courier New",
       Courier,
@@ -109,6 +105,10 @@ textarea {
   height: 0;
   overflow: hidden;
   pointer-events: none;
+}
+
+.svg-filters:not(:root) {
+  overflow: hidden;
 }
 
 .glitch-text {
@@ -312,6 +312,70 @@ textarea {
 }
 
 /* ========================================
+   TÍTULOS PRINCIPALES
+======================================== */
+.hero__title,
+.projects-section__title,
+.about-section__title,
+.site-footer__title {
+  font-family: var(--font-primary);
+  font-weight: 700;
+  font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.glitch-text {
+  display: block;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  filter: url("#glitch-filter");
+}
+
+/*
+ * Textos secundarios de los títulos.
+ * Conservan la fuente, pero son ligeramente menores.
+ */
+.hero__title-accent,
+.projects-section__title-accent,
+.about-section__title-accent,
+.site-footer__title-accent {
+  font-family: inherit;
+  font-size: 0.72em;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: inherit;
+}
+
+/*
+ * Los tres primeros subtítulos forman
+ * una línea independiente.
+ */
+.hero__title-accent,
+.projects-section__title-accent,
+.about-section__title-accent {
+  display: block;
+}
+
+.about-section__title-accent {
+  color: var(--color-magenta);
+}
+
+.site-footer__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.site-footer__title .glitch-text {
+  display: inline-block;
+}
+
+/* ========================================
    HERO
 ======================================== */
 .hero {
@@ -347,7 +411,6 @@ textarea {
 .hero__title {
   max-width: 62rem;
   margin-block: 1.5rem;
-  font-size: clamp(3.25rem, 13vw, 5rem);
   line-height: 0.92;
   letter-spacing: -0.065em;
 }
@@ -482,9 +545,6 @@ textarea {
   line-height: 0.9;
   letter-spacing: -0.06em;
 }
-.projects-section__title span {
-  display: block;
-}
 .projects-section__cyan {
   color: var(--color-cyan);
 }
@@ -510,9 +570,6 @@ textarea {
   aspect-ratio: 21/6;
   object-fit: cover;
   object-position: center;
-}
-.projects-section__title-aceent span {
-  font-size: 1rem;
 }
 .projects-section__introduction {
   width: 100%;
@@ -720,7 +777,6 @@ textarea {
 }
 .about-section__title {
   margin-block: 1rem 0;
-  font-size: clamp(3.25rem, 13vw, 5rem);
   line-height: 1;
   letter-spacing: -0.055em;
 }
@@ -851,17 +907,6 @@ textarea {
 /* ========================================
    MÓVIL
 ======================================== */
-@media (max-width: 30rem) {
-  .projects-section__title {
-    font-size: clamp(2.75rem, 13vw, 3.75rem);
-  }
-  .projects-section__heading {
-    gap: 2rem;
-  }
-  .about-section {
-    background-position: 60% center;
-  }
-}
 @media (max-width: 47.9375rem) {
   .about-section {
     background-image: url("../assets/images/about-background-mobile.png");
@@ -941,7 +986,6 @@ textarea {
   }
   .projects-section__title {
     max-width: 38rem;
-    font-size: clamp(4rem, 7vw, 6.5rem);
   }
   .projects-section__right {
     grid-column: 2;

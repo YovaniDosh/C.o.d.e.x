@@ -1,32 +1,56 @@
 import { projects } from "./projects.js";
 
-const siteHeader =       document.querySelector(".site-header");
-const navigationToggle = document.querySelector("#navigationToggle");
-const mainNavigation =   document.querySelector("#mainNavigation");
-const projectsGrid =     document.querySelector("#projectsGrid");
-const currentYear =      document.querySelector("#currentYear");
-const navigationLinks = mainNavigation ? mainNavigation.querySelectorAll("a"): [];
+/* ========================================
+   REFERENCIAS DEL DOM
+======================================== */
 
-function createElement( tagName, className, textContent) {
-    const element = document.createElement(tagName);
+const siteHeader = document.querySelector(".site-header");
+const navigationToggle = document.querySelector("#navigationToggle");
+const mainNavigation = document.querySelector("#mainNavigation");
+const navigationLabel = navigationToggle?.querySelector(".sr-only");
+const navigationLinks = mainNavigation?.querySelectorAll("a") ??[];
+const projectsGrid = document.querySelector("#projectsGrid");
+const currentYear = document.querySelector("#currentYear");
+const desktopMediaQuery = window.matchMedia("(min-width: 48rem)");
+
+/* ========================================
+   UTILIDADES DEL DOM
+======================================== */
+
+function createElement(
+    tagName,
+    className = "",
+    textContent = null
+) {
+    const element =
+        document.createElement(tagName);
 
     if (className) {
         element.className = className;
     }
 
-    if (textContent) {
+    if (textContent !== null) {
         element.textContent = textContent;
     }
 
     return element;
 }
 
+/* ========================================
+   ENLACES DE PROYECTOS
+======================================== */
+
 function createProjectLink( url, text, accessibleLabel) {
-    const link = createElement( "a", "project-card__link", text);
+    const link = createElement(
+        "a",
+        "project-card__link",
+        text
+    );
 
     link.href = url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
+
     link.setAttribute(
         "aria-label",
         accessibleLabel
@@ -35,7 +59,13 @@ function createProjectLink( url, text, accessibleLabel) {
     return link;
 }
 
-function createTechnologyList(technologies) {
+/* ========================================
+   TECNOLOGÍAS
+======================================== */
+
+function createTechnologyList(
+    technologies
+) {
     const list = createElement(
         "ul",
         "project-card__technologies"
@@ -49,7 +79,7 @@ function createTechnologyList(technologies) {
     technologies.forEach((technology) => {
         const item = createElement(
             "li",
-            null,
+            "",
             technology
         );
 
@@ -58,6 +88,10 @@ function createTechnologyList(technologies) {
 
     return list;
 }
+
+/* ========================================
+   VISTA PREVIA
+======================================== */
 
 function createProjectVisual(project) {
     const visual = createElement(
@@ -70,7 +104,7 @@ function createProjectVisual(project) {
         "true"
     );
 
-    const windowElement = createElement(
+    const preview = createElement(
         "div",
         "project-preview"
     );
@@ -80,7 +114,11 @@ function createProjectVisual(project) {
         "project-preview__controls"
     );
 
-    for (let index = 0; index < 3; index += 1) {
+    for (
+        let index = 0;
+        index < 3;
+        index += 1
+    ) {
         controls.append(
             createElement("span")
         );
@@ -103,16 +141,20 @@ function createProjectVisual(project) {
         createElement("span")
     );
 
-    windowElement.append(
+    preview.append(
         controls,
         title,
         lines
     );
 
-    visual.append(windowElement);
+    visual.append(preview);
 
     return visual;
 }
+
+/* ========================================
+   TARJETA DE PROYECTO
+======================================== */
 
 function createProjectCard(project) {
     const article = createElement(
@@ -126,84 +168,53 @@ function createProjectCard(project) {
         );
     }
 
-    article.dataset.projectId = project.id;
+    article.dataset.projectId =
+        project.id;
 
     const header = createElement(
         "div",
         "project-card__header"
     );
 
-    const number = createElement(
-        "span",
-        "project-card__number",
-        `/${project.number}`
+    header.append(
+        createElement(
+            "span",
+            "project-card__number",
+            `/${project.number}`
+        ),
+        createElement(
+            "span",
+            "project-card__status",
+            project.status
+        )
     );
-
-    const status = createElement(
-        "span",
-        "project-card__status",
-        project.status
-    );
-
-    header.append(number, status);
 
     const content = createElement(
         "div",
         "project-card__content"
     );
 
-    const title = createElement(
-        "h3",
-        "project-card__title",
-        project.title
-    );
-
-    const description = createElement(
-        "p",
-        "project-card__description",
-        project.description
-    );
-
-    const technologies =
+    content.append(
+        createElement(
+            "h3",
+            "project-card__title",
+            project.title
+        ),
+        createElement(
+            "p",
+            "project-card__description",
+            project.description
+        ),
         createTechnologyList(
             project.technologies
-        );
-
-    content.append(
-        title,
-        description,
-        technologies
+        )
     );
 
-    if (
-        project.demoUrl ||
-        project.repositoryUrl
-    ) {
-        const links = createElement(
-            "div",
-            "project-card__links"
-        );
+    const links = createProjectLinks(
+        project
+    );
 
-        if (project.demoUrl) {
-            links.append(
-                createProjectLink(
-                    project.demoUrl,
-                    "Ver proyecto ↗",
-                    `Ver demostración de ${project.title}`
-                )
-            );
-        }
-
-        if (project.repositoryUrl) {
-            links.append(
-                createProjectLink(
-                    project.repositoryUrl,
-                    "GitHub ↗",
-                    `Ver código de ${project.title} en GitHub`
-                )
-            );
-        }
-
+    if (links) {
         content.append(links);
     }
 
@@ -220,6 +231,42 @@ function createProjectCard(project) {
     return article;
 }
 
+function createProjectLinks(project) {
+    if (
+        !project.demoUrl &&
+        !project.repositoryUrl
+    ) {
+        return null;
+    }
+
+    const links = createElement(
+        "div",
+        "project-card__links"
+    );
+
+    if (project.demoUrl) {
+        links.append(
+            createProjectLink(
+                project.demoUrl,
+                "Ver proyecto ↗",
+                `Ver demostración de ${project.title}`
+            )
+        );
+    }
+
+    if (project.repositoryUrl) {
+        links.append(
+            createProjectLink(
+                project.repositoryUrl,
+                "GitHub ↗",
+                `Ver código de ${project.title} en GitHub`
+            )
+        );
+    }
+
+    return links;
+}
+
 function renderProjects(projectList) {
     if (!projectsGrid) {
         return;
@@ -234,20 +281,16 @@ function renderProjects(projectList) {
         );
     });
 
-    projectsGrid.replaceChildren(fragment);
+    projectsGrid.replaceChildren(
+        fragment
+    );
 }
 
-function updateCurrentYear() {
-    if (!currentYear) {
-        return;
-    }
+/* ========================================
+   NAVEGACIÓN
+======================================== */
 
-    currentYear.textContent =
-        new Date().getFullYear();
-}
-
-function isNavigationOpen()
-{
+function isNavigationOpen() {
     return (
         navigationToggle?.getAttribute(
             "aria-expanded"
@@ -255,74 +298,63 @@ function isNavigationOpen()
     );
 }
 
-function openNavigation()
-{
-    if(
+function setNavigationState(isOpen) {
+    if (
         !navigationToggle ||
         !mainNavigation
-    )
-    {
-        return
-    }
-
-    navigationToggle.setAttribute(
-        "aria-expanded",
-        "true"
-    )
-
-    navigationToggle
-        .querySelector(".sr-only")
-        .textContent = "Cerrar menú de navegación";
-
-    mainNavigation.classList.add(
-        "main-navigation--open"
-    );
-}
-
-function closeNavigation(){
-    if(
-        !navigationToggle ||
-        !mainNavigation
-    ){
+    ) {
         return;
     }
 
     navigationToggle.setAttribute(
         "aria-expanded",
-        "false"
+        String(isOpen)
     );
 
-    navigationToggle
-        .querySelector(".sr-only")
-        .textContent = "Abrir menú de navegación"
+    mainNavigation.classList.toggle(
+        "main-navigation--open",
+        isOpen
+    );
+
+    if (navigationLabel) {
+        navigationLabel.textContent =
+            isOpen
+                ? "Cerrar menú de navegación"
+                : "Abrir menú de navegación";
+    }
 }
 
-function toggleNavigation(){
-    if(isNavigationOpen())
-    {closeNavigation();
-        return;
-    }
-
-    openNavigation();
+function toggleNavigation() {
+    setNavigationState(
+        !isNavigationOpen()
+    );
 }
 
-function updateHeaderState()
-{
-    if(!siteHeader)
-    {
-        return;
-    }
+function closeNavigation() {
+    setNavigationState(false);
+}
 
-    siteHeader.classList.toggle(
+/* ========================================
+   HEADER Y FECHA
+======================================== */
+
+function updateHeaderState() {
+    siteHeader?.classList.toggle(
         "site-header--scrolled",
         window.scrollY > 20
     );
 }
 
-navigationToggle?.addEventListener(
-    "click",
-    toggleNavigation
-);
+function updateCurrentYear() {
+    if (currentYear) {
+        currentYear.textContent =
+            new Date().getFullYear();
+    }
+}
+
+/* ========================================
+   EVENTOS
+======================================== */
 
 navigationToggle?.addEventListener(
     "click",
@@ -357,14 +389,14 @@ window.addEventListener(
     }
 );
 
-window
-    .matchMedia(
-        `(min-width: 48rem)`
-    )
-    .addEventListener(
-        "change",
-        closeNavigation
-    );
+desktopMediaQuery.addEventListener(
+    "change",
+    closeNavigation
+);
+
+/* ========================================
+   INICIALIZACIÓN
+======================================== */
 
 renderProjects(projects);
 updateCurrentYear();
