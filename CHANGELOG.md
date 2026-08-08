@@ -16,3 +16,21 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Estilos mobile-first para el header y la portada.
 - Soporte para navegación mediante teclado.
 - Preferencia de movimiento reducido.
+
+## [0.2.0]
+### Added
+
+- Integración de Dart Sass para procesar los estilos.
+- Comandos npm para desarrollo y compilación final.
+- Archivo `.gitignore` para excluir dependencias y archivos temporales.
+
+## [0.3.0]
+### Added
+
+- Hero cyberpunk responsive.
+- Título principal con contraste cromático.
+- Componente visual orbital para representar la colección.
+- Cuadrícula decorativa de fondo.
+- Botones reutilizables con variantes.
+- Variables Sass para breakpoints.
+- Anidamiento SCSS para organizar componentes.

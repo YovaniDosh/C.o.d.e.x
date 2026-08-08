@@ -60,39 +60,79 @@
 
     <main id="main-content">
 
-        <section class="hero" id="inicio" aria-labelledby="hero-title">
-            
-            <div class="hero__container">
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+    <div class="hero__container">
+        <div class="hero__content">
 
-                <p class="section-label">
-                    Portafolio de desarrollo frontend
-                </p>
+            <p class="section-label">
+                Portafolio de desarrollo frontend
+            </p>
 
-                <h1 id="hero-title">
-                    Diseño experiencias digitales que funcionan.
-                </h1>
+            <h1 class="hero__title" id="hero-title">
+                Diseño experiencias
+                <span>
+                    digitales que funcionan.
+                </span>
+            </h1>
 
-                <p>
-                    Soy Johan, desarrollador frontend autodidacta.
-                    Convierto ideas y problemas reales en productos
-                    web claros, rápidos y accesibles.
-                </p>
+            <p class="hero__description">
+                Soy Johan, desarrollador frontend autodidacta.
+                Convierto ideas y problemas reales en productos
+                web claros, rápidos y accesibles.
+            </p>
 
-                <div class="hero__actions">
+            <div class="hero__actions">
 
-                    <a href="#proyectos">
-                        Explorar proyectos
-                    </a>
+                <a class="button button--primary" href="#proyectos">
+                    Explorar proyectos
+                    <span aria-hidden="true">
+                        ↘
+                    </span>
+                </a>
 
-                    <a href="https://github.com/YovaniDosh" target="_blank" rel="noopener noreferrer">
-                        Ver GitHub
-                        <span class="sr-only">
-                            — abre en una pestaña nueva
-                        </span>
-                    </a>
+                <a class="button button--secondary" href="https://github.com/YovaniDosh" target="_blank" rel="noopener noreferrer">
+                    Ver GitHub
+                    <span aria-hidden="true">
+                        ↗
+                    </span>
+
+                    <span class="sr-only">
+                        — abre en una pestaña nueva
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+
+            <div class="project-orbit">
+                
+                <div class="project-orbit__line project-orbit__line--cyan">
+                </div>
+
+                <div class="project-orbit__line project-orbit__line--magenta">
+                </div>
+
+                <div class="project-orbit__core">
+                    <strong>10+</strong>
+
+                    <span>Proyectos</span>
                 </div>
             </div>
-        </section>
+
+            <p class="hero__visual-label">
+                Build / Learn / Iterate
+            </p>
+        </div>
+    </div>
+
+    <a class="hero__scroll" href="#proyectos">
+        Scroll para explorar
+        <span aria-hidden="true">
+            ↓
+        </span>
+    </a>
+    </section>
 
         <section id="proyectos" aria-labelledby="projects-title">
             
