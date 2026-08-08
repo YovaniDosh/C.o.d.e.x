@@ -1,7 +1,8 @@
 export const PROJECT_STATUS = {
     DEVELOPMENT: "En desarrollo",
     PLANNED: "Planificado",
-    COMING_SOON: "Proximamente"
+    COMING_SOON: "Proximamente",
+    COMPLETED: "Completado"
 };
 
 export const projects = [
@@ -18,7 +19,7 @@ export const projects = [
             "ES Modules",
             "Git"
         ],
-        status: PROJECT_STATUS.DEVELOPMENT,
+        status: PROJECT_STATUS.COMPLETED,
         featured: true,
         repositoryUrl: "https://github.com/YovaniDosh/C.o.d.e.x/tree/main/TaskFlowPro",
         demoUrl: "https://yovanidosh.github.io/C.o.d.e.x/TaskFlowPro/"

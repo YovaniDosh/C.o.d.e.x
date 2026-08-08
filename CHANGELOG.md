@@ -45,3 +45,12 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Generación segura de componentes con JavaScript.
 - Cuadrícula responsive de proyectos.
 - Espacios escalables para futuros productos.
+
+##[0.5.0]
+### Added
+
+- Footer profesional con llamadas de contacto.
+- Enlaces accesibles a email y GitHub.
+- Navegación para regresar al inicio.
+- Año de copyright actualizado automáticamente.
+- Diseño responsive del cierre de la página.

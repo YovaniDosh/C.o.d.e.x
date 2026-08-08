@@ -166,19 +166,146 @@
     </noscript>
     </section>
 
-        <section id="sobre-mi" aria-labelledby="about-title">
-            <h2 id="about-title">
-                Sobre mí
-            </h2>
-        </section>
-    
+    <section
+    class="about-section"
+    id="sobre-mi"
+    aria-labelledby="about-title"
+>
+    <p
+        class="about-section__decoration"
+        aria-hidden="true"
+    >
+        /ABOUT
+    </p>
+
+    <div class="about-section__content">
+        <p class="section-label">
+            Detrás del código
+        </p>
+
+        <h2
+            class="about-section__title"
+            id="about-title"
+        >
+            Aprender. Construir.
+
+            <span>
+                Mejorar.
+            </span>
+        </h2>
+
+        <p class="about-section__description">
+            Mi camino combina experiencia en ventas online,
+            sensibilidad visual y desarrollo web. Cada proyecto
+            documenta una etapa real de mi evolución profesional
+            como desarrollador frontend.
+        </p>
+
+        <dl class="about-stats">
+            <div class="about-stats__item">
+                <dt>
+                    Proyectos previstos
+                </dt>
+
+                <dd>
+                    10+
+                </dd>
+            </div>
+
+            <div class="about-stats__item">
+                <dt>
+                    Aprendizaje práctico
+                </dt>
+
+                <dd>
+                    100%
+                </dd>
+            </div>
+
+            <div class="about-stats__item">
+                <dt>
+                    Idiomas
+                </dt>
+
+                <dd>
+                    2
+                </dd>
+            </div>
+        </dl>
+    </div>
+</section>
+
     </main>
 
-    <footer id="contacto">
+<footer
+    class="site-footer"
+    id="contacto"
+    aria-labelledby="contact-title"
+>
+    <div class="site-footer__heading">
+        <div>
+            <p class="section-label">
+                ¿Creamos algo juntos?
+            </p>
+
+            <h2
+                class="site-footer__title"
+                id="contact-title"
+            >
+                Hablemos<span>.</span>
+            </h2>
+        </div>
+
+        <div
+            class="site-footer__links"
+            aria-label="Enlaces de contacto"
+        >
+            <a
+                href="mailto:sickoyovanizu333@gmail.com"
+            >
+                Email
+
+                <span aria-hidden="true">
+                    ↗
+                </span>
+            </a>
+
+            <a
+                href="https://github.com/YovaniDosh"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub
+
+                <span aria-hidden="true">
+                    ↗
+                </span>
+
+                <span class="sr-only">
+                    — abre en una pestaña nueva
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="site-footer__bottom">
         <p>
-            © 2026 JohanXT. Todos los derechos reservados.
+            © <span id="currentYear">2026</span> JohanXT
         </p>
-    </footer>
+
+        <p>
+            Guarulhos, São Paulo
+        </p>
+
+        <a href="#inicio">
+            Volver al inicio
+
+            <span aria-hidden="true">
+                ↑
+            </span>
+        </a>
+    </div>
+</footer>
     <script type="module" src="./js/app.js" defer></script>
 </body>
 </html>

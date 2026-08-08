@@ -1,6 +1,7 @@
 import { projects } from "./projects.js";
 
 const projectsGrid = document.querySelector("#projectsGrid");
+const currentYear = document.querySelector("#currentYear");
 
 function createElement( tagName, className, textContent) {
     const element = document.createElement(tagName);
@@ -232,4 +233,14 @@ function renderProjects(projectList) {
     projectsGrid.replaceChildren(fragment);
 }
 
+function updateCurrentYear() {
+    if (!currentYear) {
+        return;
+    }
+
+    currentYear.textContent =
+        new Date().getFullYear();
+}
+
 renderProjects(projects);
+updateCurrentYear();
