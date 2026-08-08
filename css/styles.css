@@ -372,6 +372,178 @@ textarea {
 }
 
 /* ========================================
+   COLECCIÓN DE PROYECTOS
+======================================== */
+.projects-section {
+  padding-block: 6rem;
+}
+.projects-section__heading {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+.projects-section__heading h2 {
+  max-width: 50rem;
+  margin: 1rem 0 0;
+  font-size: clamp(2.5rem, 8vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+}
+.projects-section__introduction {
+  max-width: 27rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+.projects-section__noscript {
+  padding: 1rem;
+  color: var(--color-background);
+  background-color: var(--color-cyan);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-border);
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3rem;
+  min-height: 23rem;
+  padding: 1.5rem;
+  background-color: var(--color-surface);
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+.project-card:hover {
+  background-color: #15151e;
+}
+.project-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.project-card__number {
+  color: var(--color-cyan);
+  font-family: var(--font-monospace);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.project-card__status {
+  padding: 0.375rem 0.625rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-family: var(--font-monospace);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.project-card__content {
+  align-self: end;
+  width: 100%;
+}
+.project-card__title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.project-card__description {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+.project-card__technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.project-card__technologies li {
+  padding-left: 0.5rem;
+  color: #c9c6d0;
+  border-left: 2px solid var(--color-magenta);
+  font-family: var(--font-monospace);
+  font-size: 0.625rem;
+}
+.project-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+.project-card__link {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--color-cyan);
+  font-family: var(--font-monospace);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.project-card__link:hover {
+  color: var(--color-cyan);
+}
+.project-card__visual {
+  display: grid;
+  place-items: center;
+  min-height: 17rem;
+  background: radial-gradient(circle, rgba(100, 245, 210, 0.11), transparent 65%);
+}
+
+/* ========================================
+   VISTA PREVIA DE TASKFLOW
+======================================== */
+.project-preview {
+  width: min(100%, 28rem);
+  padding: 1.25rem;
+  border: 1px solid #414151;
+  background-color: #0b0b10;
+  box-shadow: 1.5rem 1.5rem 0 rgba(241, 80, 200, 0.07);
+}
+.project-preview__controls {
+  display: flex;
+  gap: 0.375rem;
+}
+.project-preview__controls span {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background-color: #414151;
+}
+.project-preview__controls span:first-child {
+  background-color: var(--color-magenta);
+}
+.project-preview__title {
+  display: block;
+  margin-block: 2rem 1.5rem;
+  font-family: var(--font-monospace);
+  font-size: 1.5rem;
+}
+.project-preview__lines {
+  display: grid;
+  gap: 0.625rem;
+}
+.project-preview__lines span {
+  width: 80%;
+  height: 1.5rem;
+  border-left: 3px solid var(--color-cyan);
+  background-color: #20202b;
+}
+.project-preview__lines span:first-child {
+  width: 100%;
+}
+.project-preview__lines span:last-child {
+  width: 55%;
+}
+
+/* ========================================
    SECCIONES PROVISIONALES
 ======================================== */
 main > section:not(.hero),
@@ -423,6 +595,35 @@ footer {
   main > section:not(.hero),
   footer {
     width: min(100% - 4rem, var(--container-width));
+  }
+  .projects-section__heading {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 27rem);
+    align-items: end;
+    justify-content: space-between;
+  }
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .project-card {
+    padding: 2rem;
+  }
+  .project-card--featured {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(20rem, 1fr);
+    min-height: 34rem;
+  }
+  .project-card--featured .project-card__header {
+    grid-column: 1/-1;
+  }
+  .project-card--featured .project-card__content {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .project-card--featured .project-card__visual {
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 /* ========================================

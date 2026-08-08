@@ -34,3 +34,14 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Botones reutilizables con variantes.
 - Variables Sass para breakpoints.
 - Anidamiento SCSS para organizar componentes.
+
+##[0.4.0]
+### Added
+
+- Colección dinámica de diez proyectos.
+- Módulo independiente para almacenar los datos.
+- TaskFlow Pro como proyecto destacado.
+- FinanceCalc y VendaFlow dentro del roadmap.
+- Generación segura de componentes con JavaScript.
+- Cuadrícula responsive de proyectos.
+- Espacios escalables para futuros productos.
