@@ -11,8 +11,8 @@
     <meta property="og:description" content="Colección de proyectos frontend construidos para resolver problemas reales.">
     <meta property="og:type" content="website">
 
-    <title>Proyectos independientes de JohanXT</title>
-
+    <title>Proyectos profesionales de JohanXT</title>
+    <link rel="shortcut icon" href="assets/icons/icons8-código-16.png" type="image/x-icon">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
@@ -21,7 +21,101 @@
     <a class="skip-link" href="#main-content">
         Saltar al contenido principal
     </a>
+         <svg viewBox="0 0 1000 440" role="img" aria-labelledby="title description">
+      <title id="title">Texto con efecto glitch</title>
+      <desc id="description">
+        Texto blanco con separación roja y verde y distorsiones horizontales animadas.
+      </desc>
 
+      <defs>
+        <filter
+          id="glitch-filter"
+          x="-10%"
+          y="-20%"
+          width="120%"
+          height="140%"
+          color-interpolation-filters="sRGB"
+        >
+          <!-- Ruido comprimido verticalmente para formar cortes horizontales. -->
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.008 0.16"
+            numOctaves="1"
+            seed="2"
+            result="noise"
+          >
+            <animate
+              attributeName="seed"
+              dur="800ms"
+              values="2;9;4;13;2"
+              calcMode="discrete"
+              repeatCount="indefinite"
+            />
+          </feTurbulence>
+
+          <!-- Distorsión horizontal principal. -->
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="noise"
+            scale="0"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="distorted"
+          >
+            <animate
+              attributeName="scale"
+              dur="2.4s"
+              values="0;0;28;0;7;0;20;0;0"
+              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+              repeatCount="indefinite"
+            />
+          </feDisplacementMap>
+
+          <!-- Copia roja desplazada a la derecha. -->
+          <feFlood flood-color="#ff1744" result="red-color" />
+          <feComposite
+            in="red-color"
+            in2="distorted"
+            operator="in"
+            result="red-shape"
+          />
+          <feOffset in="red-shape" dx="4" result="red-channel">
+            <animate
+              attributeName="dx"
+              dur="2.4s"
+              values="2;2;9;2;5;2;-4;2;2"
+              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+              repeatCount="indefinite"
+            />
+          </feOffset>
+
+          <!-- Copia verde desplazada a la izquierda. -->
+          <feFlood flood-color="#53ff8a" result="green-color" />
+          <feComposite
+            in="green-color"
+            in2="distorted"
+            operator="in"
+            result="green-shape"
+          />
+          <feOffset in="green-shape" dx="-4" result="green-channel">
+            <animate
+              attributeName="dx"
+              dur="2.4s"
+              values="-2;-2;-9;-2;-5;-2;4;-2;-2"
+              keyTimes="0;0.3;0.32;0.35;0.58;0.62;0.8;0.84;1"
+              repeatCount="indefinite"
+            />
+          </feOffset>
+
+          <!-- El original queda arriba para conservar la legibilidad. -->
+          <feMerge>
+            <feMergeNode in="red-channel" />
+            <feMergeNode in="green-channel" />
+            <feMergeNode in="distorted" />
+          </feMerge>
+        </filter>
+      </defs>
+    </svg>
     <header class="site-header">
 
         <div class="site-header__container">
@@ -60,7 +154,7 @@
 
     <main id="main-content">
 
-    <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <section class="hero" id="inicio" aria-labelledby="hero-title">
     <div class="hero__container">
         <div class="hero__content">
 
@@ -68,12 +162,15 @@
                 Portafolio de desarrollo frontend
             </p>
 
-            <h1 class="hero__title" id="hero-title">
+        <h1 class="hero__title" id="hero-title">
+            <span class="glitch-text">
                 Diseño experiencias
-                <span>
-                    digitales que funcionan.
-                </span>
-            </h1>
+            </span>
+
+            <span class="hero__title-accent">
+                digitales que funcionan.
+            </span>
+        </h1>
 
             <p class="hero__description">
                 Hola soy JohanXT, desarrollador frontend autodidacta.
@@ -132,24 +229,36 @@
             ↓
         </span>
     </a>
-    </section>
+        </section>
 
-    <section class="projects-section" id="proyectos" aria-labelledby="projects-title">
+        <section class="projects-section" id="proyectos" aria-labelledby="projects-title">
     <div class="projects-section__heading">
-        <div>
+        <div class="projects-section__left">
             <p class="section-label">
                 Colección en crecimiento
             </p>
 
-            <h2 id="projects-title">
-                Proyectos independientes
+            <h2 class="projects-section__title" id="projects-title">
+
+                <span class="glitch-text">
+                    Proyectos
+                </span>
+
+                <span class="projects-section__title-accent">
+                    Acabados y en Desarrollo
+                </span>
             </h2>
         </div>
+        <div class="projects-section__right">
+            <figure class="projects-section__animation">
+                <img src="./assets/icons/giphy.gif" alt="Presentación animada de los proyectos de JohanXT" loading="lazy" decoding="async">
+            </figure>
 
-        <p class="projects-section__introduction">
-            Una selección de productos creados desde cero,
-            documentados y construidos para aprender haciendo.
-        </p>
+            <p class="projects-section__introduction">
+                Esta es mi selección de proyectos creados desde cero,
+                documentados y construidos para aprender haciendo.
+            </p>
+        </div>
     </div>
 
     <div
@@ -164,17 +273,10 @@
             de proyectos.
         </p>
     </noscript>
-    </section>
+        </section>
 
-    <section
-    class="about-section"
-    id="sobre-mi"
-    aria-labelledby="about-title"
->
-    <p
-        class="about-section__decoration"
-        aria-hidden="true"
-    >
+        <section class="about-section" id="sobre-mi" aria-labelledby="about-title">
+    <p class="about-section__decoration" aria-hidden="true">
         /ABOUT
     </p>
 
@@ -183,16 +285,15 @@
             Detrás del código
         </p>
 
-        <h2
-            class="about-section__title"
-            id="about-title"
-        >
+    <h2 class="about-section__title" id="about-title">
+        <span class="glitch-text">
             Aprender. Construir.
+        </span>
 
-            <span>
-                Mejorar.
-            </span>
-        </h2>
+        <span class="about-section__title-accent">
+            Mejorar.
+        </span>
+    </h2>
 
         <p class="about-section__description">
             Mi camino combina experiencia en ventas online,
@@ -233,27 +334,21 @@
             </div>
         </dl>
     </div>
-</section>
-
+        </section>
     </main>
 
-<footer
-    class="site-footer"
-    id="contacto"
-    aria-labelledby="contact-title"
->
+<footer class="site-footer" id="contacto" aria-labelledby="contact-title">
     <div class="site-footer__heading">
         <div>
             <p class="section-label">
                 ¿Creamos algo juntos?
             </p>
 
-            <h2
-                class="site-footer__title"
-                id="contact-title"
-            >
-                Hablemos<span>.</span>
-            </h2>
+        <h2 class="site-footer__title" id="contact-title">
+            <span class="glitch-text">
+                Hablemos
+            </span><span class="site-footer__title-accent">.</span>
+        </h2>
         </div>
 
         <div

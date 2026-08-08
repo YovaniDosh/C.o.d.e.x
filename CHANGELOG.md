@@ -35,7 +35,7 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Variables Sass para breakpoints.
 - Anidamiento SCSS para organizar componentes.
 
-##[0.4.0]
+## [0.4.0]
 ### Added
 
 - Colección dinámica de diez proyectos.
@@ -46,7 +46,7 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Cuadrícula responsive de proyectos.
 - Espacios escalables para futuros productos.
 
-##[0.5.0]
+## [0.5.0]
 ### Added
 
 - Footer profesional con llamadas de contacto.
@@ -54,3 +54,18 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Navegación para regresar al inicio.
 - Año de copyright actualizado automáticamente.
 - Diseño responsive del cierre de la página.
+
+## [0.6.0]
+### Added
+
+- GIF responsive en la presentación de proyectos.
+- Distribución adaptativa del contenido introductorio.
+- Imagen de fondo específica para la sección Sobre mí en móviles.
+- Ajuste independiente del enfoque de la imagen según el dispositivo.
+
+## [0.7.0]
+### Added
+
+- Filtro SVG glitch reutilizable para los títulos principales.
+- Separación visual entre títulos filtrados y textos destacados.
+- Capas cromáticas cian y magenta coherentes con la identidad cyberpunk.

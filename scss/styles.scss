@@ -13,6 +13,8 @@ $breakpoint-desktop: 64rem;
     --color-text-muted: #9c9aa8;
     --color-cyan:       #64f5d2;
     --color-magenta:    #f150c8;
+    --color-scheme: dark;
+    --font-family: Arial, Helvetica, sans-serif;
     --font-primary:
         Arial,
         Helvetica,
@@ -110,6 +112,27 @@ textarea
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* ========================================
+   FILTRO SVG GLITCH
+======================================== */
+
+.svg-filters {
+    position: absolute;
+
+    width: 0;
+    height: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+.glitch-text {
+    display: inline-block;
+
+    filter: url("#glitch-filter");
 }
 
 :focus-visible {
@@ -529,38 +552,71 @@ textarea
 .projects-section {
     padding-block: 6rem;
 
-    &__heading {
-        display: grid;
-        gap: 1.5rem;
-
+     &__heading {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        width: 100%;
         margin-bottom: 3rem;
+    }
 
-        h2 {
-            max-width: 50rem;
-            margin: 1rem 0 0;
+    &__left {
+        width: 100%;
+    }
 
-            font-size: clamp(
-                2.5rem,
-                8vw,
-                4.75rem
-            );
+       &__title {
+        max-width: 100%;
+        margin: 1.25rem 0 0;
 
-            line-height: 1;
-            letter-spacing: -0.055em;
+        font-size: clamp(
+            3.25rem,
+            13vw,
+            4.75rem
+        );
+
+        line-height: 0.9;
+        letter-spacing: -0.06em;
+
+        span {
+            display: block;
+        }
+        }
+
+         &__right {
+        display: grid;
+        gap: 1rem;
+
+        width: 100%;
+        }
+
+       &__animation {
+
+        width: 100%;
+        margin: 0;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+        background-color: var(--color-surface);
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 21 / 6;
+            object-fit: cover;
+            object-position: center;
         }
     }
 
     &__introduction {
-        max-width: 27rem;
+        width: 100%;
+        max-width: none;
         margin: 0;
-
         color: var(--color-text-muted);
         line-height: 1.7;
     }
 
     &__noscript {
         padding: 1rem;
-
         color: var(--color-background);
         background-color: var(--color-cyan);
     }
@@ -1065,8 +1121,35 @@ textarea
    MÓVIL
 ======================================== */
 
+@media (max-width: 30rem) {
+    .projects-section {
+        &__title {
+            font-size: clamp(
+                2.75rem,
+                13vw,
+                3.75rem
+            );
+        }
+
+        &__heading {
+            gap: 2rem;
+        }
+    }
+    .about-section {
+        background-position:
+            60% center;
+    }
+}
+
 @media (max-width: 47.9375rem) {
     .about-section {
+        background-image:
+            url("../assets/images/about-background-mobile.png");
+
+        background-position:
+            center top;
+
+        background-size: cover;
         background-attachment: scroll;
     }
 }
@@ -1127,16 +1210,75 @@ textarea
         }
     }
 
-    .projects-section {
+   .projects-section {
     &__heading {
+        display: grid;
+
         grid-template-columns:
             minmax(0, 1fr)
-            minmax(18rem, 27rem);
+            minmax(20rem, 27rem);
 
-        align-items: end;
-        justify-content: space-between;
+        align-items: center;
+        gap: 3rem;
     }
+
+    &__left {
+        grid-column: 1;
+
+        width: 100%;
     }
+
+    &__title {
+        max-width: 38rem;
+
+        font-size: clamp(
+            4rem,
+            7vw,
+            6.5rem
+        );
+    }
+
+    &__right {
+        grid-column: 2;
+
+        grid-template-rows:
+            repeat(2, minmax(0, 1fr));
+
+        width: 100%;
+        max-width: 27rem;
+
+        align-self: center;
+    }
+
+    &__animation {
+        width: 100%;
+        height: 100%;
+
+        img {
+            width: 100%;
+            height: 100%;
+
+            /*
+             * Formato largo y horizontal,
+             * similar a la referencia.
+             */
+            aspect-ratio: 21 / 4;
+
+            object-fit: cover;
+        }
+    }
+
+    &__introduction {
+        display: flex;
+        align-items: center;
+
+        width: 100%;
+        height: 100%;
+        max-width: 27rem;
+
+        text-align: center;
+    }
+}
 
     .projects-grid {
         grid-template-columns:
@@ -1286,5 +1428,15 @@ textarea
     *::after {
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
+    }
+    .projects-section__animation
+    {
+        img{
+            animation:none;
+        }
+    }
+    .glitch-text
+    {
+        filter: none;
     }
 }
