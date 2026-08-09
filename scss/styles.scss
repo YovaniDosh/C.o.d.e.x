@@ -317,7 +317,8 @@ textarea
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        transition:color 0.2s ease, background-color 0.2s ease;
+        transition: color 0.2s ease, background-color 0.2s ease;
+        
         &:hover 
         {
             color: var(--color-cyan);
@@ -975,7 +976,7 @@ textarea
 
 
 /* ========================================
-   TÍTULOS DOUBLE SLASHED
+   TÍTULOS SINGLE SLASHED
 ======================================== */
 
 .slashed-logo {
@@ -1206,8 +1207,7 @@ textarea
         border-radius:
             50% 50% 12% 12%;
 
-        background-color:
-            rgba(255,255,255,0.88);
+        background-color:var(--color-magenta);
 
         background-image:
             radial-gradient(
@@ -1250,7 +1250,7 @@ textarea
         animation:
             ghost-travel
             4s
-            ease-in-out
+            ease-in
             infinite;
     }
 
@@ -1407,26 +1407,68 @@ textarea
     }
 
     &__tags {
-        display: flex !important;
-        flex-wrap: wrap;
-        gap: 0.4rem !important;
+        display: grid !important;
+        grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(4.5rem, 1fr)
+        );
 
-        li {
-            padding:
-                0.25rem
-                0.45rem;
+        gap: 0.5rem !important;
 
-            border: 1px solid
-                var(--color-border);
+    li {
+        display: grid;
+        place-items: center;
+        align-content: center;
+        gap: 0.45rem;
 
-            color: #c9c6d0;
+        min-width: 0;
+        min-height: 5rem;
+        padding: 0.65rem 0.35rem;
 
-            font-family:
-                var(--font-monospace);
+        border: 1px solid
+            var(--color-border);
 
-            font-size: 0.5625rem;
+        background-color:
+            rgba(255, 255, 255, 0.025);
+
+        transition:
+            border-color 0.2s ease,
+            background-color 0.2s ease,
+            transform 0.2s ease;
+
+        &:hover {
+            border-color:
+                var(--color-cyan);
+
+            background-color:
+                rgba(100, 245, 210, 0.06);
+
+            transform:
+                translateY(-0.15rem);
         }
     }
+
+    img {
+        width: 2rem;
+        height: 2rem;
+
+        object-fit: contain;
+    }
+
+    span {
+        overflow-wrap: anywhere;
+
+        color: #c9c6d0;
+
+        font-family:
+            var(--font-monospace);
+
+        font-size: 0.5rem;
+        line-height: 1.2;
+        text-align: center;
+    }
+}
 }
 
 .projects-section,
@@ -1758,20 +1800,17 @@ textarea
 
     .about-section {
         grid-template-columns:
-            minmax(12rem, 0.7fr)
+            minmax(10rem, 0.55fr)
             minmax(0, 1fr);
 
     &__decoration {
         position: relative;
-        top: auto;
-        right: auto;
-
-        justify-self: center;
-
+        inset: auto;
+        justify-self: stretch;
+        width: 100%;
+        min-height: 34rem;
         opacity: 1;
-
-        transform: rotate(-90deg);
-        }
+        transform: none;
     }
 
     .about-dashboard {
@@ -1803,6 +1842,7 @@ textarea
     }
     }
 
+}
 }
 
 /* ========================================
@@ -1879,4 +1919,7 @@ textarea
     {
         display: none;
     }
+    .about-dashboard__tags li {
+        transform: none !important;
+    };
 }

@@ -1,4 +1,4 @@
-import { projects } from "./projects.js";
+import { projects, PROJECT_STATUS } from "./projects.js";
 
 /* ========================================
    REFERENCIAS DEL DOM
@@ -119,9 +119,8 @@ function createSlashedTextLayer(
     return text;
 }
 
-function createSlashedProjectTitle(
-    project
-) {
+function createSlashedProjectTitle(project) {
+    const textLength = calculateSlashedTextLength(project.title)
     const heading = createElement(
         "h3",
         "project-card__title"
@@ -170,14 +169,6 @@ function createSlashedProjectTitle(
         createClipPath(
             bottomClipId,
             "0,220 1000,180 1000,360 0,360"
-        )
-    );
-
-    const textLength = Math.min(
-        860,
-        Math.max(
-            520,
-            project.title.length * 58
         )
     );
 
@@ -235,6 +226,23 @@ function createSlashedProjectTitle(
     );
 
     return heading;
+}
+
+function calculateSlashedTextLength(
+    title
+) {
+    const minimumLength = 520;
+    const maximumLength = 860;
+    const characterWidth = 58;
+
+    return Math.min(
+        maximumLength,
+        Math.max(
+            minimumLength,
+            title.length *
+                characterWidth
+        )
+    );
 }
 /* ========================================
    ENLACES DE PROYECTOS
@@ -473,8 +481,9 @@ function updateProjectDashboard() {
 
     const completedProjects =
         projects.filter(
-            (project) =>
-                project.completed
+            ({ status }) =>
+                status ===
+                PROJECT_STATUS.COMPLETED
         ).length;
 
     if (projectProgress) {
@@ -491,6 +500,11 @@ function updateProjectDashboard() {
 
         projectProgressBar.textContent =
             `${completedProjects} de ${totalProjects}`;
+        
+        projectProgressBar.setAttribute(
+            "aria-valuetext",
+            `${completedProjects} de ${totalProjects} proyectos terminados.`
+        );
     }
 }
 
@@ -796,9 +810,14 @@ desktopMediaQuery.addEventListener(
    INICIALIZACIÓN
 ======================================== */
 
+function initializeApplication()
+{
 renderProjects(projects);
 updateCurrentYear();
 updateHeaderState();
 updateProjectDashboard();
 initializeSectionObserver();
 initializeRevealAnimations();
+}
+
+initializeApplication();

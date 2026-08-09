@@ -1,7 +1,7 @@
 export const PROJECT_STATUS = {
     DEVELOPMENT: "En desarrollo",
     PLANNED: "Planificado",
-    COMING_SOON: "Proximamente",
+    COMING_SOON: "Próximamente",
     COMPLETED: "Completado"
 };
 
@@ -14,7 +14,7 @@ export const projects = [
             "Gestor de tareas modular con prioridades, fechas límite, filtros, estadísticas, modo oscuro y persistencia local.",
         technologies: [
             "HTML",
-            "Css",
+            "CSS",
             "JavaScript",
             "ES Modules",
             "Git"
