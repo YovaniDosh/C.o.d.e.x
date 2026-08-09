@@ -973,6 +973,68 @@ textarea
     }
 }
 
+
+/* ========================================
+   TÍTULOS DOUBLE SLASHED
+======================================== */
+
+.slashed-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 8rem;
+    overflow: visible;
+    &__layer {
+        fill: var(--color-text);
+        font-family:
+            var(--font-primary);
+        font-size: 7.5rem;
+        font-weight: 900;
+        letter-spacing: -0.25rem;
+        transition:
+            fill 0.25s ease,
+            transform 0.25s ease;
+        transform-box: fill-box;
+        transform-origin: center;
+    }
+
+    &__shadow {
+        fill: var(--color-magenta);
+        opacity: 0.25;
+        transform: 
+            translate(
+                0.6rem,
+                0.6rem
+            )
+        ;
+    }
+
+    &__top {
+        transform:
+            translateX(-0.2rem);
+    }
+
+    &__bottom {
+        transform:
+            translateX(0.4rem);
+    }
+}
+
+.project-card:hover {
+    .slashed-logo {
+        &__top {
+            transform:
+                translateX(-0.65rem);
+        }
+
+        &__bottom {
+            fill: var(--color-cyan);
+            transform:
+                translateX(0.85rem);
+        }
+    }
+}
+
 /* ========================================
    VISTA PREVIA DE TASKFLOW
 ======================================== */
@@ -1086,16 +1148,36 @@ textarea
     }
 
     &__decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+
+    width: clamp(
+        7rem,
+        22vw,
+        16rem
+    );
+
+    overflow: hidden;
+
+    pointer-events: none;
+    user-select: none;
+    }
+
+    &__decoration-text {
         position: absolute;
         top: 50%;
-        right: -5rem;
-        z-index: 1;
+        left: 50%;
 
         margin: 0;
 
         color: transparent;
 
-        font-family: var(--font-monospace);
+        font-family:
+            var(--font-monospace);
+
         font-size: clamp(
             5rem,
             22vw,
@@ -1104,18 +1186,72 @@ textarea
 
         font-weight: 700;
         line-height: 1;
+        white-space: nowrap;
 
-        -webkit-text-stroke:
-            1px rgba(255, 255, 255, 0.18);
-
+        -webkit-text-stroke: 1px rgba(255,255,255,0.18);
         opacity: 0.65;
+        transform:
+            translate(-50%, -50%)
+            rotate(-90deg);
+    }
+
+    &__ghost {
+        position: absolute;
+        top: -6rem;
+        left: 50%;
+
+        width: 3.5rem;
+        height: 4.5rem;
+
+        border-radius:
+            50% 50% 12% 12%;
+
+        background-color:
+            rgba(255,255,255,0.88);
+
+        background-image:
+            radial-gradient(
+                circle at 35% 38%,
+                #07070b 8%,
+                transparent 9%
+            ),
+            radial-gradient(
+                circle at 65% 38%,
+                #07070b 8%,
+                transparent 9%
+            ),
+            radial-gradient(
+                ellipse at 50% 61%,
+                #07070b 7%,
+                transparent 8%
+            );
+
+        clip-path:
+            polygon(
+                0 0,
+                100% 0,
+                100% 78%,
+                88% 100%,
+                72% 81%,
+                56% 100%,
+                40% 81%,
+                24% 100%,
+                8% 81%,
+                0 100%
+            );
+
+        opacity: 0.8;
+
+        mix-blend-mode: exclusion;
 
         transform:
-            translateY(-50%)
-            rotate(-90deg);
+            translateX(-50%);
 
-        pointer-events: none;
-        user-select: none;
+        animation:
+            ghost-travel
+            4s
+            ease-in-out
+            infinite;
     }
 
     &__content {
@@ -1145,54 +1281,151 @@ textarea
     }
 }
 
+@keyframes ghost-travel {
+    0% {
+        top: -6rem;
+
+        transform:
+            translateX(-50%)
+            rotate(-8deg);
+    }
+
+    45% {
+        transform:
+            translateX(-50%)
+            rotate(7deg);
+    }
+
+    100% {
+        top: calc(100% + 6rem);
+
+        transform:
+            translateX(-50%)
+            rotate(-8deg);
+    }
+}
+
 /* ========================================
-   ESTADÍSTICAS
+   DASHBOARD "SOBRE MÍ"
 ======================================== */
 
-.about-stats {
+.about-dashboard {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1px;
 
+    width: 100%;
     margin-block: 3rem 0;
 
     border: 1px solid
-        rgba(255, 255, 255, 0.12);
+        rgba(255, 255, 255, 0.14);
 
     background-color:
-        rgba(255, 255, 255, 0.12);
+        rgba(255, 255, 255, 0.14);
 
-    backdrop-filter: blur(0.5rem);
+    backdrop-filter:
+        blur(0.75rem);
 
     &__item {
-        display: flex;
-        align-items: center;
-        gap: 1.25rem;
-
+        min-width: 0;
         padding: 1.25rem;
 
         background-color:
-            rgba(7, 7, 11, 0.78);
+            rgba(7, 7, 11, 0.82);
+
+        dt {
+            margin-bottom: 1rem;
+
+            color: var(--color-cyan);
+
+            font-family:
+                var(--font-monospace);
+
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        dd {
+            margin: 0;
+
+            color: var(--color-text-muted);
+            font-size: 0.75rem;
+            line-height: 1.6;
+        }
+
+        strong {
+            display: block;
+
+            margin-bottom: 0.35rem;
+
+            color: var(--color-text);
+
+            font-family:
+                var(--font-monospace);
+
+            font-size: 1.75rem;
+        }
+
+        ul {
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        progress {
+            display: block;
+
+            width: 100%;
+            height: 0.35rem;
+
+            margin-top: 1rem;
+
+            overflow: hidden;
+
+            border: 0;
+            border-radius: 999px;
+
+            background-color:
+                var(--color-border);
+
+            &::-webkit-progress-bar {
+                background-color:
+                    var(--color-border);
+            }
+
+            &::-webkit-progress-value {
+                background-color:
+                    var(--color-cyan);
+            }
+
+            &::-moz-progress-bar {
+                background-color:
+                    var(--color-cyan);
+            }
+        }
     }
 
-    dt {
-        order: 2;
+    &__tags {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 0.4rem !important;
 
-        color: var(--color-text-muted);
-        font-size: 0.75rem;
-    }
+        li {
+            padding:
+                0.25rem
+                0.45rem;
 
-    dd {
-        order: 1;
+            border: 1px solid
+                var(--color-border);
 
-        min-width: 4rem;
-        margin: 0;
+            color: #c9c6d0;
 
-        color: var(--color-cyan);
+            font-family:
+                var(--font-monospace);
 
-        font-family: var(--font-monospace);
-        font-size: 1.625rem;
-        font-weight: 700;
+            font-size: 0.5625rem;
+        }
     }
 }
 
@@ -1541,21 +1774,12 @@ textarea
         }
     }
 
-    .about-stats {
+    .about-dashboard {
         grid-template-columns:
-            repeat(3, minmax(0, 1fr));
-
-    &__item {
-        display: block;
-    }
-
-    dt {
-        margin-top: 0.5rem;
-    }
-
-    dd {
-        min-width: 0;
-    }
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
     }
 
     .site-footer {
@@ -1572,6 +1796,7 @@ textarea
     }
 
     &__bottom {
+        display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
@@ -1609,6 +1834,14 @@ textarea
             transform: none;
         }
     }
+
+    .about-dashboard {
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0, 1fr)
+            );
+}
 }
 
 /* ========================================
@@ -1640,5 +1873,10 @@ textarea
             transform: none !important;
             transition: none !important;
         }
+    }
+
+    .about-section__ghost
+    {
+        display: none;
     }
 }

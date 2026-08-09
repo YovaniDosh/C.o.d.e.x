@@ -271,9 +271,15 @@
         </section>
 
         <section class="about-section" id="sobre-mi" aria-labelledby="about-title">
-    <p class="about-section__decoration" aria-hidden="true">
-        /ABOUT
-    </p>
+    <div class="about-section__decoration" aria-hidden="true">
+
+        <span class="about-section__decoration-text">
+            /ABOUT
+        </span>
+
+        <span class="about-section__ghost">
+        </span>
+    </div>
 
     <div class="about-section__content">
         <p class="section-label">
@@ -291,43 +297,122 @@
     </h2>
 
         <p class="about-section__description">
-            Mi camino combina experiencia en ventas online,
-            sensibilidad visual y desarrollo web. Cada proyecto
-            documenta una etapa real de mi evolución profesional
-            como desarrollador frontend.
+           Como desarrollador autodidacta, convierto la curiosidad en aprendizaje y el aprendizaje en proyectos reales, funcionales y cada vez más ambiciosos.
         </p>
 
-        <dl class="about-stats">
-            <div class="about-stats__item">
-                <dt>
-                    Proyectos previstos
-                </dt>
+        <dl class="about-dashboard">
+    <div class="about-dashboard__item">
+        <dt>
+            Progreso
+        </dt>
 
-                <dd>
-                    10+
-                </dd>
-            </div>
+        <dd>
+            <strong id="projectProgress">
+                0/10
+            </strong>
 
-            <div class="about-stats__item">
-                <dt>
-                    Aprendizaje práctico
-                </dt>
+            <span>
+                proyectos terminados
+            </span>
 
-                <dd>
-                    100%
-                </dd>
-            </div>
+            <progress
+                id="projectProgressBar"
+                max="10"
+                value="0"
+                aria-label="Progreso de proyectos terminados"
+            >
+                0 de 10
+            </progress>
+        </dd>
+    </div>
 
-            <div class="about-stats__item">
-                <dt>
-                    Idiomas
-                </dt>
+    <div class="about-dashboard__item">
+        <dt>
+            Proyectos previstos
+        </dt>
 
-                <dd>
-                    2
-                </dd>
-            </div>
-        </dl>
+        <dd>
+            <strong>10+</strong>
+
+            <span>
+                soluciones profesionales
+            </span>
+        </dd>
+    </div>
+
+    <div class="about-dashboard__item">
+        <dt>
+            Aprendizaje práctico
+        </dt>
+
+        <dd>
+            <strong>100%</strong>
+
+            <span>
+                construcción y documentación
+            </span>
+        </dd>
+    </div>
+
+    <div class="about-dashboard__item">
+        <dt>
+            Idiomas
+        </dt>
+
+        <dd>
+            <ul>
+                <li>
+                    Español — nativo y fluido
+                </li>
+
+                <li>
+                    Portugués — avanzado y fluido
+                </li>
+
+                <li>
+                    Inglés — en aprendizaje
+                </li>
+            </ul>
+        </dd>
+    </div>
+
+    <div class="about-dashboard__item">
+        <dt>
+            Tecnologías
+        </dt>
+
+        <dd>
+            <ul class="about-dashboard__tags">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Sass</li>
+                <li>Less</li>
+                <li>JavaScript</li>
+                <li>TypeScript</li>
+                <li>Node.js</li>
+                <li>Bootstrap</li>
+                <li>MongoDB</li>
+                <li>PHP</li>
+                <li>Git</li>
+            </ul>
+        </dd>
+    </div>
+
+    <div class="about-dashboard__item">
+        <dt>
+            Enfoque profesional
+        </dt>
+
+        <dd>
+            <ul>
+                <li>Mobile First</li>
+                <li>Diseño responsive</li>
+                <li>Accesibilidad</li>
+                <li>SEO y rendimiento</li>
+            </ul>
+        </dd>
+    </div>
+</dl>
     </div>
         </section>
     </main>
@@ -366,6 +451,21 @@
                 rel="noopener noreferrer"
             >
                 GitHub
+
+                <span aria-hidden="true">
+                    ↗
+                </span>
+
+                <span class="sr-only">
+                    — abre en una pestaña nueva
+                </span>
+            </a>
+            <a
+                href="https://www.instagram.com/TU_USUARIO/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Instagram
 
                 <span aria-hidden="true">
                     ↗

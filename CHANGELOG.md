@@ -78,3 +78,31 @@ Todos los cambios importantes del proyecto serán documentados en este archivo.
 - Cierre del menú mediante enlaces y tecla Escape.
 - Header fijo con cambio visual durante el desplazamiento.
 - Navegación horizontal restaurada en tablet y escritorio.
+
+## [0.9.0]
+### Added
+
+- Navegación activa según la sección visible.
+- Indicador visual de ubicación en desktop.
+- Estado accesible mediante `aria-current`.
+- Observación eficiente de secciones con IntersectionObserver.
+
+## [0.10.0]
+### Added
+
+- Animaciones de entrada mediante IntersectionObserver.
+- Entrada direccional para la presentación de proyectos.
+- Aparición progresiva de tarjetas.
+- Compatibilidad con la preferencia de movimiento reducido.
+- Comportamiento seguro cuando JavaScript no está disponible.
+
+## [0.11.0]
+### Added
+
+- Simplificación de títulos SVG a un único corte diagonal.
+- Fantasma animado integrado en la decoración de Sobre mí.
+- Dashboard profesional de seis secciones.
+- Progreso dinámico de proyectos terminados.
+- Registro de idiomas, tecnologías y enfoque profesional.
+- Enlace de contacto a Instagram.
+- Corrección de visibilidad del footer en escritorio.

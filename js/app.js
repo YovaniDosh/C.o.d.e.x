@@ -14,6 +14,8 @@ const projectsGrid = document.querySelector("#projectsGrid");
 const currentYear = document.querySelector("#currentYear");
 const desktopMediaQuery = window.matchMedia("(min-width: 48rem)");
 const reducedMotionMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const projectProgress = document.querySelector("#projectProgress");
+const projectProgressBar = document.querySelector("#projectProgressBar");
 
 /* ========================================
    UTILIDADES DEL DOM
@@ -38,6 +40,202 @@ function createElement(
     return element;
 }
 
+const SVG_NAMESPACE =
+    "http://www.w3.org/2000/svg";
+
+function createSvgElement(
+    tagName,
+    attributes = {}
+) {
+    const element =
+        document.createElementNS(
+            SVG_NAMESPACE,
+            tagName
+        );
+
+    Object.entries(attributes).forEach(
+        ([attribute, value]) => {
+            element.setAttribute(
+                attribute,
+                value
+            );
+        }
+    );
+
+    return element;
+}
+
+function createClipPath(
+    id,
+    points
+) {
+    const clipPath =
+        createSvgElement(
+            "clipPath",
+            {
+                id
+            }
+        );
+
+    const polygon =
+        createSvgElement(
+            "polygon",
+            {
+                points
+            }
+        );
+
+    clipPath.append(polygon);
+
+    return clipPath;
+}
+
+function createSlashedTextLayer(
+    projectTitle,
+    className,
+    textLength
+) {
+    const text =
+        createSvgElement(
+            "text",
+            {
+                class:
+                    `slashed-logo__layer ${className}`,
+
+                x: "500",
+                y: "235",
+
+                "text-anchor": "middle",
+
+                textLength,
+                lengthAdjust:
+                    "spacingAndGlyphs"
+            }
+        );
+
+    text.textContent =
+        projectTitle;
+
+    return text;
+}
+
+function createSlashedProjectTitle(
+    project
+) {
+    const heading = createElement(
+        "h3",
+        "project-card__title"
+    );
+
+    const accessibleTitle =
+        createElement(
+            "span",
+            "sr-only",
+            project.title
+        );
+
+    const svg =
+        createSvgElement(
+            "svg",
+            {
+                class: "slashed-logo",
+
+                viewBox:
+                    "0 0 1000 360",
+
+                preserveAspectRatio:
+                    "xMidYMid meet",
+
+                "aria-hidden": "true",
+
+                focusable: "false"
+            }
+        );
+
+    const topClipId =
+        `slice-top-${project.id}`;
+
+    const bottomClipId =
+        `slice-bottom-${project.id}`;
+
+    const definitions =
+        createSvgElement("defs");
+
+    definitions.append(
+        createClipPath(
+            topClipId,
+            "0,0 1000,0 1000,180 0,220"
+        ),
+
+        createClipPath(
+            bottomClipId,
+            "0,220 1000,180 1000,360 0,360"
+        )
+    );
+
+    const textLength = Math.min(
+        860,
+        Math.max(
+            520,
+            project.title.length * 58
+        )
+    );
+
+    const shadow =
+        createSlashedTextLayer(
+            project.title,
+            "slashed-logo__shadow",
+            textLength
+        );
+
+    const topGroup =
+        createSvgElement(
+            "g",
+            {
+                "clip-path":
+                    `url(#${topClipId})`
+            }
+        );
+
+    topGroup.append(
+        createSlashedTextLayer(
+            project.title,
+            "slashed-logo__top",
+            textLength
+        )
+    );
+
+    const bottomGroup =
+        createSvgElement(
+            "g",
+            {
+                "clip-path":
+                    `url(#${bottomClipId})`
+            }
+        );
+
+    bottomGroup.append(
+        createSlashedTextLayer(
+            project.title,
+            "slashed-logo__bottom",
+            textLength
+        )
+    );
+
+    svg.append(
+        definitions,
+        shadow,
+        topGroup,
+        bottomGroup
+    );
+
+    heading.append(
+        accessibleTitle,
+        svg
+    );
+
+    return heading;
+}
 /* ========================================
    ENLACES DE PROYECTOS
 ======================================== */
@@ -197,19 +395,19 @@ function createProjectCard(project) {
     );
 
     content.append(
-        createElement(
-            "h3",
-            "project-card__title",
-            project.title
-        ),
-        createElement(
-            "p",
-            "project-card__description",
-            project.description
-        ),
-        createTechnologyList(
-            project.technologies
-        )
+    createSlashedProjectTitle(
+        project
+    ),
+
+    createElement(
+        "p",
+        "project-card__description",
+        project.description
+    ),
+
+    createTechnologyList(
+        project.technologies
+    )
     );
 
     const links = createProjectLinks(
@@ -267,6 +465,33 @@ function createProjectLinks(project) {
     }
 
     return links;
+}
+
+function updateProjectDashboard() {
+    const totalProjects =
+        projects.length;
+
+    const completedProjects =
+        projects.filter(
+            (project) =>
+                project.completed
+        ).length;
+
+    if (projectProgress) {
+        projectProgress.textContent =
+            `${completedProjects}/${totalProjects}`;
+    }
+
+    if (projectProgressBar) {
+        projectProgressBar.max =
+            totalProjects;
+
+        projectProgressBar.value =
+            completedProjects;
+
+        projectProgressBar.textContent =
+            `${completedProjects} de ${totalProjects}`;
+    }
 }
 
 function renderProjects(projectList) {
@@ -440,9 +665,7 @@ function initializeRevealAnimations() {
                 ".projects-section__left",
                 ".projects-section__right",
                 ".project-card",
-                ".about-section__content",
-                ".site-footer__heading",
-                ".site-footer__bottom"
+                ".about-section__content"
             ].join(", ")
         )
     ];
@@ -576,5 +799,6 @@ desktopMediaQuery.addEventListener(
 renderProjects(projects);
 updateCurrentYear();
 updateHeaderState();
+updateProjectDashboard();
 initializeSectionObserver();
 initializeRevealAnimations();
