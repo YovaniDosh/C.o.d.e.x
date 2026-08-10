@@ -575,6 +575,19 @@ function closeNavigation() {
     setNavigationState(false);
 }
 
+function handleOutsideNavigationClick(
+    event
+) {
+    if (
+        !isNavigationOpen() ||
+        siteHeader?.contains(event.target)
+    ) {
+        return;
+    }
+
+    closeNavigation();
+}
+
 /* ========================================
    HEADER Y FECHA
 ======================================== */
@@ -604,7 +617,7 @@ function updateActiveNavigation(
         if (isActive) {
             link.setAttribute(
                 "aria-current",
-                "page"
+                "location"
             );
 
             return;
@@ -793,6 +806,11 @@ document.addEventListener(
     }
 );
 
+document.addEventListener(
+    "click",
+    handleOutsideNavigationClick
+);
+
 window.addEventListener(
     "scroll",
     updateHeaderState,
@@ -801,9 +819,15 @@ window.addEventListener(
     }
 );
 
+function handleDesktopChange(event) {
+    if (event.matches) {
+        closeNavigation();
+    }
+}
+
 desktopMediaQuery.addEventListener(
     "change",
-    closeNavigation
+    handleDesktopChange
 );
 
 /* ========================================

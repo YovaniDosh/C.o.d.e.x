@@ -335,7 +335,7 @@ textarea
             background-color: #15151e;
         }
 
-        &[aria-current="page"] {
+        &[aria-current="location"] {
             color: var(--color-cyan);
         }
         }
@@ -373,7 +373,8 @@ textarea
         border-color 0.2s ease,
         transform 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
         transform: translateY(-0.1875rem);
     }
 
@@ -382,7 +383,8 @@ textarea
         background-color: var(--color-cyan);
         border-color: var(--color-cyan);
 
-        &:hover {
+        &:hover,
+        &:focus-visible {
             background-color: var(--color-text);
             border-color: var(--color-text);
         }
@@ -392,7 +394,8 @@ textarea
         background-color:
             rgba(7, 7, 11, 0.7);
 
-        &:hover {
+        &:hover,
+        &:focus-visible {
             color: var(--color-magenta);
             border-color: var(--color-magenta);
         }
@@ -867,10 +870,6 @@ textarea
         background-color 0.25s ease,
         transform 0.25s ease;
 
-    &:hover {
-        background-color: #15151e;
-    }
-
     &__header {
         display: flex;
         align-items: center;
@@ -954,19 +953,15 @@ textarea
     }
 
     &__link {
-        padding-bottom: 0.25rem;
+        min-height: 2.75rem;
 
-        border-bottom: 1px solid
-            var(--color-cyan);
+        display: inline-flex;
+        align-items: center;
 
-        font-family: var(--font-monospace);
-        font-size: 0.6875rem;
-        font-weight: 700;
-        text-transform: uppercase;
-
-        &:hover {
+        &:hover,
+        &:focus-visible {
             color: var(--color-cyan);
-        }
+    }
     }
 
     &__visual {
@@ -1028,21 +1023,6 @@ textarea
     &__bottom {
         transform:
             translateX(0.4rem);
-    }
-}
-
-.project-card:hover {
-    .slashed-logo {
-        &__top {
-            transform:
-                translateX(-0.65rem);
-        }
-
-        &__bottom {
-            fill: var(--color-cyan);
-            transform:
-                translateX(0.85rem);
-        }
     }
 }
 
@@ -1339,7 +1319,7 @@ textarea
     &__item {
         min-width: 0;
         padding: 1.25rem;
-
+        overflow: hidden;
         background-color:
             rgba(7, 7, 11, 0.82);
 
@@ -1357,9 +1337,15 @@ textarea
             text-transform: uppercase;
         }
 
+        dd,
+        li,
+        span {
+            overflow-wrap:
+                break-word;
+        }
+
         dd {
             margin: 0;
-
             color: var(--color-text-muted);
             font-size: 0.75rem;
             line-height: 1.6;
@@ -1481,6 +1467,16 @@ textarea
 }
 }
 
+@media (max-width: 23.5rem) {
+    .about-dashboard__tags {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+}
+
 .projects-section,
 .site-footer {
     width: min(
@@ -1489,6 +1485,40 @@ textarea
     );
 
     margin-inline: auto;
+}
+
+@media (
+    hover: hover
+) and (
+    pointer: fine
+) {
+    .project-card:hover {
+        background-color: #15151e;
+
+        .slashed-logo__top {
+            transform:
+                translateX(-0.65rem);
+        }
+
+        .slashed-logo__bottom {
+            fill:
+                var(--color-cyan);
+
+            transform:
+                translateX(0.85rem);
+        }
+    }
+
+    .about-dashboard__tags li:hover {
+        border-color:
+            var(--color-cyan);
+
+        background-color:
+            rgba(100, 245, 210, 0.06);
+
+        transform:
+            translateY(-0.15rem);
+    }
 }
 
 /* ========================================
@@ -1517,7 +1547,7 @@ textarea
             align-items: center;
             justify-content: space-between;
             gap: 2rem;
-
+            min-height: 2.75rem;
             padding: 1rem 1.25rem;
 
             border: 1px solid
@@ -1536,7 +1566,8 @@ textarea
                 border-color 0.2s ease,
                 transform 0.2s ease;
 
-            &:hover {
+            &:hover,
+            &:focus-visible {
                 color: var(--color-cyan);
                 border-color:
                     var(--color-cyan);
@@ -1584,6 +1615,33 @@ textarea
 /* ========================================
    MÓVIL
 ======================================== */
+
+@media (max-width: 23.5rem) {
+    .hero__title,
+    .projects-section__title,
+    .about-section__title,
+    .site-footer__title {
+        font-size:
+            clamp(
+                2.5rem,
+                12vw,
+                3.25rem
+            );
+
+        overflow-wrap:
+            break-word;
+    }
+
+    .projects-section__title-accent {
+        font-size: 0.64em;
+        line-height: 1.15;
+    }
+
+    .section-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+    }
+}
 
 @media (max-width: 47.9375rem) {
     .about-section {
@@ -1650,7 +1708,7 @@ textarea
                 background-color: transparent;
             }
         }
-        a[aria-current="page"] {
+        a[aria-current="location"] {
             position: relative;
 
             &::after {
@@ -1855,6 +1913,19 @@ textarea
 }
 }
 
+.navigation-toggle {
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+
+    touch-action: manipulation;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--color-cyan);
+        border-color: var(--color-cyan);
+    }
+}
+
 /* ========================================
    ESCRITORIO
 ======================================== */
@@ -1898,7 +1969,9 @@ textarea
    MOVIMIENTO REDUCIDO
 ======================================== */
 
-@media (prefers-reduced-motion: reduce) {
+@media (
+    prefers-reduced-motion: reduce
+) {
     html {
         scroll-behavior: auto;
     }
@@ -1906,7 +1979,15 @@ textarea
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
         transition-duration:
             0.01ms !important;
     }
@@ -1925,11 +2006,12 @@ textarea
         }
     }
 
-    .about-section__ghost
-    {
+    .about-section__ghost {
         display: none;
     }
-    .about-dashboard__tags li {
-        transform: none !important;
-    };
+
+    .about-section {
+        background-attachment:
+            scroll;
+    }
 }
