@@ -13,6 +13,16 @@ $display-title-size:
 
 $display-accent-size: 0.72em;
 
+#inicio,
+#proyectos,
+#sobre-mi,
+#contacto
+{
+    scroll-margin-top: calc(
+        var(--header-height) + 1rem
+    );
+}
+
 :root 
 {
     --color-background: #07070b;
@@ -1122,7 +1132,7 @@ textarea
 
     overflow: hidden;
     background-image:
-        url("../assets/images/about-background.png");
+        url("../assets/images/about-background.webp");
 
     background-position: center;
     background-size: cover;
@@ -1150,9 +1160,7 @@ textarea
 
     &__decoration {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0 0 0 auto;
     z-index: 1;
 
     width: clamp(
@@ -1161,7 +1169,7 @@ textarea
         16rem
     );
 
-    overflow: hidden;
+    overflow: visible;
 
     pointer-events: none;
     user-select: none;
@@ -1172,6 +1180,7 @@ textarea
         top: 50%;
         left: 50%;
 
+        display: block;
         margin: 0;
 
         color: transparent;
@@ -1180,9 +1189,9 @@ textarea
             var(--font-monospace);
 
         font-size: clamp(
-            5rem,
-            22vw,
-            13rem
+            4rem,
+            7vw,
+            7rem
         );
 
         font-weight: 700;
@@ -1194,6 +1203,7 @@ textarea
         transform:
             translate(-50%, -50%)
             rotate(-90deg);
+        transform-origin: center;
     }
 
     &__ghost {
@@ -1207,7 +1217,7 @@ textarea
         border-radius:
             50% 50% 12% 12%;
 
-        background-color:var(--color-magenta);
+        background-color:var(--color-text);
 
         background-image:
             radial-gradient(
@@ -1257,7 +1267,7 @@ textarea
     &__content {
         position: relative;
         z-index: 2;
-
+        min-width: 0;
         max-width: 44rem;
     }
 
@@ -1578,7 +1588,7 @@ textarea
 @media (max-width: 47.9375rem) {
     .about-section {
         background-image:
-            url("../assets/images/about-background-mobile.png");
+            url("../assets/images/about-background-mobile.webp");
 
         background-position:
             center top;
