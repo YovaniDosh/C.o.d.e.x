@@ -8,7 +8,7 @@ La página reúne proyectos terminados, productos en desarrollo y futuras soluci
 
 ## Demo
 
-La versión publicada se agregará aquí al finalizar el sprint de despliegue.
+[Ver portafolio publicado](https://yovanidosh.github.io/C.o.d.e.x/)
 
 ## Características
 
