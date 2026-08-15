@@ -1,10 +1,11 @@
+import AppLayout from "./components/AppLayout.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
+
 function App() {
   return (
-    <main className="container">
-      <h1>Finora</h1>
-      <p>Controla tu presente, proyecta tu futuro.</p>
-      <p>React, Sass y Bootstrap están listos para comenzar.</p>
-    </main>
+    <AppLayout>
+      <DashboardPage />
+    </AppLayout>
   );
 }
 
