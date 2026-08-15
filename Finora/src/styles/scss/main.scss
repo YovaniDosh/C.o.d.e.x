@@ -1,0 +1,12 @@
+// La identidad visual de Finora se construirá a partir del Sprint 22.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
